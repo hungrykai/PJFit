@@ -1,0 +1,32 @@
+
+
+spring:
+  mvc:
+    servlet:
+      load-on-startup: 1
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/pjfit?serverTimezone=GMT%2B8&useSSL=false
+    username: root
+    password: 123456
+http:
+  servlet:
+    enabled: true
+    max-file-size: 20MB #单个文件上传大小
+    max-request-size: 60MB #连续上传文件大小
+
+server:
+  tomcat:
+    max-http-post-size: 20971520
+  port: 8080
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+  #//服务器路径
+  #file.uploadFolder=/root/uploadFiles/
+  #//本地路径
+#file:
+#  uploadFolder:  /usr/java/upload/file

@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author YK
- * @since 2022-02-24
+ * @since 2022-03-10
  */
 @Data
   @EqualsAndHashCode(callSuper = false)
@@ -42,7 +42,7 @@ public class Job implements Serializable {
 
     private LocalDateTime job_time;
 
-    private String job_type;
+    private Integer job_type;
 
 
 }

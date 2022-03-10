@@ -11,11 +11,16 @@ import org.springframework.stereotype.Controller;
  * </p>
  *
  * @author YK
- * @since 2022-02-24
+ * @since 2022-03-10
  */
 @Controller
 @RequestMapping("/company")
 public class CompanyController {
+
+    @RequestMapping("/companylist")
+    public String companylist(){
+        return "fragments/company-list.html";
+    }
 
 }
 

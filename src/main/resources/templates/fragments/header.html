@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<div th:fragment="header">
+    <div class="preloader"></div><!-- Main Header-->
+    <header class="main-header header-style-two alternate">
+        <div class="auto-container"><!-- Main box -->
+            <div class="main-box"><!--Nav Outer -->
+                <div class="nav-outer">
+                <div class="logo-box"><div class="logo">
+                    <!--<a href=""><img th:src="@{/picture/logo2.svg}" alt="" title="湖北经济学院信息与通信工程学院软件Q18422杨开毕业设计"></a>-->
+                </div>
+                </div>
+                <nav class="nav main-menu">
+                    <ul class="navigation" id="navbar">
+                        <li >
+                            <a th:href="@{/home/index}">主页</a>
+                        </li>
+                        <li class="dropdown">
+                            <span>职位</span>
+                            <ul>
+                                <li class="dropdown">
+                                    <span>后端开发</span>
+                                    <ul>
+                                        <li><a th:href="@{/job/joblist}">java</a></li>
+                                        <li><a th:href="@{/job/joblist}">C/C++</a></li>
+                                        <li><a th:href="@{/job/joblist}">PHP</a></li>
+                                        <li><a th:href="@{/job/joblist}">NET</a></li>
+                                        <li><a th:href="@{/job/joblist}">Headoop</a></li>
+                                        <li><a th:href="@{/job/joblist}">Python</a></li>
+                                        <li><a th:href="@{/job/joblist}">Delphi</a></li>
+                                        <li><a th:href="@{/job/joblist}">VB</a></li>
+                                        <li><a th:href="@{/job/joblist}">Perl</a></li>
+                                        <li><a th:href="@{/job/joblist}">Ruby</a></li>
+                                        <li><a th:href="@{/job/joblist}">Node.js</a></li>
+                                        <li><a th:href="@{/job/joblist}">Golang</a></li>
+                                        <li><a th:href="@{/job/joblist}">Erlang</a></li>
+                                        <li><a th:href="@{/job/joblist}">语音/视频/图形开发</a></li>
+                                        <li><a th:href="@{/job/joblist}">数据采集</a></li>
+                                        <li><a th:href="@{/job/joblist}">全栈工程师</a></li>
+                                        <li><a th:href="@{/job/joblist}">GIS工程师</a></li>
+                                        <li><a th:href="@{/job/joblist}">后端开发</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <span>人工智能</span>
+                                    <ul>
+                                        <li><a th:href="@{/job/joblist}">人工智能</a></li>
+                                        <li><a th:href="@{/job/joblist}">数据挖掘</a></li>
+                                        <li><a th:href="@{/job/joblist}">搜索算法</a></li>
+                                        <li><a th:href="@{/job/joblist}">自然语言处理</a></li>
+                                        <li><a th:href="@{/job/joblist}">推荐算法</a></li>
+                                        <li><a th:href="@{/job/joblist}">算法工程师</a></li>
+                                        <li><a th:href="@{/job/joblist}">智能驾驶系统工程师</a></li>
+                                        <li><a th:href="@{/job/joblist}">反欺诈/风控算法</a></li>
+                                        <li><a th:href="@{/job/joblist}">机器学习</a></li>
+                                        <li><a th:href="@{/job/joblist}">深度学习</a></li>
+                                        <li><a th:href="@{/job/joblist}">语音识别</a></li>
+                                        <li><a th:href="@{/job/joblist}">图像识别</a></li>
+                                        <li><a th:href="@{/job/joblist}">算法研究员</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <span>移动开发</span>
+                                    <ul>
+                                        <li><a th:href="@{/job/joblist}">HTML5</a></li>
+                                        <li><a th:href="@{/job/joblist}">Android</a></li>
+                                        <li><a th:href="@{/job/joblist}">iOS</a></li>
+                                        <li><a th:href="@{/job/joblist}">移动Web前端</a></li>
+                                        <li><a th:href="@{/job/joblist}">Flash开发</a></li>
+                                        <li><a th:href="@{/job/joblist}">JavaScript</a></li>
+                                        <li><a th:href="@{/job/joblist}">U3D</a></li>
+                                        <li><a th:href="@{/job/joblist}">COCOS2DX</a></li>
+                                        <li><a th:href="@{/job/joblist}">UE4</a></li>
+                                        <li><a th:href="@{/job/joblist}">移动开发</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <span>测试</span>
+                                    <ul>
+                                        <li><a th:href="@{/job/joblist}">测试工程师</a></li>
+                                        <li><a th:href="@{/job/joblist}">自动化测试</a></li>
+                                        <li><a th:href="@{/job/joblist}">功能测试</a></li>
+                                        <li><a th:href="@{/job/joblist}">性能测试</a></li>
+                                        <li><a th:href="@{/job/joblist}">测试开发</a></li>
+                                        <li><a th:href="@{/job/joblist}">移动端测试</a></li>
+                                        <li><a th:href="@{/job/joblist}">游戏测试</a></li>
+                                        <li><a th:href="@{/job/joblist}">硬件测试</a></li>
+                                        <li><a th:href="@{/job/joblist}">软件测试</a></li>
+                                        <li><a th:href="@{/job/joblist}">渗透测试</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <span>运维/技术支持</span>
+                                    <ul>
+                                        <li><a th:href="@{/job/joblist}">运维工程师</a></li>
+                                        <li><a th:href="@{/job/joblist}">运维开发工程师</a></li>
+                                        <li><a th:href="@{/job/joblist}">网络工程师</a></li>
+                                        <li><a th:href="@{/job/joblist}">系统工程师</a></li>
+                                        <li><a th:href="@{/job/joblist}">IT技术支持</a></li>
+                                        <li><a th:href="@{/job/joblist}">系统管理员</a></li>
+                                        <li><a th:href="@{/job/joblist}">网络安全</a></li>
+                                        <li><a th:href="@{/job/joblist}">系统安全</a></li>
+                                        <li><a th:href="@{/job/joblist}">DBA</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <span>数据</span>
+                                    <ul>
+                                        <li><a th:href="@{/job/joblist}">数据</a></li>
+                                        <li><a th:href="@{/job/joblist}">ETL工程师</a></li>
+                                        <li><a th:href="@{/job/joblist}">数据仓库</a></li>
+                                        <li><a th:href="@{/job/joblist}">数据开发</a></li>
+                                        <li><a th:href="@{/job/joblist}">数据挖掘</a></li>
+                                        <li><a th:href="@{/job/joblist}">数据分析师</a></li>
+                                        <li><a th:href="@{/job/joblist}">数据架构师</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <span>前端开发</span>
+                                    <ul>
+                                        <li><a href="shop.html">前端开发</a></li>
+                                        <li><a href="shop-single.html">web前端</a></li>
+                                        <li><a href="shopping-cart.html">JavaScript</a></li>
+                                        <li><a href="shop-checkout.html">Flash开发</a></li>
+                                        <li><a href="order-completed.html">HTML5</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <span>高端技术职位</span>
+                                    <ul>
+                                        <li><a th:href="@{/job/joblist}">高端技术职位</a></li>
+                                        <li><a th:href="@{/job/joblist}">技术经理</a></li>
+                                        <li><a th:href="@{/job/joblist}">技术总监</a></li>
+                                        <li><a th:href="@{/job/joblist}">测试经理</a></li>
+                                        <li><a th:href="@{/job/joblist}">架构师</a></li>
+                                        <li><a th:href="@{/job/joblist}">CTO</a></li>
+                                        <li><a th:href="@{/job/joblist}">运维总监</a></li>
+                                        <li><a th:href="@{/job/joblist}">技术合伙人</a></li>
+                                    </ul>
+                                </li>
+                                <li><a th:href="@{/job/joblist}">其他技术职位</a> </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a th:href="@{/company/companylist}">公司</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/user/candidateslist}">候选人</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/blog/bloglist}">新闻</a>
+                        </li>
+                        <li class="dropdown">
+                            <span>帮助</span>
+                            <ul>
+                                <li><a href="about.html">关于我们</a></li>
+                                <li><a href="pricing.html">FAQ</a></li>
+                                <li><a href="terms.html">条例</a></li>
+                                <li><a href="contact.html">联系</a></li>
+                            </ul>
+                        </li>
+<!--                        <li class="mm-add-listing">
+                            <a href="add-listing.html" class="theme-btn btn-style-one">Job Post</a>
+                            <span>
+                                        <span class="contact-info">
+                                            <span class="phone-num"><span>Call us</span><a href="">123 456 7890</a></span>
+                                            <span class="address">329 Queensberry Street, North Melbourne VIC <br>3051, Australia.</span>
+                                            <a href="mailto:support@superio.com" class="email">support@superio.com</a>
+                                        </span>
+                                        <span class="social-links">
+                                            <a href="#"><span class="fab fa-facebook-f"></span></a>
+                                            <a href="#"><span class="fab fa-twitter"></span></a>
+                                            <a href="#"><span class="fab fa-instagram"></span></a>
+                                            <a href="#"><span class="fab fa-linkedin-in"></span></a>
+                                        </span>
+                            </span>
+                        </li>-->
+                    </ul>
+                </nav>
+                <!-- Main Menu End-->
+            </div>
+
+                <div class="outer-box">
+                    <!-- Login/Register -->
+                    <div class="btn-box">
+                        <a th:href="@{/home/login}" class="theme-btn btn-style-six">登录 / 注册</a>
+                        <a th:href="@{/home/register}" class="theme-btn btn-style-five"><span class="btn-title">投递简历</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+<!--            <div class="logo"><a href=""><img th:src="@{/picture/logo.svg}" alt="" title=""></a></div>-->
+
+            <!--Nav Box-->
+            <div class="nav-outer clearfix">
+
+                <div class="outer-box">
+                    <!-- Login/Register -->
+                    <div class="login-box">
+                        <a th:href="@{/home/login}" class="call-modal"><span class="icon-user"></span></a>
+                    </div>
+                    <a href="#nav-mobile" class="mobile-nav-toggler navbar-trigger"><span class="flaticon-menu-1"></span></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Nav -->
+        <div id="nav-mobile"></div>
+    </header>
+    <!--End Main Header -->
+</div>
+
+
+
+<div th:fragment="bottom">
+    <footer class="main-footer style-three" style="background-image: url(/picture/3.png);">
+        <div class="auto-container"><!--Widgets Section-->
+            <div class="widgets-section">
+                <div class="row">
+                    <div class="big-column col-xl-3 col-lg-3 col-md-12">
+                        <div class="footer-column about-widget">
+                            <div class="logo">
+                                <a href="#"><img th:src="@{/picture/logo-2.svg}" alt=""></a>
+                            </div>
+                            <p class="phone-num"><span>Call us </span>
+                                <a href="https://creativelayers.net/themes/superio/thebeehost@support.com">18627857220</a>
+                            </p>
+                            <p class="address">湖北省武汉市江夏区藏龙岛开发区杨桥湖大道8号<br>2022,中国. <br>
+                                <a href="mailto:support@superio.com" class="email">1099084595@qq.com</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="big-column col-xl-9 col-lg-9 col-md-12">
+                        <div class="row">
+                            <div class="footer-column col-lg-3 col-md-6 col-sm-12">
+                                <div class="footer-widget links-widget">
+                                    <h4 class="widget-title">求职者</h4>
+                                    <div class="widget-content">
+                                        <ul class="list">
+                                            <li><a href="#">浏览职位</a></li>
+                                            <li><a href="#">浏览分类</a></li>
+                                            <li><a href="#">求职者面板</a></li>
+                                            <li><a href="#">我的收藏</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="footer-column col-lg-3 col-md-6 col-sm-12">
+                                <div class="footer-widget links-widget">
+                                    <h4 class="widget-title">雇主</h4>
+                                    <div class="widget-content">
+                                        <ul class="list">
+                                            <li><a href="#">浏览求职者</a></li>
+                                            <li><a href="#">公司面板</a></li>
+                                            <li><a href="#">查看职位</a></li>
+                                            <li><a href="#">发布职位</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="footer-column col-lg-3 col-md-6 col-sm-12">
+                                <div class="footer-widget links-widget">
+                                    <h4 class="widget-title">关于我们</h4>
+                                    <div class="widget-content">
+                                        <ul class="list">
+                                            <li><a href="#">Job Page</a></li>
+                                            <li><a href="#">Job Page Alternative</a></li>
+                                            <li><a href="#">Resume Page</a></li>
+                                            <li><a href="#">Blog</a></li>
+                                            <li><a href="#">Contact</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="footer-column col-lg-3 col-md-6 col-sm-12">
+                                <div class="footer-widget">
+                                    <h4 class="widget-title">Mobile Apps</h4>
+                                    <div class="widget-content">
+                                        <div class="download-btns">
+                                            <div class="text">Click and Get started in seconds</div>
+                                            <a href="#" class="app-btn">
+                                                <div class="app-icon">
+                                                    <i class="fab fa-apple"></i>
+                                                </div>
+                                                <div class="inner">
+                                                    <div class="sub">Download on the</div>
+                                                    <div class="name-app">Apple Store</div>
+                                                </div>
+                                            </a>
+                                            <a href="#" class="app-btn">
+                                                <div class="app-icon">
+                                                    <i class="fab fa-apple"></i>
+                                                </div>
+                                                <div class="inner">
+                                                    <div class="sub">Get in on</div>
+                                                    <div class="name-app">Google Play</div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+            </div>
+        </div><!--Bottom-->
+        <div class="footer-bottom">
+            <div class="auto-container">
+                <div class="outer-box">
+                    <div class="copyright-text">(c) 2022
+                        <a href="http://www.sucai8.cn">湖北经济学院</a>. All Right Reserved.
+                    </div><div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-to-top scroll-to-target" data-target="html">
+            <span class="fa fa-angle-up"></span>
+        </div>
+    </footer><!-- End Main Footer -->
+</div>

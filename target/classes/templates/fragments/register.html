@@ -75,7 +75,7 @@
                 <div class="form-inner">
                     <h3>注册一个账号</h3>
                     <!--Login Form-->
-                    <form method="post" th:action="@{/home/user-register}">
+                    <form th:action="@{/home/user-register}" onsubmit="return CheckVercode()" method="post">
 
                         <div class="form-group">
                             <div class="btn-box row">
@@ -93,28 +93,29 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" name="role" id="role" value="1">
+                        <input type="hidden" name="role" id="role" value="0">
                         <div class="form-group"><label>邮箱</label>
-                            <input type="email" name="email" placeholder="邮箱" required="">
+                            <input type="email" id="email" name="email" placeholder="邮箱" required="">
                         </div>
                         <div class="form-group"><label>密码</label>
-                            <input id="password-field" type="password" name="password" value="" placeholder="密码">
+                            <input id="password-field" type="password" name="password" value="" placeholder="密码" required="">
                         </div>
                         <div class="form-group"><label>验证码</label>
                         <div class="form-group">
                             <div class="btn-box row">
                                 <div class="col-lg-6 col-md-12">
-                                    <input id="verCode" type="text" name="verCode" value="" >
+                                    <input id="verCode" type="text" name="vercode" value="" required="">
                                 </div>
                                 <div class="col-lg-6 col-md-12">
                                     <div class="theme-btn btn-style-seven">
-                                        <div type="button" id="code">获取验证码</div>
+                                        <div type="button" id="codebutton">获取验证码</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         </div>
-                        <div class="form-group"><button class="theme-btn btn-style-one " type="submit" name="Register">注册</button></div>
+                        <div id="errormessage" style="color:red "></div>
+                        <div class="form-group"><button type="submit" class="theme-btn btn-style-one " id="Register">注册</button></div>
                     </form>
                     <div class="bottom-box">
                     </div>
@@ -137,6 +138,90 @@
         $("#role1").attr("class","theme-btn btn-style-four")
         $("#role2").attr("class","theme-btn btn-style-seven");
         $("#role").val("1");
+    })
+
+    function CheckVercode() {
+        var vercode = $("#verCode").val();
+        var judge;
+        $.ajax({
+            type: 'POST',
+            url:'checkvercode',
+            cache:false,
+            async: false,
+            data:{
+                'vercode':vercode
+            },
+            success(data){
+                console.log(data);
+                if (data == 0){
+                    judge = true;
+                }else {
+                    $("#errormessage").html("验证码错误！");
+                    judge = false;
+                }
+            }
+        })
+        return judge;
+    }
+
+/*
+    $("#Register").click(function () {
+        var vercode = $("#verCode").val();
+        $.ajax({
+            type: 'POST',
+            url:'checkvercode',
+            data:{
+                'vercode':vercode
+            },
+            success(data){
+                console.log(data);
+            }
+        })
+    })*/
+
+    var time=60;
+
+    $("#codebutton").click(function () {
+        var button = $("#codebutton");
+        var to = $("#email").val();
+        if (to != ""){
+            if (time == 60){
+                var time1 = setInterval(function () {
+                    if (time == 0){
+                        button.html("重新发送");
+                        button.removeAttr("disabled");
+                        time = 60;
+                        clearInterval(time1);
+                    }else{
+                        button.attr("disabled","true");
+                        button.html(time+"s后重发");
+                        time--;
+                    }
+                },1000);
+                $.ajax({
+                    type:'POST',
+                    url:'getvercode',
+                    data:{
+                        "email":to
+                    },
+                    dataType:'json',
+                    /*                cache:false,
+                                    processData: false,     // jQuery不要去处理发送的数据
+                                    contentType: false,     // jQuery不要去设置Content-Type请求头*/
+                    /*                beforeSend: function () {
+                                        loading = layer.msg('处理中', {icon: 16})
+                                    },
+                                    success: function (result) {
+                                        if (result === 0) {
+                                            layer.msg(result.msg, {time: 1500, icon: 5, shift: 6});
+                                        } else {
+                                            layer.close(loading);
+                                            xadmin.close();
+                                        }
+                                    }*/
+                })
+            }
+        }
     })
 
 </script>

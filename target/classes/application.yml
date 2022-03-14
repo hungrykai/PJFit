@@ -7,6 +7,16 @@ spring:
     url: jdbc:mysql://localhost:3306/pjfit?serverTimezone=GMT%2B8&useSSL=false
     username: root
     password: 123456
+  mail:
+    host: smtp.qq.com #发送邮件服务器
+    username: 1099084595@qq.com #qq邮箱
+    password: njaggxhvcywejafh #客户端授权码
+    protocol: smtp #发送邮件协议
+    properties.mail.smtp.auth: true
+    properties.mail.smtp.ssl.enable: true #开启SSL
+    default-encoding: utf-8
+
+
 http:
   servlet:
     enabled: true
@@ -18,13 +28,22 @@ server:
     max-http-post-size: 20971520
   port: 8080
 
-#mybatis:
-#  mapper-locations: classpath:mapper/*Mapper.xml
-#  configuration:
-#    map-underscore-to-camel-case: true
 
-  #//服务器路径
-  #file.uploadFolder=/root/uploadFiles/
-  #//本地路径
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  configuration:
+  map-underscore-to-camel-case: true
+
+#spring:
+#  mail:
+#    username:1099084595@qq.com
+#    password:njaggxhvcywejafh
+#    host:smtp.qq.com
+#    default-encoding: UTF-8
+
+#  //服务器路径
+#  file.uploadFolder=/root/uploadFiles/
+#  //本地路径
 #file:
 #  uploadFolder:  /usr/java/upload/file

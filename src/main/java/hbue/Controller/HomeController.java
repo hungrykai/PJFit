@@ -1,4 +1,5 @@
 package hbue.Controller;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import hbue.Entity.User;
 import hbue.ServiceImpl.MailService;
 import hbue.ServiceImpl.UserServiceImpl;
@@ -64,12 +65,12 @@ public class HomeController {
             mailService.sendSimpleMail(email,"注册验证码","尊敬的用户,您好:\n"+"\n本次请求的邮件验证码为:" +
                     vercode + ",本验证码5分钟内有效，请及时输入。（请勿泄露此验证码）\n" +  "\n如非本人操作，请忽略该邮件。\n(这是一封自动发送的邮件，请不要直接回复）");
             session.setAttribute("vercode",vercode);
+            System.out.println("发送成功！");
             return 0;
         }catch (Exception e){
             return 1;
         }
     }
-
 
     @ResponseBody
     @PostMapping("/checkvercode")
@@ -99,4 +100,15 @@ public class HomeController {
         userService.save(user);
         return "fragments/index.html";
     }
+
+    @RequestMapping("/resetpwd")
+    public String resetpwd(String email, String password){
+        User user = new User();
+        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("user_email",email);
+        user.setUser_password(password);
+        userService.update(user,updateWrapper);
+        return "fragments/login.html";
+    }
+
 }

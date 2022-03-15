@@ -25,10 +25,7 @@ public class test {
 
     @Test
     public void test3(){
-        Integer i = 0;
-        for (i = 0 ; i <50 ; i++){
-            mailService.sendSimpleMail("990194923@qq.com","哈哈哈哈哈哈",i.toString());
-        }
+        mailService.sendSimpleMail("1099084595@qq.com","哈哈哈哈哈哈","1");
     }
 
 }

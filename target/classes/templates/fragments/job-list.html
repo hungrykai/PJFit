@@ -14,7 +14,7 @@
 <body>
 <div class="page-wrapper">
     <!-- Preloader -->
-    <div th:replace="../templates/fragments/top::top"></div>
+    <div th:replace="../templates/fragments/top::dashboard-top"></div>
     <!--End Main Header -->
     <!--Page Title-->
     <section class="page-title">
@@ -22,7 +22,7 @@
             <div class="title-outer">
                 <h1>Find Jobs</h1>
                 <ul class="page-breadcrumb">
-                    <li><a href="index.html">Home</a></li>
+                    <li><a th:href="@{/index}">Home</a></li>
                     <li>Jobs</li>
                 </ul>
             </div>

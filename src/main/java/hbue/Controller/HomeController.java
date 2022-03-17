@@ -1,17 +1,18 @@
 package hbue.Controller;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import hbue.Entity.User;
 import hbue.ServiceImpl.MailService;
 import hbue.ServiceImpl.UserServiceImpl;
 import hbue.Utils.VerCodeGenerateUtil;
-import org.apache.logging.log4j.message.ReusableMessage;
-import org.apache.poi.openxml4j.opc.internal.unmarshallers.PackagePropertiesUnmarshaller;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 
@@ -57,6 +58,7 @@ public class HomeController {
         return "fragments/reset.html";
     }
 
+    //ajax获取验证码
     @ResponseBody
     @PostMapping("/getvercode")
     public int getvercode(@RequestParam String email, HttpSession session){
@@ -72,6 +74,7 @@ public class HomeController {
         }
     }
 
+    //ajax检验验证码
     @ResponseBody
     @PostMapping("/checkvercode")
     public int checkvercode(@RequestParam String vercode,HttpSession session){
@@ -101,6 +104,7 @@ public class HomeController {
         return "fragments/index.html";
     }
 
+    //忘记密码进行修改
     @RequestMapping("/resetpwd")
     public String resetpwd(String email, String password){
         User user = new User();
@@ -109,6 +113,26 @@ public class HomeController {
         user.setUser_password(password);
         userService.update(user,updateWrapper);
         return "fragments/login.html";
+    }
+
+    @RequestMapping("/userlogin")
+    public String userlogin(String email, String password, Model model){
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select().eq("user_email",email);
+        //当前登陆者
+         User curuser = userService.getOne(queryWrapper);
+         if (curuser == null){
+             model.addAttribute("login-error-message","当前账号暂未注册，请先注册！");
+             return "fragments/login.html";
+         }else {
+             if (curuser.getUser_password().equals(password)){
+                 return "fragments/index.html";
+             }else {
+                 model.addAttribute("curuser-email",email);
+                 model.addAttribute("login-error-message","密码错误！");
+                 return "fragments/login.html";
+             }
+         }
     }
 
 }

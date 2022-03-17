@@ -24,7 +24,7 @@ public class JobController {
 
     @RequestMapping("/postjob")
     public String postjob(){
-        return "";
+        return "fragments/dashboard-post-job.html";
     }
 
 

@@ -23,6 +23,17 @@ public class UserController {
         return "fragments/candidates-list.html";
     }
 
+    @RequestMapping("/company-dashboard")
+    public String companydashboard(){
+        return "fragments/company-dashboard.html";
+    }
+
+    @RequestMapping("/candidate-dashboard")
+    public String candidatedashboard(){
+        return "fragments/candidate-dashboard.html";
+    }
+
+
 
 
 

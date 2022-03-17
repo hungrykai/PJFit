@@ -22,5 +22,6 @@ public class CompanyController {
         return "fragments/company-list.html";
     }
 
+
 }
 

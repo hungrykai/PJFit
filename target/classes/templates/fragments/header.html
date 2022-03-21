@@ -369,42 +369,10 @@
     </footer><!-- End Main Footer -->
 </div>
 
-<div th:fragment="company-sidebar">
-    <!-- User Sidebar -->
-    <div class="user-sidebar">
-        <div class="sidebar-inner">
-            <ul class="navigation">
-                <li><a th:href="@{/user/candidate-dashboard}"> <i class="la la-home"></i> 仪表板</a></li>
-                <li><a href="https://creativelayers.net/themes/superio/dashboard-company-profile.html"><i
-                        class="la la-user-tie"></i>公司简介</a></li>
-                <li class="active"><a href=""><i class="la la-paper-plane"></i>发布新工作</a></li>
-                <li><a href="https://creativelayers.net/themes/superio/dashboard-manage-job.html"><i
-                        class="la la-briefcase"></i> 管理工作</a></li>
-                <li><a href="https://creativelayers.net/themes/superio/dashboard-applicants.html"><i
-                        class="la la-file-invoice"></i> 所有申请者</a></li>
-                <li><a href="https://creativelayers.net/themes/superio/dashboard-resumes.html"><i
-                        class="la la-bookmark-o"></i>入围简历</a></li>
-                <li><a href="https://creativelayers.net/themes/superio/dashboard-packages.html"><i
-                        class="la la-box"></i>包装</a></li>
-                <li><a href="https://creativelayers.net/themes/superio/dashboard-messages.html"><i
-                        class="la la-comment-o"></i>消息</a></li>
-                <li><a href="https://creativelayers.net/themes/superio/dashboard-resume-alerts.html"><i
-                        class="la la-bell"></i>简历警报</a></li>
-                <li><a href="https://creativelayers.net/themes/superio/dashboard-change-password.html"><i
-                        class="la la-lock"></i>改密码</a></li>
-                <li><a href="https://creativelayers.net/themes/superio/dashboard-company-profile.html"><i
-                        class="la la-user-alt"></i>浏览简介</a></li>
-                <li><a href="index.html"><i class="la la-sign-out"></i>退出</a></li>
-                <li><a href="index.html"><i class="la la-trash"></i>删除简介</a></li>
-            </ul>
-        </div>
-    </div>
-    <!-- End User Sidebar -->
-</div>
 
-<div th:fragment="candidate-sidebar">
+<div th:fragment="sidebar">
     <!-- User Sidebar -->
-    <div class="user-sidebar">
+    <div th:if="${session.curuser.user_identity} == 0" class="user-sidebar">
         <div class="sidebar-inner">
             <ul class="navigation">
                 <li><a th:href="@{/user/candidate-dashboard}"> <i class="la la-home"></i> 仪表板</a></li>
@@ -437,6 +405,39 @@
         </div>
     </div>
     <!-- End User Sidebar -->
+
+    <!-- Company Sidebar -->
+    <div th:if="${session.curuser.user_identity} == 1" class="user-sidebar">
+        <div class="sidebar-inner">
+            <ul class="navigation">
+                <li><a th:href="@{/user/candidate-dashboard}"> <i class="la la-home"></i> 仪表板</a></li>
+                <li><a href="https://creativelayers.net/themes/superio/dashboard-company-profile.html"><i
+                        class="la la-user-tie"></i>公司简介</a></li>
+                <!--active 相当于选中的状态-->
+<!--                <li class="active"><a href=""><i class="la la-paper-plane"></i>发布新工作</a></li>-->
+                <li><a href=""><i class="la la-paper-plane"></i>发布新工作</a></li>
+                <li><a href="https://creativelayers.net/themes/superio/dashboard-manage-job.html"><i
+                        class="la la-briefcase"></i> 管理工作</a></li>
+                <li><a href="https://creativelayers.net/themes/superio/dashboard-applicants.html"><i
+                        class="la la-file-invoice"></i> 所有申请者</a></li>
+                <li><a href="https://creativelayers.net/themes/superio/dashboard-resumes.html"><i
+                        class="la la-bookmark-o"></i>入围简历</a></li>
+                <li><a href="https://creativelayers.net/themes/superio/dashboard-packages.html"><i
+                        class="la la-box"></i>包装</a></li>
+                <li><a href="https://creativelayers.net/themes/superio/dashboard-messages.html"><i
+                        class="la la-comment-o"></i>消息</a></li>
+                <li><a href="https://creativelayers.net/themes/superio/dashboard-resume-alerts.html"><i
+                        class="la la-bell"></i>简历警报</a></li>
+                <li><a href="https://creativelayers.net/themes/superio/dashboard-change-password.html"><i
+                        class="la la-lock"></i>改密码</a></li>
+                <li><a href="https://creativelayers.net/themes/superio/dashboard-company-profile.html"><i
+                        class="la la-user-alt"></i>浏览简介</a></li>
+                <li><a href="index.html"><i class="la la-sign-out"></i>退出</a></li>
+                <li><a href="index.html"><i class="la la-trash"></i>删除简介</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- End Company Sidebar -->
 </div>
 
 <div th:fragment="dashboard-top">
@@ -608,29 +609,30 @@
                 </div>
 
                 <div class="outer-box">
+                    <div th:if="${session.curuser} == null">
+                        <a th:href="@{/home/login}" class="theme-btn btn-style-three">登录 / 注册</a>&nbsp;&nbsp;
+                        <a th:href="@{/job/postjob}" class="theme-btn btn-style-three"><span class="btn-title">投递简历</span></a>
+                    </div>
 
-                    <a th:href="@{/home/login}" class="theme-btn btn-style-three">登录 / 注册</a>&nbsp;&nbsp;
-                    <a th:href="@{/job/postjob}" class="theme-btn btn-style-three"><span class="btn-title">投递简历</span></a>
-                    <button class="menu-btn">
+                    <button th:if="${session.curuser} != null" class="menu-btn">
                         <span class="count">1</span>
                         <span class="icon la la-heart-o"></span>
                     </button>
-
-                    <button class="menu-btn">
+                    <button th:if="${session.curuser} != null" class="menu-btn">
                         <span class="icon la la-bell"></span>
                     </button>
-
                     <!-- Dashboard Option -->
-                    <div class="dropdown dashboard-option">
+                    <div th:if="${session.curuser} != null" class="dropdown dashboard-option">
                         <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
                             <img th:src="@{/picture/company-6.png}" alt="avatar" class="thumb">
-                            <span class="name">My Account</span>
+                            <span th:if="${session.curuser.user_name} != null" class="name" th:text="${session.curuser.user_name}"></span>
+                            <span th:else="${session.curuser.user_name} == null" class="name" th:text="${session.curuser.user_email}"></span>
                         </a>
-                        <ul class="dropdown-menu">
-                            <li><a th:href="@{/user/candidate-dashboard}"> <i class="la la-home"></i> 仪表板</a></li>
+                        <ul th:if="${session.curuser.user_identity} == 1" class="dropdown-menu">
+                            <li><a th:href="@{/user/company-dashboard}"> <i class="la la-home"></i> 仪表板</a></li>
                             <li><a href="https://creativelayers.net/themes/superio/dashboard-company-profile.html"><i
                                     class="la la-user-tie"></i>公司简介</a></li>
-                            <li class="active"><a href=""><i class="la la-paper-plane"></i>发布新工作</a></li>
+                            <li><a href=""><i class="la la-paper-plane"></i>发布新工作</a></li>
                             <li><a href="https://creativelayers.net/themes/superio/dashboard-manage-job.html"><i
                                     class="la la-briefcase"></i> 管理工作</a></li>
                             <li><a href="https://creativelayers.net/themes/superio/dashboard-applicants.html"><i
@@ -647,8 +649,23 @@
                                     class="la la-lock"></i>改密码</a></li>
                             <li><a href="https://creativelayers.net/themes/superio/dashboard-company-profile.html"><i
                                     class="la la-user-alt"></i>浏览简介</a></li>
-                            <li><a href="index.html"><i class="la la-sign-out"></i>推出</a></li>
+                            <li><a th:href="@{/home/loginout}"><i class="la la-sign-out"></i>退出</a></li>
                             <li><a href="index.html"><i class="la la-trash"></i>删除简介</a></li>
+                        </ul>
+                        <ul th:if="${session.curuser.user_identity} == 0" class="dropdown-menu">
+                            <li><a th:href="@{/user/candidate-dashboard}"> <i class="la la-home"></i> 仪表板</a></li>
+                            <li><a href="https://creativelayers.net/themes/superio/candidate-dashboard-profile.html"><i class="la la-user-tie"></i>我的个人资料</a></li>
+                            <li><a href="https://creativelayers.net/themes/superio/candidate-dashboard-resume.html"><i class="la la-file-invoice"></i>我的简历</a></li>
+                            <li><a href="https://creativelayers.net/themes/superio/candidate-dashboard-applied-job.html"><i class="la la-briefcase"></i>申请过的工作 </a></li>
+                            <li><a href="https://creativelayers.net/themes/superio/candidate-dashboard-job-alerts.html"><i class="la la-bell"></i>工作预警</a></li>
+                            <li><a href="https://creativelayers.net/themes/superio/candidate-dashboard-shortlisted-resume.html"><i class="la la-bookmark-o"></i>入围工作</a></li>
+                            <li><a href="candidate-dashboard-cv-manager.html"><i class="la la-file-invoice"></i> 简历经理</a></li>
+                            <li><a href="https://creativelayers.net/themes/superio/dashboard-packages.html"><i class="la la-box"></i>包装</a></li>
+                            <li><a href="https://creativelayers.net/themes/superio/dashboard-messages.html"><i class="la la-comment-o"></i>消息</a></li>
+                            <li><a href="https://creativelayers.net/themes/superio/dashboard-change-password.html"><i class="la la-lock"></i>修改密码</a></li>
+                            <li><a href="https://creativelayers.net/themes/superio/dashboard-profile.html"><i class="la la-user-alt"></i>查看我的资料</a></li>
+                            <li><a th:href="@{/home/loginout}"><i class="la la-sign-out"></i>退出</a></li>
+                            <li><a href="https://creativelayers.net/themes/superio/dashboard-delete.html"><i class="la la-trash"></i>删除配置</a></li>
                         </ul>
                     </div>
                 </div>
@@ -665,7 +682,7 @@
                 <div class="outer-box">
                     <!-- Login/Register -->
                     <div class="login-box">
-                        <a href="login.html" class="call-modal"><span class="icon-user"></span></a>
+                        <a th:href="@{/home/index}" class="call-modal"><span class="icon-user"></span></a>
                     </div>
 
                     <button id="toggle-user-sidebar"><img th:src="@{/picture/company-6.png}" alt="avatar" class="thumb">

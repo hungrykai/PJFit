@@ -2,6 +2,7 @@ package hbue.Controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import hbue.Entity.User;
+import hbue.Service.IUserService;
 import hbue.ServiceImpl.MailService;
 import hbue.ServiceImpl.UserServiceImpl;
 import hbue.Utils.VerCodeGenerateUtil;
@@ -32,7 +33,7 @@ public class HomeController {
     private MailService mailService;
 
     @Autowired
-    private UserServiceImpl userService;
+    private IUserService userService;
 
     //首页
     @RequestMapping("/index")
@@ -89,7 +90,7 @@ public class HomeController {
 
     //0-求职者 1-招聘这
     @RequestMapping("/user-register")
-    public String userregister(String role, String email, String password){
+    public String userregister(String role, String email, String password,HttpSession session){
         int identity;
         User user = new User();
         user.setUser_email(email);
@@ -101,6 +102,7 @@ public class HomeController {
         }
         user.setUser_identity(identity);
         userService.save(user);
+        session.setAttribute("curuser",user);
         return "fragments/index.html";
     }
 
@@ -115,17 +117,20 @@ public class HomeController {
         return "fragments/login.html";
     }
 
+    //登陆验证
     @RequestMapping("/userlogin")
-    public String userlogin(String email, String password, Model model){
+    public String userlogin(String email, String password, Model model, HttpSession session){
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select().eq("user_email",email);
+        queryWrapper.eq("user_email",email);
         //当前登陆者
          User curuser = userService.getOne(queryWrapper);
+        System.out.println(curuser);
          if (curuser == null){
              model.addAttribute("login-error-message","当前账号暂未注册，请先注册！");
              return "fragments/login.html";
          }else {
              if (curuser.getUser_password().equals(password)){
+                 session.setAttribute("curuser",curuser);
                  return "fragments/index.html";
              }else {
                  model.addAttribute("curuser-email",email);
@@ -134,5 +139,13 @@ public class HomeController {
              }
          }
     }
+
+    //退出
+    @RequestMapping("/loginout")
+    public String loginout(HttpSession session){
+        session.invalidate();
+        return "fragments/index.html";
+    }
+
 
 }

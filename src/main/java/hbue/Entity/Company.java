@@ -3,6 +3,8 @@ package hbue.Entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.Date;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -25,10 +27,6 @@ public class Company implements Serializable {
       @TableId(value = "company_id", type = IdType.AUTO)
       private Integer company_id;
 
-    private String company_username;
-
-    private String company_password;
-
     private String company_name;
 
     private String company_picture;
@@ -37,7 +35,12 @@ public class Company implements Serializable {
 
     private String company_location;
 
-    private Integer company_number;
+    private String company_number;
 
+    private Date company_date;
+
+    private Integer company_jobs;
+
+    private String company_represent;
 
 }

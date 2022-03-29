@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"><title>湖北经济学院信息与通信工程学院软件Q1842杨开</title>
+    <script src="static/js/jquery.js" th:src="@{/js/jquery.js}"></script>
+    <script src="static/js/html5shiv.js" th:src="@{/js/html5shiv.js}" ></script>
+    <script src="static/static/js/respond.js" th:src="@{/js/respond.js}"></script>
+    <link href="static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <link href="static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
+    <link href="static/css/responsive.css" th:href="@{/css/responsive.css}" rel="stylesheet">
+    <link rel="shortcut icon" href="static/picture/favicon.png" th:href="@{/picture/favicon.png}" type="image/x-icon"><!-- Responsive -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+</head>
+
+<body>
+<div class="page-wrapper dashboard ">
+
+    <!-- Main Header-->
+    <div th:replace="../templates/fragments/header::dashboard-top"></div>
+    <!--End Main Header -->
+
+    <!-- Sidebar Backdrop -->
+    <div class="sidebar-backdrop"></div>
+
+    <!-- User Sidebar -->
+    <div th:replace="../templates/fragments/header::sidebar"></div>
+    <!-- End User Sidebar -->
+
+    <!-- Dashboard -->
+    <section class="user-dashboard">
+        <div class="dashboard-outer">
+            <div class="upper-title-box">
+                <h3>我的个人资料</h3>
+                <div class="text">The Easiest Way to Get Your New Job For You</div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="ls-widget">
+
+                        <div class="tabs-box">
+
+                            <div class="widget-title">
+                                <h4>我的资料</h4>
+                            </div>
+                            <div class="widget-content">
+                            <form id="form1" class="default-form" onsubmit="return Getinformation() " >
+                                <div class="row">
+                                <div class="uploading-outer">
+                                    <div class="uploadButton">
+                                        <input class="uploadButton-input" type="file" name="uploadpicture" accept="image/*, application/pdf" id="upload-picture" multiple />
+                                        <label id="imgbox" class="uploadButton-button ripple-effect" for="upload-picture">个人照片</label>
+                                        <label for="upload-picture"><img style="width: 35%;" id="imgshow"><span class="uploadButton-file-name"></span></label>
+                                    </div>
+                                    <div class="text">最大文件大小为1MB，最小尺寸为330x300，并提供合适的文件如.jpg&.png</div>
+                                </div>
+                                        <!--userid-->
+                                        <input type="hidden" name="user_id" th:value="${session.curuser.user_id} != null ? session.curuser.user_id : null">
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>姓名</label>
+                                            <input type="text" id="user_name" name="user_name" required="required" >
+                                        </div>
+                                        <!-- 性别 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>性别</label>
+                                            <select class="chosen-select" id="user_gender" name="user_gender" >
+                                                <option value="男">男</option>
+                                                <option value="女">女</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- 邮件地址 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>邮件地址</label>
+                                            <input type="text" disabled="disabled" th:value="${session.curuser.user_email}" >
+                                        </div>
+
+                                        <!-- 手机号 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>手机号</label>
+                                            <input type="text" id="user_phone" name="user_phone" >
+                                        </div>
+
+                                        <!-- 身份 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>身份</label>
+                                            <input type="text" th:value="${session.curuser.user_identity} == '0' ? '求职者' : '招聘者'" disabled = "disabled" >
+                                        </div>
+
+                                        <!-- 出生日期 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>出生日期</label><br>
+                                            <input style="font-size: x-large;" id="user_birthday" type="date"  name="user_birthday" >
+                                        </div>
+
+                                        <!-- 居住地址 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>居住地址</label>
+                                            <input type="text" id="user_place" name="user_place" >
+                                        </div>
+
+                                        <!-- 学历 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>学历</label>
+                                            <select class="chosen-select" id="user_education" name="user_education" >
+                                                <!--0-大专以下，1-普通本科，2-普通一本，3-211，4-985，5-留学生,6-研究生，7-博士，8-博士后-->
+                                                <option value="0">大专以下</option>
+                                                <option value="1">普通本科</option>
+                                                <option value="2">普通一本</option>
+                                                <option value="3">211</option>
+                                                <option value="4">985</option>
+                                                <option value="5">留学生</option>
+                                                <option value="6">研究生</option>
+                                                <option value="7">博士</option>
+                                                <option value="8">博士后</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- 毕业院校 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>毕业院校</label>
+                                            <input type="text" id="user_school" name="user_school" >
+                                        </div>
+
+                                        <!-- 特长 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>特长</label>
+                                            <input type="text" id="user_specialisms" name="user_specialisms" >
+                                        </div>
+
+                                        <!-- 精通语言 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>精通语言 </label>
+                                            <select data-placeholder="开发语言" id="user_language" name="user_language" class="chosen-select multiple" multiple tabindex="4" >
+                                                <option value="Java">Java</option>
+                                                <option value="C++">C++</option>
+                                                <option value="C">C</option>
+                                                <option value="Python">Python</option>
+                                                <option value="JavaScript">JavaScript</option>
+                                                <option value="C#">C#</option>
+                                                <option value="Swift">Swift</option>
+                                                <option value="GO">GO（Golang）</option>
+                                                <option value="PHP">PHP</option>
+                                                <option value="Ruby">Ruby</option>
+                                                <option value="HTML">HTML/CSS</option>
+                                                <option value="SQL">SQL</option>
+                                                <option value="Node.js">Node.js</option>
+                                                <option value="TypeScript">TypeScript</option>
+                                                <option value="Rust">Rust</option>
+                                                <option value="Kotlin">Kotlin</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- 工作经历 -->
+                                        <div class="form-group col-lg-12 col-md-12">
+                                            <label>工作经历</label>
+                                            <textarea id="user_experience" name="user_experience" placeholder=
+                                            "请在此处写下您的工作经历，曾在何时任职于何公司，因何故离职等相关信息"
+                                            ></textarea>
+                                        </div>
+
+                                        <!-- 项目经历-->
+                                        <div class="form-group col-lg-12 col-md-12" >
+                                            <label>项目经历</label>
+                                            <textarea id="user_projects" name="user_projects" placeholder=
+                                                    "请在此处写下您的项目经历，包括项目名称，项目描述，项目所用技术，责任描述等信息"
+                                            ></textarea>
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <button id="save1" class="theme-btn btn-style-one" >保存</button>
+                                        </div>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ls widget -->
+                    <div class="ls-widget">
+                        <div class="tabs-box">
+                            <div class="widget-title">
+                                <h4>期待工作信息</h4>
+                            </div>
+
+                            <div class="widget-content">
+
+                                <form class="default-form">
+                                    <div class="row">
+                                        <!-- 期待薪资 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>期待薪资（月薪）单位：K</label>
+                                            <input type="text" name="user_expect_salary" placeholder="10">
+                                        </div>
+
+                                        <!-- 期待工作地点 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>期待工作地点</label>
+                                            <input type="text" name="user_expect_place" placeholder="">
+                                        </div>
+                                        <!--期待工作类型-->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>期待工作类型</label>
+                                            <select class="chosen-select" name="user_education" multiple tabindex="4"  >
+                                                <option value="0">大专以下</option>
+                                                <option value="1">普通本科</option>
+                                                <option value="2">普通一本</option>
+                                                <option value="3">211</option>
+                                                <option value="4">985</option>
+                                                <option value="5">留学生</option>
+                                                <option value="6">研究生</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label> </label>
+                                            <button class="theme-btn btn-style-one">保存</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Ls widget -->
+<!--                    <div class="ls-widget">
+                        <div class="tabs-box">
+                            <div class="widget-title">
+                                <h4>上传简历</h4>
+                            </div>
+
+                            <div class="widget-content">
+                                <div class="uploading-outer">
+                                    <div class="uploadButton">
+                                        <input class="uploadButton-input" type="file" name="upload-picture" accept="image/*, application/pdf" id="upload-resume" />
+                                        <label class="uploadButton-button ripple-effect" for="upload-resume">简历</label>
+                                        <span class="uploadButton-file-name"></span>
+                                    </div>
+                                    <div class="text">最大文件大小为1MB，最小尺寸为330x300，并提供合适的文件如.jpg&.png</div>
+                                </div>
+                                <form class="default-form">
+                                    <div class="row">
+                                        &lt;!&ndash; Input &ndash;&gt;
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label> </label>
+                                            <button class="theme-btn btn-style-one">Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Dashboard -->
+
+    <!-- Copyright -->
+    <div class="copyright-text">
+        <p>© 2022 HBUE. All Right Reserved.</p>
+    </div>
+
+</div><!-- End Page Wrapper -->
+
+<script type="text/javascript">
+
+    $('#upload-picture').change(function () {
+        // 先获取用户上传的文件对象
+        let fileObj = this.files[0];
+        // 生成一个文件读取的内置对象
+        let fileReader = new FileReader();
+        // 将文件对象传递给内置对象
+        fileReader.readAsDataURL(fileObj); //这是一个异步执行的过程，所以需要onload回调函数执行读取数据后的操作
+        // 将读取出文件对象替换到img标签
+        fileReader.onload = function () {  // 等待文件阅读器读取完毕再渲染图片
+            $("#imgbox").hide();
+            $('#imgshow').attr('src', fileReader.result)
+        }
+    });
+
+
+    function Getinformation(){
+        var formData = new FormData(document.getElementById("form1"));
+        formData.append("file", $("#upload-picture").get(0).files[0]);
+        // var formData = $("#form1");
+        var user_name = $("#user_name").val();
+        var user_gender = $("#user_gender").val();
+        var user_birthday = $("#user_birthday").val();
+        var user_phone = $("#user_phone").val();
+        var user_education = $("#user_education").val();
+        var user_school = $("#user_school").val();
+        var user_experience = $("#user_experience").val();
+        var user_language = $("#user_language").val();
+        var user_place = $("#user_place").val();
+        var user_projects = $("#user_projects").val();
+        var user_specialisms = $("#user_specialisms").val();
+        var user_picture = $("#upload-picture").val();
+        console.log("formData:"+formData);
+        console.log("姓名："+user_name+"性别"+user_gender+"生日："+user_birthday+"电话："+user_phone+"学历："+user_education+
+            "学校"+user_school+"经历"+user_experience+"精通语言"+user_language+"居住地："+user_place+"项目经历"+user_projects+
+            "特长"+user_specialisms+"照片地址"+user_picture);
+        $.ajax({
+            type:'POST',
+            url:'pictureupload',
+            async: true,
+            contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+            processData: false, // 告诉jQuery不要去处理发送的数据
+            data:formData,
+            dataType: "JSON",
+            success(data){
+                console.log(data);
+            }
+        })
+        return false;
+    }
+</script>
+
+
+
+<script src="static/js/popper.min.js" th:src="@{/js/popper.min.js}"></script>
+<script src="static/js/chosen.min.js" th:src="@{/js/chosen.min.js}"></script>
+<script src="static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="static/js/jquery-ui.min.js" th:src="@{/js/jquery-ui.min.js}"></script>
+<script src="static/js/jquery.fancybox.js" th:src="@{/js/jquery.fancybox.js}"></script>
+<script src="static/js/jquery.modal.min.js" th:src="@{/js/jquery.modal.min.js}"></script>
+<script src="static/js/mmenu.polyfills.js" th:src="@{/js/mmenu.polyfills.js}"></script>
+<script src="static/js/mmenu.js" th:src="@{/js/mmenu.js}"></script>
+<script src="static/js/appear.js" th:src="@{/js/appear.js}"></script>
+<script src="static/js/ScrollMagic.min.js" th:src="@{/js/ScrollMagic.min.js}"></script>
+<script src="static/js/rellax.min.js" th:src="@{/js/rellax.min.js}"></script>
+<script src="static/js/owl.js" th:src="@{/js/owl.js}"></script>
+<script src="static/js/wow.js" th:src="@{/js/wow.js}"></script>
+<script src="static/js/knob.js" th:src="@{/js/knob.js}"></script>
+<script src="static/js/script.js" th:src="@{/js/script.js}"></script>
+<script src="http://maps.google.com/maps/api/js?key=AIzaSyDaaCBm4FEmgKs5cfVrh3JYue3Chj1kJMw&#038;ver=5.2.4"></script>
+</body>
+
+</html>

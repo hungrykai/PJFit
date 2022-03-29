@@ -28,7 +28,9 @@
     <section class="user-dashboard">
         <div class="dashboard-outer">
             <div class="upper-title-box">
-                <h3>Howdy, Invision!</h3>
+                <h3>欢迎!</h3>
+                <h3 th:if="${session.curuser.user_name} != null" class="name" th:text="${session.curuser.user_name}"></h3>
+                <h3 th:else="${session.curuser.user_name} == null" class="name" th:text="${session.curuser.user_email}"></h3>
                 <div class="text">Ready to jump back in?</div>
             </div>
             <div class="row">

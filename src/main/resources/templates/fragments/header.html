@@ -376,7 +376,7 @@
         <div class="sidebar-inner">
             <ul class="navigation">
                 <li><a th:href="@{/user/candidate-dashboard}"> <i class="la la-home"></i> 仪表板</a></li>
-                <li><a href="https://creativelayers.net/themes/superio/candidate-dashboard-profile.html"><i class="la la-user-tie"></i>我的个人资料</a></li>
+                <li><a th:href="@{/user/dashboard-candidate-profile}"><i class="la la-user-tie"></i>我的个人资料</a></li>
                 <li><a href="https://creativelayers.net/themes/superio/candidate-dashboard-resume.html"><i class="la la-file-invoice"></i>我的简历</a></li>
                 <li><a href="https://creativelayers.net/themes/superio/candidate-dashboard-applied-job.html"><i class="la la-briefcase"></i>申请过的工作 </a></li>
                 <li><a href="https://creativelayers.net/themes/superio/candidate-dashboard-job-alerts.html"><i class="la la-bell"></i>工作预警</a></li>
@@ -654,7 +654,7 @@
                         </ul>
                         <ul th:if="${session.curuser.user_identity} == 0" class="dropdown-menu">
                             <li><a th:href="@{/user/candidate-dashboard}"> <i class="la la-home"></i> 仪表板</a></li>
-                            <li><a href="https://creativelayers.net/themes/superio/candidate-dashboard-profile.html"><i class="la la-user-tie"></i>我的个人资料</a></li>
+                            <li><a th:href="@{/user/dashboard-candidate-profile}"><i class="la la-user-tie"></i>我的个人资料</a></li>
                             <li><a href="https://creativelayers.net/themes/superio/candidate-dashboard-resume.html"><i class="la la-file-invoice"></i>我的简历</a></li>
                             <li><a href="https://creativelayers.net/themes/superio/candidate-dashboard-applied-job.html"><i class="la la-briefcase"></i>申请过的工作 </a></li>
                             <li><a href="https://creativelayers.net/themes/superio/candidate-dashboard-job-alerts.html"><i class="la la-bell"></i>工作预警</a></li>

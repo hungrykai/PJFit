@@ -53,6 +53,11 @@ mybatis-plus:
     blobType: BLOB
     boolValue: TRUE
 
+filepathconfig:
+  fileUrl: D:/毕业设计/项目代码/PJFit/src/main/resources/static
+  imagePath: /upload/
+
+
 #spring:
 #  mail:
 #    username:1099084595@qq.com

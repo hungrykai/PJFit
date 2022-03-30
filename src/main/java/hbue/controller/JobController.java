@@ -1,4 +1,4 @@
-package hbue.Controller;
+package hbue.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;

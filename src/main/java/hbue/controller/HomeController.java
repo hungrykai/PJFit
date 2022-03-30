@@ -1,4 +1,4 @@
-package hbue.Controller;
+package hbue.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import hbue.Entity.User;
@@ -120,10 +120,7 @@ public class HomeController {
     //登陆验证
     @RequestMapping("/userlogin")
     public String userlogin(String email, String password, Model model, HttpSession session){
-        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_email",email);
-        //当前登陆者
-         User curuser = userService.getOne(queryWrapper);
+         User curuser = userService.GetUser(email);
         System.out.println(curuser);
          if (curuser == null){
              model.addAttribute("login-error-message","当前账号暂未注册，请先注册！");
@@ -131,6 +128,7 @@ public class HomeController {
          }else {
              if (curuser.getUser_password().equals(password)){
                  session.setAttribute("curuser",curuser);
+                 System.out.println("curuser:"+curuser);
                  return "fragments/index.html";
              }else {
                  model.addAttribute("curuser-email",email);

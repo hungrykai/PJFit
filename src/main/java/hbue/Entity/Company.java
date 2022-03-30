@@ -1,10 +1,9 @@
 package hbue.Entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
-import java.util.Date;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -15,7 +14,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author YK
- * @since 2022-03-10
+ * @since 2022-03-30
  */
 @Data
   @EqualsAndHashCode(callSuper = false)
@@ -37,10 +36,11 @@ public class Company implements Serializable {
 
     private String company_number;
 
-    private Date company_date;
+    private LocalDate company_date;
 
     private Integer company_jobs;
 
     private String company_represent;
+
 
 }

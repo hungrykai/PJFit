@@ -1,4 +1,4 @@
-package hbue.Controller;
+package hbue.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,11 +11,11 @@ import org.springframework.stereotype.Controller;
  * </p>
  *
  * @author YK
- * @since 2022-03-10
+ * @since 2022-03-30
  */
 @Controller
-@RequestMapping("/user_job")
-public class User_jobController {
+@RequestMapping("/job_type")
+public class Job_typeController {
 
 }
 

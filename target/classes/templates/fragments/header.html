@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
+<!--
 
 <div th:fragment="header">
-    <div class="preloader"></div><!-- Main Header-->
+    <div class="preloader"></div>&lt;!&ndash; Main Header&ndash;&gt;
     <header class="main-header header-style-two alternate">
-        <div class="auto-container"><!-- Main box -->
-            <div class="main-box"><!--Nav Outer -->
+        <div class="auto-container">&lt;!&ndash; Main box &ndash;&gt;
+            <div class="main-box">&lt;!&ndash;Nav Outer &ndash;&gt;
                 <div class="nav-outer" style="">
                 <div class="logo-box"><div class="logo">
-                    <!--<a href=""><img th:src="@{/picture/logo2.svg}" alt="" title="湖北经济学院信息与通信工程学院软件Q18422杨开毕业设计"></a>-->
+                    &lt;!&ndash;<a href=""><img th:src="@{/picture/logo2.svg}" alt="" title="湖北经济学院信息与通信工程学院软件Q18422杨开毕业设计"></a>&ndash;&gt;
                 </div>
                 </div>
                 <nav class="nav main-menu">
@@ -161,7 +162,7 @@
                                 <li><a href="contact.html">联系</a></li>
                             </ul>
                         </li>
-<!--                        <li class="mm-add-listing">
+&lt;!&ndash;                        <li class="mm-add-listing">
                             <a href="add-listing.html" class="theme-btn btn-style-one">Job Post</a>
                             <span>
                                         <span class="contact-info">
@@ -176,13 +177,13 @@
                                             <a href="#"><span class="fab fa-linkedin-in"></span></a>
                                         </span>
                             </span>
-                        </li>-->
+                        </li>&ndash;&gt;
                     </ul>
                 </nav>
-                <!-- Main Menu End-->
+                &lt;!&ndash; Main Menu End&ndash;&gt;
             </div>
                 <div class="outer-box">
-                    <!-- Login/Register -->
+                    &lt;!&ndash; Login/Register &ndash;&gt;
                     <div class="btn-box">
                         <a th:href="@{/home/login}" class="theme-btn btn-style-six">登录 / 注册</a>
                         <a th:href="@{/job/postjob}" class="theme-btn btn-style-five"><span class="btn-title">投递简历</span></a>
@@ -198,7 +199,7 @@
                         <span class="icon la la-bell"></span>
                     </button>
 
-                    <!-- Dashboard Option -->
+                    &lt;!&ndash; Dashboard Option &ndash;&gt;
                     <div class="dropdown dashboard-option">
                         <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
                             <img th:src="@{/picture/company-6.png}" alt="avatar" class="thumb">
@@ -232,15 +233,15 @@
             </div>
         </div>
 
-        <!-- Mobile Header -->
+        &lt;!&ndash; Mobile Header &ndash;&gt;
         <div class="mobile-header">
-<!--            <div class="logo"><a href=""><img th:src="@{/picture/logo.svg}" alt="" title=""></a></div>-->
+&lt;!&ndash;            <div class="logo"><a href=""><img th:src="@{/picture/logo.svg}" alt="" title=""></a></div>&ndash;&gt;
 
-            <!--Nav Box-->
+            &lt;!&ndash;Nav Box&ndash;&gt;
             <div class="nav-outer clearfix">
 
                 <div class="outer-box">
-                    <!-- Login/Register -->
+                    &lt;!&ndash; Login/Register &ndash;&gt;
                     <div class="login-box">
                         <a th:href="@{/home/login}" class="call-modal"><span class="icon-user"></span></a>
                     </div>
@@ -249,11 +250,14 @@
             </div>
         </div>
 
-        <!-- Mobile Nav -->
+        &lt;!&ndash; Mobile Nav &ndash;&gt;
         <div id="nav-mobile"></div>
     </header>
-    <!--End Main Header -->
+    &lt;!&ndash;End Main Header &ndash;&gt;
 </div>
+
+-->
+
 
 <div th:fragment="bottom">
     <footer class="main-footer style-three" style="background-image: url(/picture/3.png);">
@@ -411,7 +415,7 @@
         <div class="sidebar-inner">
             <ul class="navigation">
                 <li><a th:href="@{/user/candidate-dashboard}"> <i class="la la-home"></i> 仪表板</a></li>
-                <li><a href="https://creativelayers.net/themes/superio/dashboard-company-profile.html"><i
+                <li><a th:href="@{/company/dashboard-company-profile}"><i
                         class="la la-user-tie"></i>公司简介</a></li>
                 <!--active 相当于选中的状态-->
 <!--                <li class="active"><a href=""><i class="la la-paper-plane"></i>发布新工作</a></li>-->
@@ -624,13 +628,14 @@
                     <!-- Dashboard Option -->
                     <div th:if="${session.curuser} != null" class="dropdown dashboard-option">
                         <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
-                            <img th:src="@{/picture/company-6.png}" alt="avatar" class="thumb">
+                            <img th:if="${session.curuser.user_picture == null}" th:src="@{/picture/company-6.png}" alt="avatar" class="thumb">
+                            <img th:if="${ session.curuser.user_picture != null}" th:src="@{/upload/{curuser_picture}(curuser_picture=${session.curuser.user_picture})}" alt="avatar" class="thumb">
                             <span th:if="${session.curuser.user_name} != null" class="name" th:text="${session.curuser.user_name}"></span>
-                            <span th:else="${session.curuser.user_name} == null" class="name" th:text="${session.curuser.user_email}"></span>
+                            <span th:if="${session.curuser.user_name} == null" class="name" th:text="${session.curuser.user_email}"></span>
                         </a>
                         <ul th:if="${session.curuser.user_identity} == 1" class="dropdown-menu">
                             <li><a th:href="@{/user/company-dashboard}"> <i class="la la-home"></i> 仪表板</a></li>
-                            <li><a href="https://creativelayers.net/themes/superio/dashboard-company-profile.html"><i
+                            <li><a th:href="@{/company/dashboard-company-profile}"><i
                                     class="la la-user-tie"></i>公司简介</a></li>
                             <li><a href=""><i class="la la-paper-plane"></i>发布新工作</a></li>
                             <li><a href="https://creativelayers.net/themes/superio/dashboard-manage-job.html"><i
@@ -685,7 +690,9 @@
                         <a th:href="@{/home/index}" class="call-modal"><span class="icon-user"></span></a>
                     </div>
 
-                    <button id="toggle-user-sidebar"><img th:src="@{/picture/company-6.png}" alt="avatar" class="thumb">
+                    <button id="toggle-user-sidebar">
+                        <img th:if="${session.curuser == null || session.curuser.user_picture == null}" th:src="@{/picture/company-6.png}" alt="avatar" class="thumb">
+                        <img th:if="${session.curuser != null && session.curuser.user_picture != null}" th:src="@{/upload/{curuser_picture}(curuser_picture=${session.curuser.user_picture})}" alt="avatar" class="thumb">
                     </button>
                     <a href="#nav-mobile" class="mobile-nav-toggler navbar-trigger"><span
                             class="flaticon-menu-1"></span></a>

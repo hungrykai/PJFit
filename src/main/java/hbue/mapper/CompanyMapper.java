@@ -2,7 +2,6 @@ package hbue.mapper;
 
 import hbue.Entity.Company;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -10,9 +9,8 @@ import org.apache.ibatis.annotations.Mapper;
  * </p>
  *
  * @author YK
- * @since 2022-03-10
+ * @since 2022-03-30
  */
-
 public interface CompanyMapper extends BaseMapper<Company> {
 
 }

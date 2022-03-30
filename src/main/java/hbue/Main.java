@@ -28,11 +28,7 @@ public class Main {
         //包信息
         PackageConfig packageConfig = new PackageConfig();
         packageConfig.setParent("hbue");
-        packageConfig.setController("Controller");
         packageConfig.setEntity("Entity");
-        packageConfig.setService("Service");
-        packageConfig.setServiceImpl("ServiceImpl");
-        packageConfig.setMapper("mapper");
         autoGenerator.setPackageInfo(packageConfig);
         //配置策略
         StrategyConfig strategyConfig = new StrategyConfig();

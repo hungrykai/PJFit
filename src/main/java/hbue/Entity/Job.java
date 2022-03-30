@@ -1,9 +1,11 @@
 package hbue.Entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.List;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -14,7 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author YK
- * @since 2022-03-10
+ * @since 2022-03-30
  */
 @Data
   @EqualsAndHashCode(callSuper = false)
@@ -30,19 +32,27 @@ public class Job implements Serializable {
 
     private Integer company_id;
 
-    private Integer job_money;
+    private Integer job_money_low;
 
-    private String job_welfare;
+    private Integer job_money_high;
 
-    private Integer job_education;
+    private Integer job_employer_id;
+
+    @TableField(exist = false)
+    private List<String> job_type;
+
+    private String job_education;
 
     private String job_describe;
 
-    private Integer job_number;
+    @TableField(exist = false)
+    private List<String> job_skill;
 
-    private LocalDateTime job_time;
+    private String job_work_years;
 
-    private Integer job_type;
+    private String job_location;
+
+    private String job_city;
 
 
 }

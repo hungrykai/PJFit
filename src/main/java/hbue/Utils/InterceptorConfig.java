@@ -20,6 +20,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/upload/**").addResourceLocations("file:file:D:/毕业设计/项目代码/PJFit/src/main/resources/static/upload/");
+        registry.addResourceHandler("/upload/**").addResourceLocations("file:D:/毕业设计/项目代码/PJFit/src/main/resources/static/upload/");
     }
 }

@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author YK
- * @since 2022-03-30
+ * @since 2022-03-31
  */
 public interface IJob_welfareService extends IService<Job_welfare> {
 

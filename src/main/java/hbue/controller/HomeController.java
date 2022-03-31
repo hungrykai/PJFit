@@ -4,16 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import hbue.Entity.User;
 import hbue.Service.IUserService;
 import hbue.ServiceImpl.MailService;
-import hbue.ServiceImpl.UserServiceImpl;
 import hbue.Utils.VerCodeGenerateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 

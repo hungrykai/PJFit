@@ -12,7 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-03-30
  */
 public interface IUserService extends IService<User> {
-
     //根据email找到user，并补充List<String> user_language数据
     public User GetUser(String email);
 

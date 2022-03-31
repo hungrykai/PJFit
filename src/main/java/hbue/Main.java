@@ -28,6 +28,10 @@ public class Main {
         //包信息
         PackageConfig packageConfig = new PackageConfig();
         packageConfig.setParent("hbue");
+        packageConfig.setController("controller");
+        packageConfig.setMapper("mapper");
+        packageConfig.setService("Service");
+        packageConfig.setServiceImpl("ServiceImpl");
         packageConfig.setEntity("Entity");
         autoGenerator.setPackageInfo(packageConfig);
         //配置策略

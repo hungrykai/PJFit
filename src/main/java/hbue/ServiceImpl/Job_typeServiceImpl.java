@@ -1,8 +1,8 @@
 package hbue.ServiceImpl;
 
-import hbue.Entity.Company;
-import hbue.mapper.CompanyMapper;
-import hbue.Service.ICompanyService;
+import hbue.Entity.Job_type;
+import hbue.mapper.Job_typeMapper;
+import hbue.Service.IJob_typeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2022-03-31
  */
 @Service
-public class CompanyServiceImpl extends ServiceImpl<CompanyMapper, Company> implements ICompanyService {
+public class Job_typeServiceImpl extends ServiceImpl<Job_typeMapper, Job_type> implements IJob_typeService {
 
 }

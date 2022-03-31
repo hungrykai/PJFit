@@ -1,16 +1,13 @@
 package hbue.Entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import java.time.LocalDate;
+
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -18,21 +15,21 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author YK
- * @since 2022-03-10
+ * @since 2022-03-31
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
+  @EqualsAndHashCode(callSuper = false)
+  @Accessors(chain = true)
 public class User implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "user_id", type = IdType.AUTO)
-    private Integer user_id;
+      @TableId(value = "user_id", type = IdType.AUTO)
+      private Integer user_id;
 
     private String user_password;
 
@@ -54,7 +51,7 @@ public class User implements Serializable {
 
     private String user_place;
 
-    private Integer user_education;
+    private String user_education;
 
     private String user_school;
 
@@ -74,4 +71,6 @@ public class User implements Serializable {
     private List<String> user_language;
 
     private String user_resume;
+
+
 }

@@ -29,7 +29,7 @@ public class Userorjob_language implements Serializable {
 
     private Integer user_id;
 
-    private Integer type;
+    private Integer job_id;
 
 
 }

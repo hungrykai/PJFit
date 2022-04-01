@@ -54,5 +54,8 @@ public class Job implements Serializable {
 
     private String job_city;
 
+    @TableField(exist = false)
+    private List<String> job_welfare;
+
 
 }

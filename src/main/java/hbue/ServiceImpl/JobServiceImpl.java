@@ -1,10 +1,14 @@
 package hbue.ServiceImpl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import hbue.Entity.Job;
 import hbue.Entity.Job_type;
+import hbue.Entity.Job_welfare;
 import hbue.Entity.Userorjob_language;
 import hbue.Service.IJob_typeService;
+import hbue.Service.IJob_welfareService;
 import hbue.Service.IUserorjob_languageService;
 import hbue.mapper.JobMapper;
 import hbue.Service.IJobService;
@@ -27,6 +31,12 @@ import java.util.List;
  */
 @Service
 public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements IJobService {
+
+    @Autowired
+    private JobMapper jobMapper;
+
+    @Autowired
+    private IJob_welfareService job_welfareService;
 
     @Autowired
     private IJob_typeService job_typeService;
@@ -144,6 +154,15 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements IJobS
             languages.add(userorjob_language.getUser_language());
         }
         job.setJob_skill(languages);
+        //设置工作福利
+        List<String> welfare = new ArrayList<>();
+        QueryWrapper<Job_welfare> job_welfareQueryWrapper = new QueryWrapper<>();
+        job_welfareQueryWrapper.eq("job_id",job.getJob_id());
+        List<Job_welfare> list3 = job_welfareService.list(job_welfareQueryWrapper);
+        for (Job_welfare job_welfare:list3){
+            welfare.add(job_welfare.getWelfare());
+        }
+        job.setJob_welfare(welfare);
         return job;
     }
 
@@ -155,4 +174,20 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements IJobS
         }
         return list;
     }
+
+    @Override
+    public IPage<Job> GetPageJob(int curpage, int size, QueryWrapper queryWrapper) {
+        //当前页面，页面大小，是否查询总界面数
+        IPage<Job> jobIPage = new Page<>(curpage,size,true);
+        jobIPage = jobMapper.selectPage(jobIPage,queryWrapper);
+        //取出job信息进行其他字段的补充
+        List<Job> records = jobIPage.getRecords();
+        for (Job job:records){
+            GetOneJob(job);
+        }
+        jobIPage.setRecords(records);
+        return jobIPage;
+    }
+
+
 }

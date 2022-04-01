@@ -2,6 +2,8 @@ package hbue;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import hbue.Entity.*;
 import hbue.Service.*;
 import hbue.ServiceImpl.MailService;
@@ -17,6 +19,9 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 public class test {
+
+    @Autowired
+    private IJob_welfareService job_welfareService;
 
     @Autowired
     private IUserorjob_languageService userorjob_languageService;
@@ -105,11 +110,51 @@ public class test {
             }
         }
     }
-
     //测试返回的job信息是否完整
     @Test
     public void test9(){
-        System.out.println(jobService.GetAllJobs());
+
+    }
+
+    //添加岗位福利
+    @Test
+    public void testa(){
+        List<Job> list = jobService.list();
+        int num = 17;
+        String welfare[] = {"五险一金","补充医疗保险","定期体检","年终奖","员工旅游","节日福利","股票期权","带薪年假","免费班车","餐补","交通补助",
+        "包吃","住房补贴","零食下午茶","公仔周边活动","免费健身房","免费早晚餐"};
+        for (Job job:list){
+            for (int i = 0 ; i < num ; i++){
+                if (i < 6){
+                    Job_welfare job_welfare = new Job_welfare();
+                    job_welfare.setWelfare(welfare[i]);
+                    job_welfare.setJob_id(job.getJob_id());
+                    job_welfareService.saveOrUpdate(job_welfare);
+                }else {
+                    if (Job_welfare.Random() / 75 == 1){
+                        Job_welfare job_welfare = new Job_welfare();
+                        job_welfare.setWelfare(welfare[i]);
+                        job_welfare.setJob_id(job.getJob_id());
+                        job_welfareService.saveOrUpdate(job_welfare);
+                    }
+                }
+            }
+        }
+    }
+
+    //测试job分页
+    @Test
+    public void testb(){
+        IPage<Job> jobIPage = jobService.GetPageJob(5, 6, null);
+        System.out.println(jobIPage.getTotal());
+        System.out.println(jobIPage.getPages());
+        System.out.println(jobIPage.getCurrent());
+        System.out.println(jobIPage.getSize());
+        List<Job> records = jobIPage.getRecords();
+        for (Job job:records){
+            System.out.println(job);
+        }
+
     }
 
 }

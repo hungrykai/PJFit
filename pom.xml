@@ -79,16 +79,28 @@
         </dependency>
 
         -->
-        <dependency>
+<!--        <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.3.1.tmp</version>
+        </dependency>-->
+<!--         MybatisPlus-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.4.0</version>
         </dependency>
 
-        <dependency>
+
+<!--        <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
             <version>3.3.1.tmp</version>
+        </dependency>-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>3.3.2</version>
         </dependency>
 
         <dependency>

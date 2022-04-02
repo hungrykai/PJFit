@@ -145,7 +145,7 @@ public class test {
     //测试job分页
     @Test
     public void testb(){
-        IPage<Job> jobIPage = jobService.GetPageJob(5, 6, null);
+        IPage<Job> jobIPage = jobService.GetPageJob(5, 6, null,false);
         System.out.println(jobIPage.getTotal());
         System.out.println(jobIPage.getPages());
         System.out.println(jobIPage.getCurrent());

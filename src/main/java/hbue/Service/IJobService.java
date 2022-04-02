@@ -31,5 +31,5 @@ public interface IJobService extends IService<Job> {
     public List<Job> GetAllJobs();
 
     //分页查询工作信息
-    public IPage<Job> GetPageJob(int curpage,int size, QueryWrapper queryWrapper);
+    public IPage<Job> GetPageJob(int curpage,int size, QueryWrapper queryWrapper,boolean queryall);
 }

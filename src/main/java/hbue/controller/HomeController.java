@@ -1,7 +1,12 @@
 package hbue.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import hbue.Entity.Company;
+import hbue.Entity.Job;
+import hbue.Entity.JobAndCompany;
 import hbue.Entity.User;
+import hbue.Service.ICompanyService;
+import hbue.Service.IJobService;
 import hbue.Service.IUserService;
 import hbue.ServiceImpl.MailService;
 import hbue.Utils.VerCodeGenerateUtil;
@@ -12,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -27,6 +34,12 @@ import javax.servlet.http.HttpSession;
 public class HomeController {
 
     @Autowired
+    private ICompanyService companyService;
+
+    @Autowired
+    private IJobService jobService;
+
+    @Autowired
     private MailService mailService;
 
     @Autowired
@@ -34,7 +47,18 @@ public class HomeController {
 
     //首页
     @RequestMapping("/index")
-    public String index(){
+    public String index(HttpSession session){
+        List<Company> records = companyService.GetCompanyPage(1, 12, null, false).getRecords();
+        List<JobAndCompany> jobAndCompanies = new ArrayList<>();
+        for (Company company:records){
+            JobAndCompany jobAndCompany = new JobAndCompany();
+            QueryWrapper<Job> jobQueryWrapper = new QueryWrapper<>();
+            jobAndCompany.setCompany(company);
+            jobQueryWrapper.eq("company_id",company.getCompany_id());
+            jobAndCompany.setNumberOfjob(jobService.count(jobQueryWrapper));
+            jobAndCompanies.add(jobAndCompany);
+        }
+        session.setAttribute("companies",jobAndCompanies);
         return "fragments/index.html";
     }
 

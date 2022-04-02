@@ -35,7 +35,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         User curuser = getOne(queryWrapper);
         QueryWrapper<Userorjob_language> queryWrapper1 = new QueryWrapper<>();
         queryWrapper1.eq("user_id",curuser.getUser_id());
-        queryWrapper1.eq("type",0);
         //查找出user精通语言
         List<Userorjob_language> user_languages = user_languageService.list(queryWrapper1);
         //进行封装
@@ -49,7 +48,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public boolean UpdateUser(User user) {
-        boolean judge1=true;
+        boolean judge1;
         boolean judge2=true;
         judge1 = updateById(user);
         Userorjob_language user_language = new Userorjob_language();

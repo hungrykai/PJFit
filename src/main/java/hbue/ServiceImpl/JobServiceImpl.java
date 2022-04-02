@@ -176,9 +176,9 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements IJobS
     }
 
     @Override
-    public IPage<Job> GetPageJob(int curpage, int size, QueryWrapper queryWrapper) {
+    public IPage<Job> GetPageJob(int curpage, int size, QueryWrapper queryWrapper, boolean queryall) {
         //当前页面，页面大小，是否查询总界面数
-        IPage<Job> jobIPage = new Page<>(curpage,size,true);
+        IPage<Job> jobIPage = new Page<>(curpage,size,queryall);
         jobIPage = jobMapper.selectPage(jobIPage,queryWrapper);
         //取出job信息进行其他字段的补充
         List<Job> records = jobIPage.getRecords();
@@ -188,6 +188,4 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements IJobS
         jobIPage.setRecords(records);
         return jobIPage;
     }
-
-
 }

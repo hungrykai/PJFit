@@ -32,4 +32,9 @@ public interface IJobService extends IService<Job> {
 
     //分页查询工作信息
     public IPage<Job> GetPageJob(int curpage,int size, QueryWrapper queryWrapper,boolean queryall);
+
+    //返回每种类型的工作数量
+    public Integer GetOneTypeJobs(String type);
+
+
 }

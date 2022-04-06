@@ -48,6 +48,7 @@ public class HomeController {
     //首页
     @RequestMapping("/index")
     public String index(HttpSession session){
+        //得到支撑公司的信息
         List<Company> records = companyService.GetCompanyPage(1, 12, null, false).getRecords();
         List<JobAndCompany> jobAndCompanies = new ArrayList<>();
         for (Company company:records){
@@ -59,6 +60,14 @@ public class HomeController {
             jobAndCompanies.add(jobAndCompany);
         }
         session.setAttribute("companies",jobAndCompanies);
+        //各种工作的类别信息
+        List<Integer> typelist = new ArrayList<>();
+        String[] typename = {"后端开发","人工智能","移动开发","测试","运维","数据","前端开发","高端技术","架构师"};
+        for (String type:typename){
+            typelist.add(jobService.GetOneTypeJobs(type));
+        }
+        session.setAttribute("typelist",typelist);
+        session.setAttribute("typenamelist",typename);
         return "fragments/index.html";
     }
 
@@ -150,7 +159,7 @@ public class HomeController {
              if (curuser.getUser_password().equals(password)){
                  session.setAttribute("curuser",curuser);
                  System.out.println("curuser:"+curuser);
-                 return "fragments/index.html";
+                 return "forward:/home/index";
              }else {
                  model.addAttribute("curuser-email",email);
                  model.addAttribute("login-error-message","密码错误！");

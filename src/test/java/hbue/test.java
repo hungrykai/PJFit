@@ -154,6 +154,10 @@ public class test {
         for (Job job:records){
             System.out.println(job);
         }
+    }
+
+    //测试提供给前端页面的每个类别的工作
+    public void testc(){
 
     }
 

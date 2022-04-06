@@ -462,6 +462,17 @@
                 <div class="text">2020个就业岗位 —— 今日新增293个。</div>
             </div>
             <div class="row wow fadeInUp"><!-- Category Block -->
+
+                <div th:each="typenum,iterStat:${session.typelist}" class="category-block col-lg-4 col-md-6 col-sm-12">
+                    <div class="inner-box">
+                        <div class="content">
+                            <span class="icon flaticon-money-1"></span>
+                            <h4><a th:href="@{'/job/jobtype?jobtype='+${session.typenamelist[iterStat.index]}}" th:text="${session.typenamelist[iterStat.index]}"></a></h4>
+                            <p th:text="'(' + ${typenum} + ' 个职位)'"></p>
+                        </div>
+                    </div>
+                </div><!-- Category Block -->
+<!--
                 <div class="category-block col-lg-4 col-md-6 col-sm-12">
                     <div class="inner-box">
                         <div class="content">
@@ -470,52 +481,52 @@
                         <p>(224 个职位)</p>
                         </div>
                     </div>
-                </div><!-- Category Block -->
+                </div>&lt;!&ndash; Category Block &ndash;&gt;
                 <div class="category-block col-lg-4 col-md-6 col-sm-12">
                     <div class="inner-box">
                         <div class="content">
                             <span class="icon flaticon-promotion"></span>
-                            <h4><a href="#">测试</a></h4>
+                            <h4><a href="#">人工智能</a></h4>
                             <p>(64 个职位)</p>
                         </div>
                     </div>
-                </div><!-- Category Block -->
+                </div>&lt;!&ndash; Category Block &ndash;&gt;
                 <div class="category-block col-lg-4 col-md-6 col-sm-12">
                     <div class="inner-box">
                         <div class="content">
                             <span class="icon flaticon-vector"></span>
-                            <h4><a href="#">算法</a></h4>
+                            <h4><a href="#">移动开发</a></h4>
                             <p>(24 个职位)</p>
                         </div>
                     </div>
-                </div><!-- Category Block -->
+                </div>&lt;!&ndash; Category Block &ndash;&gt;
                 <div class="category-block col-lg-4 col-md-6 col-sm-12">
                     <div class="inner-box">
                         <div class="content">
                             <span class="icon flaticon-web-programming"></span>
-                            <h4><a href="#">安卓开发</a></h4>
+                            <h4><a href="#">测试</a></h4>
                             <p>(53 个职位)</p>
                         </div>
                     </div>
-                </div><!-- Category Block -->
+                </div>&lt;!&ndash; Category Block &ndash;&gt;
                 <div class="category-block col-lg-4 col-md-6 col-sm-12">
                     <div class="inner-box">
                         <div class="content">
                             <span class="icon flaticon-headhunting"></span>
-                            <h4><a href="#">后端开发</a></h4>
+                            <h4><a href="#">运维</a></h4>
                             <p>(224 个职位)</p>
                         </div>
                     </div>
-                </div><!-- Category Block -->
+                </div>&lt;!&ndash; Category Block &ndash;&gt;
                 <div class="category-block col-lg-4 col-md-6 col-sm-12">
                     <div class="inner-box">
                         <div class="content">
                             <span class="icon flaticon-rocket-ship"></span>
-                            <h4><a href="#">人工智能</a></h4>
+                            <h4><a href="#">数据</a></h4>
                             <p>(43 个职位)</p>
                         </div>
                     </div>
-                </div><!-- Category Block -->
+                </div>&lt;!&ndash; Category Block &ndash;&gt;
                 <div class="category-block col-lg-4 col-md-6 col-sm-12">
                     <div class="inner-box">
                         <div class="content">
@@ -524,25 +535,27 @@
                             <p>(644 个职位)</p>
                         </div>
                     </div>
-                </div><!-- Category Block -->
+                </div>&lt;!&ndash; Category Block &ndash;&gt;
                 <div class="category-block col-lg-4 col-md-6 col-sm-12">
                     <div class="inner-box">
                         <div class="content">
                             <span class="icon flaticon-first-aid-kit-1"></span>
-                            <h4><a href="#">数据库</a></h4>
+                            <h4><a href="#">高端技术</a></h4>
                             <p>(32 个职位)</p>
                         </div>
                     </div>
-                </div><!-- Category Block -->
+                </div>&lt;!&ndash; Category Block &ndash;&gt;
                 <div class="category-block col-lg-4 col-md-6 col-sm-12">
                     <div class="inner-box">
                         <div class="content">
                             <span class="icon flaticon-car"></span>
-                            <h4><a href="#">网络安全</a></h4>
+                            <h4><a href="#">架构师</a></h4>
                             <p>(23 个职位)</p>
                         </div>
                     </div>
                 </div>
+
+                -->
             </div>
         </div>
     </section><!-- End Job Categories -->

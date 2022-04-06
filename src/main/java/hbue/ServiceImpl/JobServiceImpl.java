@@ -188,4 +188,11 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements IJobS
         jobIPage.setRecords(records);
         return jobIPage;
     }
+
+    @Override
+    public Integer GetOneTypeJobs(String type) {
+        QueryWrapper<Job_type> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("job_type",type);
+        return job_typeService.count(queryWrapper);
+    }
 }

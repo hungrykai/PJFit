@@ -225,4 +225,15 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements IJobS
         jobIPage.setTotal(job_typeIPage.getTotal());
         return jobIPage;
     }
+
+    @Override
+    public JobAndCompany GetJobandCompanyById(Integer job_id) {
+        JobAndCompany jobAndCompany = new JobAndCompany();
+        Job job = GetOneByJobId(job_id);
+        jobAndCompany.setJob(job);
+        QueryWrapper<Company> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("company_id",job.getCompany_id());
+        jobAndCompany.setCompany(companyService.getOne(queryWrapper));
+        return jobAndCompany;
+    }
 }

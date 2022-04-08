@@ -129,5 +129,16 @@ public class JobController {
         return jobService.GetJobAndCompanyPage(jobtypename,jobpagecurrent,jobpagesize);
     }
 
+
+    //跳转道岗位的详情页面
+    @RequestMapping("/job_detail/{job_id}")
+    public String GotoJobDetail(@PathVariable Integer job_id,HttpSession session){
+        JobAndCompany jobAndCompany = jobService.GetJobandCompanyById(job_id);
+        List<JobAndCompany> recommandjobs = getjobpage(jobAndCompany.getJob().getJob_type().get(0), 1, 3).getRecords();
+        session.setAttribute("curjobandcompany",jobAndCompany);
+        session.setAttribute("recommandjobs",recommandjobs);
+        return "fragments/job-detail.html";
+    }
+
 }
 

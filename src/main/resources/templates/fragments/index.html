@@ -493,39 +493,17 @@
                 'user_language':condition
             },
             success(data){
-                console.log(data);
-                /*                            <div class="job-block col-lg-6 col-md-12 col-sm-12">
-                                    <div class="inner-box">
-                                        <div class="content">
-                                            <span class="company-logo"><img th:src="@{/picture/1-1.png}" alt=""></span>
-                                            <h4><a href="#">java实习生</a></h4>
-                                            <ul class="job-info">
-                                                <li><span class="icon flaticon-briefcase"></span> 后端</li>
-                                                <li><span class="icon flaticon-map-locator"></span> 湖北武汉江夏区</li>
-                                                <li><span class="icon flaticon-clock-3"></span> 2022-02-27</li>
-                                                <li><span class="icon flaticon-money"></span> 35k</li>
-                                            </ul>
-                                            <ul class="job-other-info">
-                                                <li class="time">五险一金</li>
-                                                <li class="privacy">下午茶</li>
-                                                <li class="required">住房补贴</li>
-                                            </ul>
-                                            <button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
-                                        </div>
-                                    </div>
-                                </div>
-                * */
                 for (var i = 0 ; i < data.length;i++){
                     alllist += ' <div class="job-block col-lg-6 col-md-12 col-sm-12">\n' +
                         '                                <div class="inner-box">\n' +
                         '                                    <div class="content">\n' +
                         '                                        <span class="company-logo">'
                     alllist += '<img src="' + data[i].company.company_picture + '" alt=""></span>';
-                    alllist += '<h4><a href="/job/job_detail?job_id=' + data[i].job.job_id + '">' + data[i].job.job_name + '</a></h4>';
+                    alllist += '<h4><a href="/job/job_detail/' + data[i].job.job_id + '">' + data[i].job.job_name + '</a></h4>';
                     alllist += '<ul class="job-info">';
                     alllist += '<li><span class="icon flaticon-briefcase"></span> '+data[i].job.job_type[0]+'</li>';
                     alllist += '<li><span class="icon flaticon-map-locator"></span> '+data[i].job.job_location+'</li>';
-                    alllist += '<li><span class="icon flaticon-money"></span> '+data[i].job.job_money_low + ' - ' + data[i].job.job_money_high+ 'k'+ '</li></ul>';
+                    alllist += '<li><span class="icon flaticon-money"></span> ￥'+data[i].job.job_money_low + ' - ' + data[i].job.job_money_high+ 'k'+ '</li></ul>';
                     alllist += '<ul class="job-other-info">';
                     for (var j = 0 ; j < data[i].job.job_welfare.length && j < 7 ; j++){
                         alllist += '<li class="time">'+data[i].job.job_welfare[j]+'</li>';

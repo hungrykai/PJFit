@@ -42,5 +42,8 @@ public interface IJobService extends IService<Job> {
     //根据typename，current，pagesize返回一个jobpage
     public IPage<JobAndCompany> GetJobAndCompanyPage(String jobtypename, Integer jobpagecurrent, Integer pagesize);
 
+    //根据jobid返回一个jobandcompany对象
+    public JobAndCompany GetJobandCompanyById(Integer job_id);
+
 
 }

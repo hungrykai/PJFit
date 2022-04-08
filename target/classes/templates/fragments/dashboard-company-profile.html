@@ -48,126 +48,55 @@
                                 <h4>公司简介</h4>
                             </div>
                             <div class="widget-content">
-                            <form id="form1" th:object="${session.curuser}" class="default-form" onsubmit="return Getinformation() " >
+                            <form id="form1" th:object="${session.curcompany}" class="default-form" onsubmit="return Getinformation() " >
                                 <div class="row">
                                 <div class="uploading-outer">
                                     <div class="uploadButton">
                                         <input class="uploadButton-input" type="file" name="uploadpicture" accept="image/*, application/pdf" id="upload-picture" multiple />
-                                        <label th:if="${session.curuser.user_picture == null}" id="imgbox" class="uploadButton-button ripple-effect" for="upload-picture">个人照片</label>
-                                        <label for="upload-picture"><img th:src="@{ '/upload/'+${session.curuser?.user_picture}}" style="height: 150px;margin-left: 50px" id="imgshow"><span class="uploadButton-file-name"></span></label>
+                                        <label for="upload-picture">
+                                            <img th:if="${session.curuser.user_picture != null}" th:src="@{ '/upload/'+${session.curuser.user_picture}}" style="height: 150px;margin-left: 50px" id="imgshow">
+                                            <img th:if="${session.curuser.user_picture == null}" th:src="@{/picture/company-6.png}" style="height: 150px;margin-left: 50px" id="imgshow">
+                                            <span class="uploadButton-file-name"></span>
+                                        </label>
                                     </div><!---->
-                                    <div class="text">最大文件大小为1MB，最小尺寸为330x300，并提供合适的文件如.jpg&.png</div>
+                                    <div class="text">公司logo，最大文件大小为1MB，最小尺寸为330x300，并提供合适的文件如.jpg&.png</div>
                                 </div>
                                         <!--userid-->
-                                        <input type="hidden" name="user_id" th:value="${session.curuser.user_id}">
+                                        <input type="hidden" name="user_id" th:value="*{company_id}">
                                         <div class="form-group col-lg-6 col-md-12">
-                                            <label>姓名</label>
-                                            <input type="text" id="user_name" th:value="*{user_name}" name="user_name" required="required" >
-                                        </div>
-                                        <!-- 性别 -->
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>性别</label>
-                                            <select class="chosen-select" id="user_gender" name="user_gender" th:value="*{user_gender}" >
-                                                <option value="男">男</option>
-                                                <option value="女">女</option>
-                                            </select>
+                                            <label>公司名称</label>
+                                            <input type="text" id="company_name" th:value="*{company_name}" name="user_name" required="required" >
                                         </div>
 
-                                        <!-- 邮件地址 -->
+                                        <!-- 公司位置 -->
                                         <div class="form-group col-lg-6 col-md-12">
-                                            <label>邮件地址</label>
-                                            <input type="text" disabled="disabled" th:value="*{user_email}"  >
+                                            <label>公司位置</label>
+                                            <input type="text" id="company_location" name="company_location" th:value="*{company_location}" >
                                         </div>
 
-                                        <!-- 手机号 -->
+                                        <!-- 公司规模 -->
                                         <div class="form-group col-lg-6 col-md-12">
-                                            <label>手机号</label>
-                                            <input type="text" id="user_phone" name="user_phone" th:value="*{user_phone}" >
+                                            <label>公司规模</label>
+                                            <input type="text" id="company_number" name="company_number" th:value="*{company_number}" >
                                         </div>
 
-                                        <!-- 身份 -->
+                                        <!-- 公司法人代表 -->
                                         <div class="form-group col-lg-6 col-md-12">
-                                            <label>身份</label>
-                                            <input type="text" th:value="*{user_identity} == '0' ? '求职者' : '招聘者'" disabled = "disabled" >
+                                            <label>公司法人代表</label>
+                                            <input type="text" id="company_represent" name="company_represent" th:value="*{company_represent}" >
                                         </div>
 
-                                        <!-- 出生日期 -->
+                                        <!-- 成立日期 -->
                                         <div class="form-group col-lg-6 col-md-12">
-                                            <label>出生日期</label><br>
-                                            <input style="font-size: x-large;" id="user_birthday" type="date"  name="user_birthday"  >
+                                            <label>成立日期</label><br>
+                                            <input style="font-size: x-large;" id="company_date" type="date"  name="company_date"  >
                                         </div>
 
-                                        <!-- 居住地址 -->
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>居住地址</label>
-                                            <input type="text" id="user_place" name="user_place" th:value="*{user_place}" >
-                                        </div>
-
-                                        <!-- 学历 -->
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>学历</label>
-                                            <select class="chosen-select" id="user_education" name="user_education" th:value="*{user_education}"  >
-                                                <!--0-大专以下，1-普通本科，2-普通一本，3-211，4-985，5-留学生,6-研究生，7-博士，8-博士后-->
-                                                <option value="0">大专以下</option>
-                                                <option value="1">普通本科</option>
-                                                <option value="2" >普通一本</option>
-                                                <option value="3">211</option>
-                                                <option value="4">985</option>
-                                                <option value="5">留学生</option>
-                                                <option value="6">研究生</option>
-                                                <option value="7">博士</option>
-                                                <option value="8">博士后</option>
-                                            </select>
-                                        </div>
-
-                                        <!-- 毕业院校 -->
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>毕业院校</label>
-                                            <input type="text" id="user_school" name="user_school" th:value="*{user_school}"  >
-                                        </div>
-
-                                        <!-- 特长 -->
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>特长</label>
-                                            <input type="text" id="user_specialisms" name="user_specialisms" th:value="*{user_specialisms == null}"  >
-                                        </div>
-
-                                        <!-- 精通语言 -->
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>精通语言 </label>
-                                            <select data-placeholder="开发语言" id="user_language" name="user_language" class="chosen-select multiple" multiple tabindex="4" th:value="*{user_language}"  >
-                                                <option value="Java">Java</option>
-                                                <option value="C++">C++</option>
-                                                <option value="C">C</option>
-                                                <option value="Python">Python</option>
-                                                <option value="JavaScript">JavaScript</option>
-                                                <option value="C#">C#</option>
-                                                <option value="Swift">Swift</option>
-                                                <option value="GO">GO（Golang）</option>
-                                                <option value="PHP">PHP</option>
-                                                <option value="Ruby">Ruby</option>
-                                                <option value="HTML">HTML/CSS</option>
-                                                <option value="SQL">SQL</option>
-                                                <option value="Node.js">Node.js</option>
-                                                <option value="TypeScript">TypeScript</option>
-                                                <option value="Rust">Rust</option>
-                                                <option value="Kotlin">Kotlin</option>
-                                            </select>
-                                        </div>
-
-                                        <!-- 工作经历 -->
-                                        <div class="form-group col-lg-12 col-md-12">
-                                            <label>工作经历</label>
-                                            <textarea id="user_experience" name="user_experience" placeholder=
-                                            "请在此处写下您的工作经历，曾在何时任职于何公司，因何故离职等相关信息" th:value="*{user_experience}"
-                                            ></textarea>
-                                        </div>
-
-                                        <!-- 项目经历-->
+                                        <!-- 公司介绍-->
                                         <div class="form-group col-lg-12 col-md-12" >
-                                            <label>项目经历</label>
-                                            <textarea id="user_projects" name="user_projects" placeholder=
-                                                    "请在此处写下您的项目经历，包括项目名称，项目描述，项目所用技术，责任描述等信息" th:value="*{user_projects}"
+                                            <label>公司介绍</label>
+                                            <textarea id="company_introduction" name="company_introduction" placeholder=
+                                                    "请在此处写下公司的相关介绍，如公司理念，公司经营模式，公司发展发展方向" th:value="*{company_introduction}"
                                             ></textarea>
                                         </div>
 
@@ -180,85 +109,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Ls widget -->
-                    <div class="ls-widget">
-                        <div class="tabs-box">
-                            <div class="widget-title">
-                                <h4>期待工作信息</h4>
-                            </div>
-
-                            <div class="widget-content">
-
-                                <form class="default-form">
-                                    <div class="row">
-                                        <!-- 期待薪资 -->
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>期待薪资（月薪）单位：K</label>
-                                            <input type="text" name="user_expect_salary" placeholder="10">
-                                        </div>
-
-                                        <!-- 期待工作地点 -->
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>期待工作地点</label>
-                                            <input type="text" name="user_expect_place" placeholder="">
-                                        </div>
-                                        <!--期待工作类型-->
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>期待工作类型</label>
-                                            <select class="chosen-select" name="user_education" multiple tabindex="4"  >
-                                                <option value="0">大专以下</option>
-                                                <option value="1">普通本科</option>
-                                                <option value="2">普通一本</option>
-                                                <option value="3">211</option>
-                                                <option value="4">985</option>
-                                                <option value="5">留学生</option>
-                                                <option value="6">研究生</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <!-- Input -->
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label> </label>
-                                            <button class="theme-btn btn-style-one">保存</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!-- Ls widget -->
-<!--                    <div class="ls-widget">
-                        <div class="tabs-box">
-                            <div class="widget-title">
-                                <h4>上传简历</h4>
-                            </div>
-
-                            <div class="widget-content">
-                                <div class="uploading-outer">
-                                    <div class="uploadButton">
-                                        <input class="uploadButton-input" type="file" name="upload-picture" accept="image/*, application/pdf" id="upload-resume" />
-                                        <label class="uploadButton-button ripple-effect" for="upload-resume">简历</label>
-                                        <span class="uploadButton-file-name"></span>
-                                    </div>
-                                    <div class="text">最大文件大小为1MB，最小尺寸为330x300，并提供合适的文件如.jpg&.png</div>
-                                </div>
-                                <form class="default-form">
-                                    <div class="row">
-                                        &lt;!&ndash; Input &ndash;&gt;
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label> </label>
-                                            <button class="theme-btn btn-style-one">Save</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    -->
                 </div>
             </div>
         </div>

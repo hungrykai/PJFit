@@ -20,10 +20,10 @@
     <section class="page-title">
         <div class="auto-container">
             <div class="title-outer">
-                <h1>Find Jobs</h1>
+                <h1>找工作</h1>
                 <ul class="page-breadcrumb">
-                    <li><a th:href="@{/index}">Home</a></li>
-                    <li>Jobs</li>
+                    <li><a th:href="@{/index}">主页</a></li>
+                    <li>工作</li>
                 </ul>
             </div>
         </div>
@@ -125,329 +125,86 @@
                     <div class="ls-outer">
                         <!-- ls Switcher -->
                         <div class="ls-switcher">
-                            <div class="showing-result show-filters"><button type="button" class="theme-btn toggle-filters"><span class="icon icon-filter"></span>Filter</button>
-                                <div class="text">Showing <strong>41-60</strong>of <strong>944</strong>jobs</div>
+                            <div class="showing-result show-filters">
+                                <button type="button" class="theme-btn toggle-filters">
+                                <span class="icon icon-filter"></span>Filter</button>
+                                <div id="showdata" class="text">展示<strong th:text="${session.jobIPage.total}"></strong>个岗位中的<strong th:text="${(session.jobIPage.current - 1) * session.jobIPage.size + 1} + ' - ' + ${session.jobIPage.current * session.jobIPage.size}"></strong>个岗位</div>
                             </div>
-                            <div class="sort-by"><select class="chosen-select">
-                                <option>New Jobs</option>
-                                <option>Freelance</option>
-                                <option>Full Time</option>
-                                <option>Internship</option>
-                                <option>Part Time</option>
-                                <option>Temporary</option>
-                            </select><select class="chosen-select">
-                                <option>Show 10</option>
-                                <option>Show 20</option>
-                                <option>Show 30</option>
-                                <option>Show 40</option>
-                                <option>Show 50</option>
-                                <option>Show 60</option>
+                            <div class="sort-by">
+                                <select class="chosen-select" id="jobtype">
+                                <option><a th:href="@{/job/joblist/后端开发}">后端开发</a></option>
+                                <option><a th:href="@{/job/joblist/人工智能}">人工智能</a></option>
+                                <option><a th:href="@{/job/joblist/移动开发}">移动开发</a></option>
+                                <option><a th:href="@{/job/joblist/测试}">测试</a></option>
+                                <option><a th:href="@{/job/joblist/运维}">运维</a></option>
+                                <option><a th:href="@{/job/joblist/数据}">数据</a></option>
+                                <option><a th:href="@{/job/joblist/前端开发}">前端开发</a></option>
+                                <option><a th:href="@{/job/joblist/高端技术}">高端技术</a></option>
+                                <option><a th:href="@{/job/joblist/架构师}">架构师</a></option>
+                                </select>
+
+                                <!--有关分页的信息-->
+                                <input type="hidden" th:value="${session.jobIPage.current}" id="jobpagecurrent">
+                                <input type="hidden" th:value="${session.jobIPage.size}" id="jobpagesize">
+                                <input type="hidden" th:value="${session.typename}" id="jobtypename">
+
+                                <select class="chosen-select" id="changejobpagesize">
+                                <option value="10">Show 10</option>
+                                <option value="20">Show 20</option>
+                                <option value="30">Show 30</option>
+                                <option value="40">Show 40</option>
+                                <option value="50">Show 50</option>
+                                <option value="">Show 60</option>
                             </select></div>
                         </div>
-                        <div class="row">
+
+                        <div class="row" id="joblistpage">
                             <!-- Job Block -->
-                            <div class="job-block col-lg-6 col-md-12 col-sm-12">
+                            <div th:each="jobandcompany,iterStat:${session.jobIPage.records}" class="job-block col-lg-6 col-md-12 col-sm-12">
                                 <div class="inner-box">
-                                    <div class="content"><span class="company-logo"><img th:src="@{/picture/1-1.png}" alt=""></span>
-                                        <h4><a href="#">Software Engineer(Android),Libraries</a></h4>
+                                    <div class="content" >
+                                        <span class="company-logo"><img th:src="@{${jobandcompany.company.company_picture}}" alt=""></span>
+                                        <h4><a th:href="@{'/job/job-detail/' + ${jobandcompany.job.job_id}}" th:text="${jobandcompany.job.job_name}"></a></h4>
                                         <ul class="job-info">
-                                            <li><span class="icon flaticon-briefcase"></span>Segment</li>
-                                            <li><span class="icon flaticon-map-locator"></span>London,UK</li>
-                                            <li><span class="icon flaticon-clock-3"></span>11 hours ago</li>
-                                            <li><span class="icon flaticon-money"></span>$35k - $45k</li>
+                                            <li><span class="icon flaticon-briefcase"></span><div th:text="${session.typename}"></div></li>
+                                            <li><span class="icon flaticon-map-locator"></span><div th:text="${jobandcompany.job.getJob_location()}"></div></li>
+                                            <li><span class="icon flaticon-money"></span><div th:text="${jobandcompany.job.job_money_low} + ' - ' + ${jobandcompany.job.job_money_high} + 'k'"></div></li>
                                         </ul>
                                         <ul class="job-other-info">
-                                            <li class="time">Full Time</li>
-                                            <li class="privacy">Private</li>
-                                            <li class="required">Urgent</li>
-                                        </ul><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
-                                    </div>
-                                </div>
-                            </div><!-- Job Block -->
-                            <div class="job-block col-lg-6 col-md-12 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="content"><span class="company-logo"><img th:src="@{/picture/1-2.png}" alt=""></span>
-                                        <h4><a href="#">Recruiting Coordinator</a></h4>
-                                        <ul class="job-info">
-                                            <li><span class="icon flaticon-briefcase"></span>Segment</li>
-                                            <li><span class="icon flaticon-map-locator"></span>London,UK</li>
-                                            <li><span class="icon flaticon-clock-3"></span>11 hours ago</li>
-                                            <li><span class="icon flaticon-money"></span>$35k - $45k</li>
+                                            <li th:each="welfare,iterStat:${jobandcompany.job.job_welfare}" th:if="${iterStat.count<=7}" class="required" th:text="${welfare}">
+                                            </li>
+                                            <li  class="required" > ... </li>
                                         </ul>
-                                        <ul class="job-other-info">
-                                            <li class="time">Full Time</li>
-                                            <li class="privacy">Private</li>
-                                            <li class="required">Urgent</li>
-                                        </ul><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
-                                    </div>
-                                </div>
-                            </div><!-- Job Block -->
-                            <div class="job-block col-lg-6 col-md-12 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="content"><span class="company-logo"><img th:src="@{/picture/1-3.png}" alt=""></span>
-                                        <h4><a href="#">Product Manager,Studio</a></h4>
-                                        <ul class="job-info">
-                                            <li><span class="icon flaticon-briefcase"></span>Segment</li>
-                                            <li><span class="icon flaticon-map-locator"></span>London,UK</li>
-                                            <li><span class="icon flaticon-clock-3"></span>11 hours ago</li>
-                                            <li><span class="icon flaticon-money"></span>$35k - $45k</li>
-                                        </ul>
-                                        <ul class="job-other-info">
-                                            <li class="time">Full Time</li>
-                                            <li class="privacy">Private</li>
-                                            <li class="required">Urgent</li>
-                                        </ul><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
-                                    </div>
-                                </div>
-                            </div><!-- Job Block -->
-                            <div class="job-block col-lg-6 col-md-12 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="content"><span class="company-logo"><img th:src="@{/picture/1-4.png}" alt=""></span>
-                                        <h4><a href="#">Senior Product Designer</a></h4>
-                                        <ul class="job-info">
-                                            <li><span class="icon flaticon-briefcase"></span>Segment</li>
-                                            <li><span class="icon flaticon-map-locator"></span>London,UK</li>
-                                            <li><span class="icon flaticon-clock-3"></span>11 hours ago</li>
-                                            <li><span class="icon flaticon-money"></span>$35k - $45k</li>
-                                        </ul>
-                                        <ul class="job-other-info">
-                                            <li class="time">Full Time</li>
-                                            <li class="privacy">Private</li>
-                                            <li class="required">Urgent</li>
-                                        </ul><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
-                                    </div>
-                                </div>
-                            </div><!-- Job Block -->
-                            <div class="job-block col-lg-6 col-md-12 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="content"><span class="company-logo"><img th:src="@{/picture/1-51.png}" alt=""></span>
-                                        <h4><a href="#">Senior Full Stack Engineer,Creator Success</a></h4>
-                                        <ul class="job-info">
-                                            <li><span class="icon flaticon-briefcase"></span>Segment</li>
-                                            <li><span class="icon flaticon-map-locator"></span>London,UK</li>
-                                            <li><span class="icon flaticon-clock-3"></span>11 hours ago</li>
-                                            <li><span class="icon flaticon-money"></span>$35k - $45k</li>
-                                        </ul>
-                                        <ul class="job-other-info">
-                                            <li class="time">Full Time</li>
-                                            <li class="privacy">Private</li>
-                                            <li class="required">Urgent</li>
-                                        </ul><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
-                                    </div>
-                                </div>
-                            </div><!-- Job Block -->
-                            <div class="job-block col-lg-6 col-md-12 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="content"><span class="company-logo"><img th:src="@{/picture/1-6.png}" alt=""></span>
-                                        <h4><a href="#">Software Engineer(Android),Libraries</a></h4>
-                                        <ul class="job-info">
-                                            <li><span class="icon flaticon-briefcase"></span>Segment</li>
-                                            <li><span class="icon flaticon-map-locator"></span>London,UK</li>
-                                            <li><span class="icon flaticon-clock-3"></span>11 hours ago</li>
-                                            <li><span class="icon flaticon-money"></span>$35k - $45k</li>
-                                        </ul>
-                                        <ul class="job-other-info">
-                                            <li class="time">Full Time</li>
-                                            <li class="privacy">Private</li>
-                                            <li class="required">Urgent</li>
-                                        </ul><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
-                                    </div>
-                                </div>
-                            </div><!-- Job Block -->
-                            <div class="job-block col-lg-6 col-md-12 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="content"><span class="company-logo"><img th:src="@{/picture/1-71.png}" alt=""></span>
-                                        <h4><a href="#">Software Engineer(Android),Libraries</a></h4>
-                                        <ul class="job-info">
-                                            <li><span class="icon flaticon-briefcase"></span>Segment</li>
-                                            <li><span class="icon flaticon-map-locator"></span>London,UK</li>
-                                            <li><span class="icon flaticon-clock-3"></span>11 hours ago</li>
-                                            <li><span class="icon flaticon-money"></span>$35k - $45k</li>
-                                        </ul>
-                                        <ul class="job-other-info">
-                                            <li class="time">Full Time</li>
-                                            <li class="privacy">Private</li>
-                                            <li class="required">Urgent</li>
-                                        </ul><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
-                                    </div>
-                                </div>
-                            </div><!-- Job Block -->
-                            <div class="job-block col-lg-6 col-md-12 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="content"><span class="company-logo"><img th:src="@{/picture/1-8.png}" alt=""></span>
-                                        <h4><a href="#">Recruiting Coordinator</a></h4>
-                                        <ul class="job-info">
-                                            <li><span class="icon flaticon-briefcase"></span>Segment</li>
-                                            <li><span class="icon flaticon-map-locator"></span>London,UK</li>
-                                            <li><span class="icon flaticon-clock-3"></span>11 hours ago</li>
-                                            <li><span class="icon flaticon-money"></span>$35k - $45k</li>
-                                        </ul>
-                                        <ul class="job-other-info">
-                                            <li class="time">Full Time</li>
-                                            <li class="privacy">Private</li>
-                                            <li class="required">Urgent</li>
-                                        </ul><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
-                                    </div>
-                                </div>
-                            </div><!-- Job Block -->
-                            <div class="job-block col-lg-6 col-md-12 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="content"><span class="company-logo"><img th:src="@{/picture/1-9.png}" alt=""></span>
-                                        <h4><a href="#">Product Manager,Studio</a></h4>
-                                        <ul class="job-info">
-                                            <li><span class="icon flaticon-briefcase"></span>Segment</li>
-                                            <li><span class="icon flaticon-map-locator"></span>London,UK</li>
-                                            <li><span class="icon flaticon-clock-3"></span>11 hours ago</li>
-                                            <li><span class="icon flaticon-money"></span>$35k - $45k</li>
-                                        </ul>
-                                        <ul class="job-other-info">
-                                            <li class="time">Full Time</li>
-                                            <li class="privacy">Private</li>
-                                            <li class="required">Urgent</li>
-                                        </ul><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
-                                    </div>
-                                </div>
-                            </div><!-- Job Block -->
-                            <div class="job-block col-lg-6 col-md-12 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="content"><span class="company-logo"><img th:src="@{/picture/1-1.png}" alt=""></span>
-                                        <h4><a href="#">Senior Product Designer</a></h4>
-                                        <ul class="job-info">
-                                            <li><span class="icon flaticon-briefcase"></span>Segment</li>
-                                            <li><span class="icon flaticon-map-locator"></span>London,UK</li>
-                                            <li><span class="icon flaticon-clock-3"></span>11 hours ago</li>
-                                            <li><span class="icon flaticon-money"></span>$35k - $45k</li>
-                                        </ul>
-                                        <ul class="job-other-info">
-                                            <li class="time">Full Time</li>
-                                            <li class="privacy">Private</li>
-                                            <li class="required">Urgent</li>
-                                        </ul><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
-                                    </div>
-                                </div>
-                            </div><!-- Job Block -->
-                            <div class="job-block col-lg-6 col-md-12 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="content"><span class="company-logo"><img th:src="@{/picture/1-1.png}" alt=""></span>
-                                        <h4><a href="#">Software Engineer(Android),Libraries</a></h4>
-                                        <ul class="job-info">
-                                            <li><span class="icon flaticon-briefcase"></span>Segment</li>
-                                            <li><span class="icon flaticon-map-locator"></span>London,UK</li>
-                                            <li><span class="icon flaticon-clock-3"></span>11 hours ago</li>
-                                            <li><span class="icon flaticon-money"></span>$35k - $45k</li>
-                                        </ul>
-                                        <ul class="job-other-info">
-                                            <li class="time">Full Time</li>
-                                            <li class="privacy">Private</li>
-                                            <li class="required">Urgent</li>
-                                        </ul><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
-                                    </div>
-                                </div>
-                            </div><!-- Job Block -->
-                            <div class="job-block col-lg-6 col-md-12 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="content"><span class="company-logo"><img th:src="@{/picture/1-2.png}" alt=""></span>
-                                        <h4><a href="#">Recruiting Coordinator</a></h4>
-                                        <ul class="job-info">
-                                            <li><span class="icon flaticon-briefcase"></span>Segment</li>
-                                            <li><span class="icon flaticon-map-locator"></span>London,UK</li>
-                                            <li><span class="icon flaticon-clock-3"></span>11 hours ago</li>
-                                            <li><span class="icon flaticon-money"></span>$35k - $45k</li>
-                                        </ul>
-                                        <ul class="job-other-info">
-                                            <li class="time">Full Time</li>
-                                            <li class="privacy">Private</li>
-                                            <li class="required">Urgent</li>
-                                        </ul><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
-                                    </div>
-                                </div>
-                            </div><!-- Job Block -->
-                            <div class="job-block col-lg-6 col-md-12 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="content"><span class="company-logo"><img th:src="@{/picture/1-3.png}" alt=""></span>
-                                        <h4><a href="#">Product Manager,Studio</a></h4>
-                                        <ul class="job-info">
-                                            <li><span class="icon flaticon-briefcase"></span>Segment</li>
-                                            <li><span class="icon flaticon-map-locator"></span>London,UK</li>
-                                            <li><span class="icon flaticon-clock-3"></span>11 hours ago</li>
-                                            <li><span class="icon flaticon-money"></span>$35k - $45k</li>
-                                        </ul>
-                                        <ul class="job-other-info">
-                                            <li class="time">Full Time</li>
-                                            <li class="privacy">Private</li>
-                                            <li class="required">Urgent</li>
-                                        </ul><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
-                                    </div>
-                                </div>
-                            </div><!-- Job Block -->
-                            <div class="job-block col-lg-6 col-md-12 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="content"><span class="company-logo"><img th:src="@{/picture/1-4.png}" alt=""></span>
-                                        <h4><a href="#">Senior Product Designer</a></h4>
-                                        <ul class="job-info">
-                                            <li><span class="icon flaticon-briefcase"></span>Segment</li>
-                                            <li><span class="icon flaticon-map-locator"></span>London,UK</li>
-                                            <li><span class="icon flaticon-clock-3"></span>11 hours ago</li>
-                                            <li><span class="icon flaticon-money"></span>$35k - $45k</li>
-                                        </ul>
-                                        <ul class="job-other-info">
-                                            <li class="time">Full Time</li>
-                                            <li class="privacy">Private</li>
-                                            <li class="required">Urgent</li>
-                                        </ul><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
-                                    </div>
-                                </div>
-                            </div><!-- Job Block -->
-                            <div class="job-block col-lg-6 col-md-12 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="content"><span class="company-logo"><img th:src="@{/picture/1-51.png}" alt=""></span>
-                                        <h4><a href="#">Senior Full Stack Engineer,Creator Success</a></h4>
-                                        <ul class="job-info">
-                                            <li><span class="icon flaticon-briefcase"></span>Segment</li>
-                                            <li><span class="icon flaticon-map-locator"></span>London,UK</li>
-                                            <li><span class="icon flaticon-clock-3"></span>11 hours ago</li>
-                                            <li><span class="icon flaticon-money"></span>$35k - $45k</li>
-                                        </ul>
-                                        <ul class="job-other-info">
-                                            <li class="time">Full Time</li>
-                                            <li class="privacy">Private</li>
-                                            <li class="required">Urgent</li>
-                                        </ul><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
-                                    </div>
-                                </div>
-                            </div><!-- Job Block -->
-                            <div class="job-block col-lg-6 col-md-12 col-sm-12">
-                                <div class="inner-box">
-                                    <div class="content"><span class="company-logo"><img th:src="@{/picture/1-6.png}" alt=""></span>
-                                        <h4><a href="#">Software Engineer(Android),Libraries</a></h4>
-                                        <ul class="job-info">
-                                            <li><span class="icon flaticon-briefcase"></span>Segment</li>
-                                            <li><span class="icon flaticon-map-locator"></span>London,UK</li>
-                                            <li><span class="icon flaticon-clock-3"></span>11 hours ago</li>
-                                            <li><span class="icon flaticon-money"></span>$35k - $45k</li>
-                                        </ul>
-                                        <ul class="job-other-info">
-                                            <li class="time">Full Time</li>
-                                            <li class="privacy">Private</li>
-                                            <li class="required">Urgent</li>
-                                        </ul><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
+                                        <button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
                                     </div>
                                 </div>
                             </div>
                         </div><!-- Pagination -->
                         <nav class="ls-pagination mb-5">
-                            <ul>
-                                <li class="prev"><a href="#"><i class="fa fa-arrow-left"></i></a></li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#" class="current-page">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li class="next"><a href="#"><i class="fa fa-arrow-right"></i></a></li>
+                            <ul  th:with="pages=${session.jobIPage.pages},current=${session.jobIPage.current}" >
+                                <li class="prev"><a th:href="@{'/job/joblist/' + ${session.typename} + '/' + ${session.jobIPage.current - 1} + '/' + ${session.jobIPage.size}}"><i class="fa fa-arrow-left"></i></a></li>
+                                <li th:if="${pages<10}" th:each="i:${#numbers.sequence(1,pages)}">
+                                    <a th:if="${session.jobIPage.current != i}" th:href="@{'/job/joblist/' + ${session.typename} + '/' + ${i} + '/' + ${session.jobIPage.size}}" th:text="${i}"></a>
+                                    <a th:if="${session.jobIPage.current == i}" class="current-page" th:href="@{'/job/joblist/' + ${session.typename} + '/' + ${i} + '/' + ${session.jobIPage.size}}" th:text="${i}"></a>
+                                </li>
+                                <li th:if="${pages>10}" th:each="i:${#numbers.sequence(1,3)}">
+                                    <a th:if="${session.jobIPage.current != i}" th:href="@{'/job/joblist/' + ${session.typename} + '/' + ${i} + '/' + ${session.jobIPage.size}}" th:text="${i}"></a>
+                                    <a th:if="${session.jobIPage.current == i}" class="current-page" th:href="@{'/job/joblist/' + ${session.typename} + '/' + ${i} + '/' + ${session.jobIPage.size}}" th:text="${i}"></a>
+                                </li>
+                                <li th:if="${pages>10}" >
+                                    ...
+                                </li>
+                                <li th:if="${pages>10}" th:each="i:${#numbers.sequence(pages - 2,pages)}">
+                                    <a th:if="${session.jobIPage.current != i}" th:href="@{'/job/joblist/' + ${session.typename} + '/' + ${i} + '/' + ${session.jobIPage.size}}" th:text="${i}"></a>
+                                    <a th:if="${session.jobIPage.current == i}" class="current-page" th:href="@{'/job/joblist/' + ${session.typename} + '/' + ${i} + '/' + ${session.jobIPage.size}}" th:text="${i}"></a>
+                                </li>
+                                <li class="next"><a th:href="@{'/job/joblist/' + ${session.typename} + '/' + ${session.jobIPage.current + 1} + '/' + ${session.jobIPage.size}}"><i class="fa fa-arrow-right"></i></a></li>
                             </ul>
                         </nav><!-- Call To Action -->
                         <div class="call-to-action-four style-two">
-                            <h5>Recruiting?</h5>
-                            <p>Advertise your jobs to millions of monthly users and search 15.8 million <br>CVs in our database.</p><a
-                                href="#" class="theme-btn btn-style-one bg-blue"><span class="btn-title">Start Recruiting Now</span></a>
+                            <h5>招聘？</h5>
+                            <p>采用最合适的方式找到工作 <br>专为开发者</p><a
+                                href="#" class="theme-btn btn-style-one bg-blue"><span class="btn-title">现在开始找工作！！</span></a>
                             <div class="image" style="background-image: url(/picture/ads-bg-4.png);"></div>
                         </div><!-- End Call To Action -->
                     </div>
@@ -461,6 +218,110 @@
     <!-- End Main Footer -->
 </div><!-- End Page Wrapper -->
 <script src="static/js/jquery.js" th:src="@{/js/jquery.js}"></script>
+<script type="text/javascript">
+
+    function getjobpage(typename,current,pagesize){
+        console.log(pagesize);
+        console.log(typename+current+pagesize);
+        console.log(typename+current+pagesize);
+        var str = '';
+        $.ajax({
+            type: 'GET',
+            url:'/job/getjobpage',
+            dataType:"JSON",
+            async:false,
+            data:{
+                'jobtypename':typename,
+                'jobpagecurrent':current,
+                'jobpagesize':pagesize
+            },
+/*            <div class="job-block col-lg-6 col-md-12 col-sm-12">
+            <div class="inner-box">
+            <div class="content" >
+            <span class="company-logo"><img src="" alt=""></span>
+            <h4><a href="'/job/job-detail/'  " text="jobandcompany.job.job_name"></a></h4>
+        <ul class="job-info">
+            <li><span class="icon flaticon-briefcase"></span><div text="session.typename"></div></li>
+        <li><span class="icon flaticon-map-locator"></span><div text="jobandcompany.job.job_location()"></div></li>
+        <li><span class="icon flaticon-money"></span><div text="jobandcompany.job.job_money_low + ' - ' + jobandcompany.job.job_money_high + 'k'"></div></li>
+        </ul>
+        <ul class="job-other-info">
+            <li class="required" text="">
+            </li>
+            <li  class="required" > ... </li>
+        </ul>
+        <button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
+        </div>
+        </div>
+        </div>*/
+            success(data){
+                var jobandcompanylist = data.records;
+                for (var i = 0 ; i < pagesize ; i++){
+                    str += '<div class="job-block col-lg-6 col-md-12 col-sm-12">\n' +
+                        '            <div class="inner-box">\n' +
+                        '            <div class="content" >\n' +
+                        '            <span class="company-logo"><img src="';
+                    str += jobandcompanylist[i].company.company_picture;
+                    str += '" alt=""></span>\n' +
+                        '            <h4><a href="/job/job-detail/';
+                    str += jobandcompanylist[i].job.job_id;
+                    str += '">';
+                    str += jobandcompanylist[i].job.job_name;
+                    str += '</a></h4>\n' +
+                        '        <ul class="job-info">\n' +
+                        '            <li><span class="icon flaticon-briefcase"></span>';
+                    str += typename;
+                    str += '</li>\n' +
+                        '        <li><span class="icon flaticon-map-locator"></span>';
+                    str += jobandcompanylist[i].job.job_location;
+                    str += '</li>\n' +
+                        '        <li><span class="icon flaticon-money"></span>';
+                    str += jobandcompanylist[i].job.job_money_low;
+                    str += '-';
+                    str += jobandcompanylist[i].job.job_money_high;
+                    str += 'k</li>\n' +
+                        '        </ul>\n' +
+                        '        <ul class="job-other-info">';
+                    for (var j = 0 ; j < 7 ; j++){
+                        str += '<li class="required">';
+                        str += jobandcompanylist[i].job.job_welfare[j];
+                        str += '</li>';
+                    }
+                    str += '<li  class="required" > ... </li>\n' +
+                        '        </ul>\n' +
+                        '        <button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>\n' +
+                        '        </div>\n' +
+                        '        </div>\n' +
+                        '        </div>';
+                }
+                var showdatastr = '';
+                showdatastr += '展示<strong>'+data.total+'</strong>个岗位中的<strong>'+(data.current - 1) * data.size + 1 +' - '+ data.current * data.size +'</strong>个岗位';
+                $("#showdata").html(showdatastr);
+                var pagestr='';
+
+            }
+        })
+        return str;
+    }
+
+
+    $("#jobtype").change(function () {
+        var typename = $("#jobtype").val();
+        window.location.href="/job/joblist/"+typename;
+    }),
+
+    $("#changejobpagesize").change(function () {
+        var changejobpagesize = $("#changejobpagesize").val();
+        var jobpagecurrent = $("#jobpagecurrent").val();
+        var jobtypename = $("#jobtypename").val();
+        var jobpagestr = getjobpage(jobtypename,jobpagecurrent,changejobpagesize);
+        $("#joblistpage").html(jobpagestr);
+
+    })
+
+</script>
+
+
 <script src="static/js/popper.min.js" th:src="@{/js/popper.min.js}"></script>
 <script src="static/js/jquery-ui.min.js" th:src="@{/js/jquery-ui.min.js}"></script>
 <script src="static/js/chosen.min.js" th:src="@{/js/chosen.min.js}"></script>

@@ -48,7 +48,7 @@ public class HomeController {
     //首页
     @RequestMapping("/index")
     public String index(HttpSession session){
-        //得到支撑公司的信息
+        //得到首页公司列表的信息
         List<Company> records = companyService.GetCompanyPage(1, 12, null, false).getRecords();
         List<JobAndCompany> jobAndCompanies = new ArrayList<>();
         for (Company company:records){
@@ -158,7 +158,11 @@ public class HomeController {
          }else {
              if (curuser.getUser_password().equals(password)){
                  session.setAttribute("curuser",curuser);
-                 System.out.println("curuser:"+curuser);
+                 //若identity不为0，则代表为招聘人员，其identity为conpany_id，并查询
+                 QueryWrapper<Company> companyQueryWrapper = new QueryWrapper<>();
+                 companyQueryWrapper.eq("company_id",curuser.getUser_identity());
+                 Company company = companyService.getOne(companyQueryWrapper);
+                 session.setAttribute("curcompany",company);
                  return "forward:/home/index";
              }else {
                  model.addAttribute("curuser-email",email);

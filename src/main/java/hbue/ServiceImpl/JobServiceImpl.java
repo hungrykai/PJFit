@@ -3,15 +3,9 @@ package hbue.ServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import hbue.Entity.Job;
-import hbue.Entity.Job_type;
-import hbue.Entity.Job_welfare;
-import hbue.Entity.Userorjob_language;
-import hbue.Service.IJob_typeService;
-import hbue.Service.IJob_welfareService;
-import hbue.Service.IUserorjob_languageService;
+import hbue.Entity.*;
+import hbue.Service.*;
 import hbue.mapper.JobMapper;
-import hbue.Service.IJobService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.poi.hssf.record.LabelSSTRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +25,9 @@ import java.util.List;
  */
 @Service
 public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements IJobService {
+
+    @Autowired
+    private ICompanyService companyService;
 
     @Autowired
     private JobMapper jobMapper;
@@ -167,6 +164,15 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements IJobS
     }
 
     @Override
+    public Job GetOneByJobId(Integer jobid) {
+        QueryWrapper<Job> jobQueryWrapper = new QueryWrapper<>();
+        jobQueryWrapper.eq("job_id",jobid);
+        Job job = getOne(jobQueryWrapper);
+        job = GetOneJob(job);
+        return job;
+    }
+
+    @Override
     public List<Job> GetAllJobs() {
         List<Job> list = list();
         for (Job job:list){
@@ -194,5 +200,29 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements IJobS
         QueryWrapper<Job_type> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("job_type",type);
         return job_typeService.count(queryWrapper);
+    }
+
+    @Override
+    public IPage<JobAndCompany> GetJobAndCompanyPage(String jobtypename, Integer jobpagecurrent, Integer pagesize) {
+        QueryWrapper<Job_type> job_typeQueryWrapper = new QueryWrapper<>();
+        job_typeQueryWrapper.eq("job_type",jobtypename);
+        IPage<Job_type> job_typeIPage = job_typeService.GetJobsByType(jobpagecurrent, pagesize, job_typeQueryWrapper, true);
+        System.out.println("----------------------------------------------------------"+job_typeIPage+"-------------------");
+        List<Job_type> job_types = job_typeIPage.getRecords();
+        List<JobAndCompany> jobAndCompanyList = new ArrayList<>();
+        for (Job_type job_type:job_types){
+            JobAndCompany jobAndCompany = new JobAndCompany();
+            Job job = GetOneByJobId(job_type.getJob_id());
+            jobAndCompany.setJob(job);
+            QueryWrapper<Company> companyQueryWrapper = new QueryWrapper<>();
+            companyQueryWrapper.eq("company_id",job.getCompany_id());
+            jobAndCompany.setCompany(companyService.getOne(companyQueryWrapper));
+            jobAndCompanyList.add(jobAndCompany);
+        }
+        IPage<JobAndCompany> jobIPage = new Page<>(job_typeIPage.getCurrent(),job_typeIPage.getSize(),true);
+        jobIPage.setRecords(jobAndCompanyList);
+        jobIPage.setPages(job_typeIPage.getPages());
+        jobIPage.setTotal(job_typeIPage.getTotal());
+        return jobIPage;
     }
 }

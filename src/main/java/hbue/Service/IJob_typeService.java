@@ -1,7 +1,12 @@
 package hbue.Service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import hbue.Entity.Job_type;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +17,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-03-31
  */
 public interface IJob_typeService extends IService<Job_type> {
+
+    //根据工作类别查找工作
+    public IPage<Job_type> GetJobsByType(int curpage, int pagesize, QueryWrapper queryWrapper, boolean selectall);
+
 
 }

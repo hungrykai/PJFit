@@ -2,20 +2,17 @@ package hbue.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import hbue.Entity.Company;
-import hbue.Entity.Job;
-import hbue.Entity.JobAndCompany;
-import hbue.Entity.UserAndCompany;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import hbue.Entity.*;
 import hbue.Service.ICompanyService;
 import hbue.Service.IJobService;
+import hbue.Service.IJob_typeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,13 +29,19 @@ import java.util.List;
 public class JobController {
 
     @Autowired
+    private IJob_typeService job_typeService;
+
+    @Autowired
     private ICompanyService companyService;
 
     @Autowired
     private IJobService jobService;
 
-    @RequestMapping("/joblist")
-    public String joblist(){
+    @RequestMapping(value = {"/joblist/{typename}"})
+    public String joblist(@PathVariable String typename, HttpSession session){
+        IPage<JobAndCompany> jobIPage = jobService.GetJobAndCompanyPage(typename, 1, 10);
+        session.setAttribute("jobIPage",jobIPage);
+        session.setAttribute("typename",typename);
         return "fragments/job-list.html";
     }
 
@@ -117,6 +120,13 @@ public class JobController {
             jobAndCompanies.add(jobAndCompany);
         }
         return jobAndCompanies;
+    }
+
+    //返回工作的分页信息
+    @ResponseBody
+    @RequestMapping(value = "/getjobpage", method = RequestMethod.GET)
+    public IPage<JobAndCompany> getjobpage(@RequestParam("jobtypename") String jobtypename,@RequestParam("jobpagecurrent") Integer jobpagecurrent,@RequestParam("jobpagesize") Integer jobpagesize){
+        return jobService.GetJobAndCompanyPage(jobtypename,jobpagecurrent,jobpagesize);
     }
 
 }

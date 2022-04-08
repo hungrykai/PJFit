@@ -140,8 +140,8 @@
         $.ajax({
             type: 'POST',
             url:'checkvercode',
-            cache:false,
             async: false,
+            dataType: "JSON",
             data:{
                 'vercode':vercode
             },

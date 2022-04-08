@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import hbue.Entity.Job;
 import com.baomidou.mybatisplus.extension.service.IService;
-import hbue.Entity.User;
+import hbue.Entity.JobAndCompany;
 
 import java.util.List;
 
@@ -27,6 +27,9 @@ public interface IJobService extends IService<Job> {
     //补充单个工作的JobType和JobLanguage和jobwelfare
     public Job GetOneJob(Job job);
 
+    //根据jobid得到一个职位的所有信息
+    public Job GetOneByJobId(Integer jobid);
+
     //返回所有工作的全部信息
     public List<Job> GetAllJobs();
 
@@ -35,6 +38,9 @@ public interface IJobService extends IService<Job> {
 
     //返回每种类型的工作数量
     public Integer GetOneTypeJobs(String type);
+
+    //根据typename，current，pagesize返回一个jobpage
+    public IPage<JobAndCompany> GetJobAndCompanyPage(String jobtypename, Integer jobpagecurrent, Integer pagesize);
 
 
 }

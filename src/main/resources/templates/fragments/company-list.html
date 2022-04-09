@@ -25,46 +25,19 @@
 							<div class="row">
 								<!-- Form Group -->
 								<div class="form-group col-lg-4 col-md-12 col-sm-12"><span class="icon flaticon-search-1"></span><input type="text"
-									 name="field_name" placeholder="Job title, keywords, or company"></div><!-- Form Group -->
+									 name="field_name" placeholder="公司名称，关键字"></div><!-- Form Group -->
 								<div class="form-group col-lg-3 col-md-12 col-sm-12 location"><span class="icon flaticon-map-locator"></span><input
-									 type="text" name="field_name" placeholder="City or postcode"></div><!-- Form Group -->
+									 type="text" name="field_name" placeholder="公司所在城市"></div><!-- Form Group -->
 								<div class="form-group col-lg-3 col-md-12 col-sm-12 location"><span class="icon flaticon-briefcase"></span><select
 									 class="chosen-select">
-										<option value="">All Categories</option>
-										<option value="44">Accounting / Finance</option>
-										<option value="106">Automotive Jobs</option>
-										<option value="46">Customer</option>
-										<option value="48">Design</option>
-										<option value="47">Development</option>
-										<option value="45">Health and Care</option>
-										<option value="105">Marketing</option>
-										<option value="107">Project Management</option>
+										<option value="公司已上市">公司已上市</option>
+									<option value="公司未上市">公司未上市</option>
 									</select></div><!-- Form Group -->
 								<div class="form-group col-lg-2 col-md-12 col-sm-12 text-right"><button type="submit" class="theme-btn btn-style-one">Find
 										Jobs</button></div>
 							</div>
 						</form>
 					</div><!-- Job Search Form -->
-					<div class="top-filters">
-						<div class="form-group"><select class="chosen-select">
-								<option>Company Size</option>
-								<option>New Jobs</option>
-								<option>Freelance</option>
-								<option>Full Time</option>
-								<option>Internship</option>
-								<option>Part Time</option>
-								<option>Temporary</option>
-							</select></div>
-						<div class="form-group"><select class="chosen-select">
-								<option>Founded Date</option>
-								<option>New Jobs</option>
-								<option>Freelance</option>
-								<option>Full Time</option>
-								<option>Internship</option>
-								<option>Part Time</option>
-								<option>Temporary</option>
-							</select></div>
-					</div>
 				</div>
 			</section>
 			<!--End Page Title-->
@@ -72,170 +45,53 @@
 			<section class="ls-section">
 				<div class="auto-container">
 					<div class="filters-backdrop"></div>
-					<div class="row">
+					<div class="row" >
 						<!-- Content Column -->
 						<div class="content-column col-lg-12 col-md-12 col-sm-12">
 							<div class="ls-outer"><button type="button" class="theme-btn btn-style-two toggle-filters">Show Filters</button><!-- ls Switcher -->
 								<div class="ls-switcher">
-									<div class="showing-result">
-										<div class="text">Showing <strong>41-60</strong>of <strong>944</strong>employer</div>
+									<div class="showing-result" id="showpagedata">
+										<div class="text">展示<strong th:text="${session.companylistIPage.total}"></strong>家公司的 <strong th:text="${session.companylistIPage.current - 1} * ${session.companylistIPage.size} + 1 + ' - ' +
+																																	${session.companylistIPage.current * session.companylistIPage.size}"></strong>家</div>
 									</div>
-									<div class="sort-by"><select class="chosen-select">
-											<option>New Jobs</option>
-											<option>Freelance</option>
-											<option>Full Time</option>
-											<option>Internship</option>
-											<option>Part Time</option>
-											<option>Temporary</option>
-										</select><select class="chosen-select">
-											<option>Show 10</option>
-											<option>Show 20</option>
-											<option>Show 30</option>
-											<option>Show 40</option>
-											<option>Show 50</option>
-											<option>Show 60</option>
+									<div class="sort-by">
+
+										<!--有关companylist的分页信息-->
+										<input type="hidden" th:value="${session.companylistIPage.current}" id="companypagecurrent">
+										<input type="hidden" th:value="${session.companylistIPage.size}" id="companypagesize">
+
+										<select class="chosen-select" id="changecompanypagesize">
+											<option value="12">Show 12</option>
+											<option value="16">Show 16</option>
+											<option value="20">Show 20</option>
+											<option value="24">Show 24</option>
+											<option value="28">Show 28</option>
+											<option value="32">Show 32</option>
 										</select></div>
 								</div>
-								<div class="row">
+								<div class="row" id="companypage">
 									<!-- Company Block Four -->
-									<div class="company-block-four col-xl-3 col-lg-4 col-md-6 col-sm-12">
-										<div class="inner-box"><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button><span
-											 class="featured">Featured</span><span class="company-logo"><img src="static/picture/6-1.png" alt=""></span>
-											<h4><a href="#">Netflix</a></h4>
+									<div th:each="company:${session.companylistIPage.records}" class="company-block-four col-xl-3 col-lg-4 col-md-6 col-sm-12">
+										<div class="inner-box">
+											<button class="bookmark-btn">
+											<span class="flaticon-bookmark"></span>
+											</button>
+											<span class="company-logo"><img th:src="${company.company_picture}" alt=""></span>
+											<h4><a th:href="@{'/company/company_detail/' + ${company.company_id}}" th:text="${company.company_name}"></a></h4>
 											<ul class="job-info">
-												<li><span class="icon flaticon-map-locator"></span>London,UK</li>
-												<li><span class="icon flaticon-briefcase"></span>Accounting / Finance</li>
+												<li><span class="icon flaticon-map-locator"></span><div th:text="${company.company_location}"></div></li>
+												<li><span class="icon flaticon-briefcase"></span><div th:text="${company.company_number}"></div></li>
 											</ul>
-											<div class="job-type">Open Jobs – 2</div>
-										</div>
-									</div><!-- Company Block Four -->
-									<div class="company-block-four col-xl-3 col-lg-4 col-md-6 col-sm-12">
-										<div class="inner-box"><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button><span
-											 class="featured">Featured</span><span class="company-logo"><img src="static/picture/6-2.png" alt=""></span>
-											<h4><a href="#">Opendoor</a></h4>
-											<ul class="job-info">
-												<li><span class="icon flaticon-map-locator"></span>London,UK</li>
-												<li><span class="icon flaticon-briefcase"></span>Accounting / Finance</li>
-											</ul>
-											<div class="job-type">Open Jobs – 2</div>
-										</div>
-									</div><!-- Company Block Four -->
-									<div class="company-block-four col-xl-3 col-lg-4 col-md-6 col-sm-12">
-										<div class="inner-box"><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button><span
-											 class="featured">Featured</span><span class="company-logo"><img src="static/picture/6-3.png" alt=""></span>
-											<h4><a href="#">Checkr</a></h4>
-											<ul class="job-info">
-												<li><span class="icon flaticon-map-locator"></span>London,UK</li>
-												<li><span class="icon flaticon-briefcase"></span>Accounting / Finance</li>
-											</ul>
-											<div class="job-type">Open Jobs – 2</div>
-										</div>
-									</div><!-- Company Block Four -->
-									<div class="company-block-four col-xl-3 col-lg-4 col-md-6 col-sm-12">
-										<div class="inner-box"><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button><span
-											 class="featured">Featured</span><span class="company-logo"><img src="static/picture/6-4.png" alt=""></span>
-											<h4><a href="#">Mural</a></h4>
-											<ul class="job-info">
-												<li><span class="icon flaticon-map-locator"></span>London,UK</li>
-												<li><span class="icon flaticon-briefcase"></span>Accounting / Finance</li>
-											</ul>
-											<div class="job-type">Open Jobs – 2</div>
-										</div>
-									</div><!-- Company Block Four -->
-									<div class="company-block-four col-xl-3 col-lg-4 col-md-6 col-sm-12">
-										<div class="inner-box"><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button><span
-											 class="featured">Featured</span><span class="company-logo"><img src="static/picture/6-5.png" alt=""></span>
-											<h4><a href="#">Astronomer</a></h4>
-											<ul class="job-info">
-												<li><span class="icon flaticon-map-locator"></span>London,UK</li>
-												<li><span class="icon flaticon-briefcase"></span>Accounting / Finance</li>
-											</ul>
-											<div class="job-type">Open Jobs – 2</div>
-										</div>
-									</div><!-- Company Block Four -->
-									<div class="company-block-four col-xl-3 col-lg-4 col-md-6 col-sm-12">
-										<div class="inner-box"><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button><span
-											 class="featured">Featured</span><span class="company-logo"><img src="static/picture/6-6.png" alt=""></span>
-											<h4><a href="#">Figma</a></h4>
-											<ul class="job-info">
-												<li><span class="icon flaticon-map-locator"></span>London,UK</li>
-												<li><span class="icon flaticon-briefcase"></span>Accounting / Finance</li>
-											</ul>
-											<div class="job-type">Open Jobs – 2</div>
-										</div>
-									</div><!-- Company Block Four -->
-									<div class="company-block-four col-xl-3 col-lg-4 col-md-6 col-sm-12">
-										<div class="inner-box"><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button><span
-											 class="featured">Featured</span><span class="company-logo"><img src="static/picture/6-7.png" alt=""></span>
-											<h4><a href="#">Stripe</a></h4>
-											<ul class="job-info">
-												<li><span class="icon flaticon-map-locator"></span>London,UK</li>
-												<li><span class="icon flaticon-briefcase"></span>Accounting / Finance</li>
-											</ul>
-											<div class="job-type">Open Jobs – 2</div>
-										</div>
-									</div><!-- Company Block Four -->
-									<div class="company-block-four col-xl-3 col-lg-4 col-md-6 col-sm-12">
-										<div class="inner-box"><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button><span
-											 class="featured">Featured</span><span class="company-logo"><img src="static/picture/6-8.png" alt=""></span>
-											<h4><a href="#">Invision</a></h4>
-											<ul class="job-info">
-												<li><span class="icon flaticon-map-locator"></span>London,UK</li>
-												<li><span class="icon flaticon-briefcase"></span>Accounting / Finance</li>
-											</ul>
-											<div class="job-type">Open Jobs – 2</div>
-										</div>
-									</div><!-- Company Block Four -->
-									<div class="company-block-four col-xl-3 col-lg-4 col-md-6 col-sm-12">
-										<div class="inner-box"><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button><span
-											 class="featured">Featured</span><span class="company-logo"><img src="static/picture/6-9.png" alt=""></span>
-											<h4><a href="#">Upwork</a></h4>
-											<ul class="job-info">
-												<li><span class="icon flaticon-map-locator"></span>London,UK</li>
-												<li><span class="icon flaticon-briefcase"></span>Accounting / Finance</li>
-											</ul>
-											<div class="job-type">Open Jobs – 2</div>
-										</div>
-									</div><!-- Company Block Four -->
-									<div class="company-block-four col-xl-3 col-lg-4 col-md-6 col-sm-12">
-										<div class="inner-box"><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button><span
-											 class="featured">Featured</span><span class="company-logo"><img src="static/picture/6-10.png" alt=""></span>
-											<h4><a href="#">Segment</a></h4>
-											<ul class="job-info">
-												<li><span class="icon flaticon-map-locator"></span>London,UK</li>
-												<li><span class="icon flaticon-briefcase"></span>Accounting / Finance</li>
-											</ul>
-											<div class="job-type">Open Jobs – 2</div>
-										</div>
-									</div><!-- Company Block Four -->
-									<div class="company-block-four col-xl-3 col-lg-4 col-md-6 col-sm-12">
-										<div class="inner-box"><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button><span
-											 class="featured">Featured</span><span class="company-logo"><img src="static/picture/6-11.png" alt=""></span>
-											<h4><a href="#">Medium</a></h4>
-											<ul class="job-info">
-												<li><span class="icon flaticon-map-locator"></span>London,UK</li>
-												<li><span class="icon flaticon-briefcase"></span>Accounting / Finance</li>
-											</ul>
-											<div class="job-type">Open Jobs – 2</div>
-										</div>
-									</div><!-- Company Block Four -->
-									<div class="company-block-four col-xl-3 col-lg-4 col-md-6 col-sm-12">
-										<div class="inner-box"><button class="bookmark-btn"><span class="flaticon-bookmark"></span></button><span
-											 class="featured">Featured</span><span class="company-logo"><img src="static/picture/6-12.png" alt=""></span>
-											<h4><a href="#">Udemy</a></h4>
-											<ul class="job-info">
-												<li><span class="icon flaticon-map-locator"></span>London,UK</li>
-												<li><span class="icon flaticon-briefcase"></span>Accounting / Finance</li>
-											</ul>
-											<div class="job-type">Open Jobs – 2</div>
+											<div class="job-type" th:text="${company.company_jobs} + '个工作岗位'"></div>
 										</div>
 									</div>
+
 								</div><!-- Pagination -->
 								<nav class="ls-pagination">
 									<ul>
 										<li class="prev"><a href="#"><i class="fa fa-arrow-left"></i></a></li>
-										<li><a href="#">1</a></li>
-										<li><a href="#" class="current-page">2</a></li>
+										<li><a href="#" class="current-page">1</a></li>
+										<li><a href="#">2</a></li>
 										<li><a href="#">3</a></li>
 										<li class="next"><a href="#"><i class="fa fa-arrow-right"></i></a></li>
 									</ul>
@@ -251,6 +107,82 @@
 			<!-- End Main Footer -->
 		</div><!-- End Page Wrapper -->
 		<script src="static/js/jquery.js" th:src="@{/js/jquery.js}"></script>
+
+		<script type="text/javascript">
+
+			function changecompagepage(current,pagesize){
+				var str = '';
+				$.ajax({
+					type: 'GET',
+					url:'/company/getcompanypage',
+					dataType:"JSON",
+					async:false,
+					data:{
+						'companycurrent':current,
+						'companypagesize':pagesize
+					},
+					/*									<div = class="company-block-four col-xl-3 col-lg-4 col-md-6 col-sm-12">
+										<div class="inner-box">
+											<button class="bookmark-btn">
+											<span class="flaticon-bookmark"></span>
+											</button>
+											<span class="company-logo"><img src="" alt=""></span>
+											<h4><a href=""></a></h4>
+											<ul class="job-info">
+												<li><span class="icon flaticon-map-locator"></span></li>
+												<li><span class="icon flaticon-briefcase"></span></li>
+											</ul>
+											<div class="job-type"></div>
+										</div>
+									</div>*/
+					success(data){
+						var companylist = data.records;
+						for (var i = 0 ; i < companylist.length ; i++){
+							str += '<div = class="company-block-four col-xl-3 col-lg-4 col-md-6 col-sm-12">\n' +
+									'\t\t\t\t\t\t\t\t\t\t<div class="inner-box">\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t<button class="bookmark-btn">\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t<span class="flaticon-bookmark"></span>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t</button>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t<span class="company-logo"><img src="';
+							str += companylist[i].company_picture;
+							str += '" alt=""></span>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t<h4><a href="/company/company_detail/';
+							str += companylist[i].company_id;
+							str += '">';
+							str += companylist[i].company_name;
+							str += '</a></h4>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t<ul class="job-info">\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t<li><span class="icon flaticon-map-locator"></span>';
+							str += companylist[i].company_location;
+							str += '</li>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t\t<li><span class="icon flaticon-briefcase"></span>';
+							str += companylist[i].company_number;
+							str += '</li>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t</ul>\n' +
+									'\t\t\t\t\t\t\t\t\t\t\t<div class="job-type">';
+							str += companylist[i].company_jobs;
+							str += '个招聘岗位';
+							str += '</div>\n' +
+									'\t\t\t\t\t\t\t\t\t\t</div>\n' +
+									'\t\t\t\t\t\t\t\t\t</div>';
+						}
+						var showpagedata = '<div class="text">展示<strong>'+data.total+'</strong>家公司的 <strong>'+(data.current - 1) * data.size + 1 +' - '+ data.current * data.size+'</strong>家</div>';
+						$("#showpagedata").html(showpagedata);
+					}
+				})
+				return str;
+			}
+
+			$("#changecompanypagesize").change(function () {
+				var changecompanylistpagesize = $("#changecompanypagesize").val();
+				var companypagecurrent = $("#companypagecurrent").val();
+				var companypagestr =  changecompagepage(companypagecurrent,changecompanylistpagesize);
+				console.log(companypagestr);
+				$("#companypage").html(companypagestr);
+			})
+		</script>
+
+
 		<script src="static/js/popper.min.js" th:src="@{/js/popper.min.js}"></script>
 		<script src="static/js/chosen.min.js" th:src="@{/js/chosen.min.js}"></script>
 		<script src="static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>

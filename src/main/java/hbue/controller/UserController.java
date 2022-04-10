@@ -112,6 +112,35 @@ public class UserController {
         return curuser.getUser_language();
     }
 
+    //跳转到user仪表盘的简历界面
+    @RequestMapping("/candidate-dashboard-resume")
+    public String Gotocandidatedashboardresume(){
+        return "fragments/candidate-dashboard-resume.html";
+    }
+
+    //跳转道user仪表盘的申请过的岗位里面
+    @RequestMapping("/candidate-dashboard-applied-job")
+    public String Gotocandidatedashboardappliedjob(){
+        return "fragments/candidate-dashboard-applied-job.html";
+    }
+
+    //跳转道user仪表盘岗位提醒界面
+    @RequestMapping("/candidate-dashboard-job-alerts")
+    public String Gotocandidatedashboardjobalerts(){
+        return "fragments/candidate-dashboard-job-alerts.html";
+    }
+
+    //跳转到user仪表盘里面的入围的简历中
+    @RequestMapping("/candidate-dashboard-shortlisted-resume")
+    public String Gotocandidatedashboardshortlistedresume(){
+        return "fragments/candidate-dashboard-shortlisted-resume.html";
+    }
+
+    //跳转到聊天消息界面
+    @RequestMapping("/dashboard-messages")
+    public String Gotodashboardmessages(){
+        return "fragments/dashboard-messages.html";
+    }
 
 }
 

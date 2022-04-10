@@ -179,5 +179,23 @@ public class HomeController {
         return "fragments/index.html";
     }
 
+    //关于
+    @RequestMapping("/about")
+    public String GotoAbout(){
+        return "fragments/about.html";
+    }
+
+    //FAQ
+    @RequestMapping("/faq")
+    public String GotoFaq(){
+        return "fragments/faqs.html";
+    }
+
+    //联系
+    @RequestMapping("/contact")
+    public String Gotocontact(){
+        return "fragments/contact.html";
+    }
+
 
 }

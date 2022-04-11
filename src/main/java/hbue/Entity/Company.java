@@ -7,6 +7,7 @@ import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -36,6 +37,7 @@ public class Company implements Serializable {
 
     private String company_number;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate company_date;
 
     private Integer company_jobs;

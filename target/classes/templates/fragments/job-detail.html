@@ -5,6 +5,7 @@
     <script src="static/js/html5shiv.js" th:src="@{/js/html5shiv.js}" ></script>
     <script src="static/static/js/respond.js" th:src="@{/js/respond.js}"></script>
     <script src="static/js/jquery.js" th:src="@{/js/jquery.js}"></script>
+    <script src="static/layer/layer.js" th:src="@{/layer/layer.js}"></script>
     <link href="static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet">
     <link href="static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
     <link href="static/css/responsive.css" th:href="@{/css/responsive.css}" rel="stylesheet">
@@ -40,8 +41,11 @@
                         </div>
 
                         <div class="btn-box">
-                            <a href="#" class="theme-btn btn-style-one">投递简历</a>
-                            <button class="bookmark-btn"><i class="flaticon-bookmark"></i></button>
+                            <a th:if="${session.user_job == null || session.user_job.user_job_state == 0}" id="submitresumebutton" href="#" class="theme-btn btn-style-one">投递简历</a>
+                            <a th:if="${session.user_job != null && session.user_job.user_job_state != 0}"  href="#" disabled="disabled" class="theme-btn btn-style-one" style="background-color: gray">已投递</a>
+                            <button id="collectjob1" th:if="${session.user_job == null || session.user_job.collect == null || session.user_job.collect == 0}" class="bookmark-btn"><i class="flaticon-bookmark"></i></button>
+                            <button id="collectjob2" th:if="${session.user_job != null && session.user_job.collect == 1}" style="background-color:red" class="bookmark-btn"><i class="flaticon-bookmark"></i></button>
+                            <input type="hidden" id="collectjob" th:if="${session.user_job != null && session.user_job.collect == 1}" th:value="${session.user_job.collect}">
                         </div>
                     </div>
                 </div>
@@ -155,6 +159,87 @@
     <div th:replace="../templates/fragments/header::bottom"></div>
     <!-- End Main Footer -->
 </div><!-- End Page Wrapper -->
+
+<script type="text/javascript">
+
+
+    $("#collectjob1,#collectjob2").click(function () {
+        var collectjob = $("#collectjob").val();
+        $.ajax({
+            type: 'Get',
+            url:'/job/collectjob',
+            async: false,
+            dataType: "JSON",
+            success(data){
+                console.log(data);
+                if (data == '0'){
+                    layer.msg("请先登录后收藏！！！",{
+                        time:2000,
+                    })
+                }else if (data == '1'){
+                    layer.msg("岗位收藏成功！！！",{
+                        time:2000,
+                    })
+                    if (collectjob == '1'){
+                        $("#collectjob2").css("background-color",'red');
+                    }else{
+                        $("#collectjob1").css("background-color",'red');
+                    }
+                }else if (data == '2'){
+                    layer.msg("取消收藏成功！！！",{
+                        time:2000,
+                    })
+                    if (collectjob == '1'){
+                        $("#collectjob2").removeAttr("style");
+                    }else{
+                        $("#collectjob1").removeAttr("style");
+                    }
+                }
+            },
+            error(data){
+                layer.msg("岗位收藏失败！！！",{
+                    time:2000,
+                })
+            }
+        })
+    })
+
+
+    $("#submitresumebutton").click(function () {
+        $.ajax({
+            type: 'Get',
+            url:'/job/submitresume',
+            async: false,
+            dataType: "JSON",
+            /*0-投递简历成功，1-未登录*/
+            success(data){
+                if (data == '0'){
+                    layer.msg("简历投递成功！！！",{
+                        time:2000,
+                    })
+                    $("#submitresumebutton").css("background-color",'gray');
+                    $("#submitresumebutton").text("已投递");
+                    $("#submitresumebutton").attr("disabled","disabled");
+                }else if (data == '1'){
+                    layer.msg("请先登录！！！",{
+                        time:2000,
+                    })
+                }else if (data == '2'){
+                    layer.msg("请先上传简历附件或补充完整个人信息！！",{
+                        time:2000,
+                    })
+                }
+            },
+            error(data){
+                layer.msg("简历投递失败！！！",{
+                    time:2000,
+                })
+            }
+        })
+    })
+
+</script>
+
 
 <script src="static/js/popper.min.js" th:src="@{/js/popper.min.js}"></script>
 <script src="static/js/jquery-ui.min.js" th:src="@{/js/jquery-ui.min.js}"></script>

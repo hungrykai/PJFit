@@ -52,20 +52,21 @@
                                 <div class="row">
                                 <div class="uploading-outer">
                                     <div class="uploadButton">
-                                        <input class="uploadButton-input" type="file" name="uploadpicture" accept="image/*, application/pdf" id="upload-picture" multiple />
-                                        <label for="upload-picture">
-                                            <img th:if="${session.curuser.user_picture != null}" th:src="@{ '/upload/'+${session.curuser.user_picture}}" style="height: 150px;margin-left: 50px" id="imgshow">
-                                            <img th:if="${session.curuser.user_picture == null}" th:src="@{/picture/company-6.png}" style="height: 150px;margin-left: 50px" id="imgshow">
+                                        <input class="uploadButton-input" type="file" name="uploadcompanypicture" accept="image/*, application/pdf" id="upload-company-picture" multiple />
+                                        <label for="upload-company-picture">
+                                            <img th:if="*{company_picture != null}" th:src="*{company_picture}" style="height: 150px;margin-left: 50px" id="imgshow">
+                                            <!--<img th:if="${*{company_picture} != null && #strings.length(*{company_picture}) < 100}" th:src="@{'/upload/'+${session.curcompany.company_picture}}" style="height: 150px;margin-left: 50px" id="imgshow">-->
+                                            <img th:if="*{company_picture == null}" th:src="@{/picture/company-6.png}" style="height: 150px;margin-left: 50px" id="imgshow">
                                             <span class="uploadButton-file-name"></span>
                                         </label>
                                     </div><!---->
                                     <div class="text">公司logo，最大文件大小为1MB，最小尺寸为330x300，并提供合适的文件如.jpg&.png</div>
                                 </div>
                                         <!--userid-->
-                                        <input type="hidden" name="user_id" th:value="*{company_id}">
+                                        <input type="hidden" name="company_id" th:value="*{company_id}">
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>公司名称</label>
-                                            <input type="text" id="company_name" th:value="*{company_name}" name="user_name" required="required" >
+                                            <input type="text" id="company_name" th:value="*{company_name}" name="company_name" required="required" >
                                         </div>
 
                                         <!-- 公司位置 -->
@@ -89,14 +90,14 @@
                                         <!-- 成立日期 -->
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>成立日期</label><br>
-                                            <input style="font-size: x-large;" id="company_date" type="date"  name="company_date"  >
+                                            <input style="font-size: x-large;" id="company_date" type="date"  name="company_date" th:value="*{company_date}"  >
                                         </div>
 
                                         <!-- 公司介绍-->
                                         <div class="form-group col-lg-12 col-md-12" >
                                             <label>公司介绍</label>
                                             <textarea id="company_introduction" name="company_introduction" placeholder=
-                                                    "请在此处写下公司的相关介绍，如公司理念，公司经营模式，公司发展发展方向" th:value="*{company_introduction}"
+                                                    "请在此处写下公司的相关介绍，如公司理念，公司经营模式，公司发展发展方向" th:text="*{company_introduction}"
                                             ></textarea>
                                         </div>
 
@@ -124,7 +125,7 @@
 
 <script type="text/javascript">
 
-    $('#upload-picture').change(function () {
+    $('#upload-company-picture').change(function () {
         // 先获取用户上传的文件对象
         let fileObj = this.files[0];
         // 生成一个文件读取的内置对象
@@ -141,27 +142,11 @@
 
     function Getinformation(){
         var formData = new FormData(document.getElementById("form1"));
-        formData.append("file", $("#upload-picture").get(0).files[0]);
-        // var formData = $("#form1");
-        var user_name = $("#user_name").val();
-        var user_gender = $("#user_gender").val();
-        var user_birthday = $("#user_birthday").val();
-        var user_phone = $("#user_phone").val();
-        var user_education = $("#user_education").val();
-        var user_school = $("#user_school").val();
-        var user_experience = $("#user_experience").val();
-        var user_language = $("#user_language").val();
-        var user_place = $("#user_place").val();
-        var user_projects = $("#user_projects").val();
-        var user_specialisms = $("#user_specialisms").val();
-        var user_picture = $("#upload-picture").val();
+        formData.append("file", $("#upload-company-picture").get(0).files[0]);
         console.log("formData:"+formData);
-        console.log("姓名："+user_name+"性别"+user_gender+"生日："+user_birthday+"电话："+user_phone+"学历："+user_education+
-            "学校"+user_school+"经历"+user_experience+"精通语言"+user_language+"居住地："+user_place+"项目经历"+user_projects+
-            "特长"+user_specialisms+"照片地址"+user_picture);
         $.ajax({
             type:'POST',
-            url:'pictureupload',
+            url:'companypictureupload',
             async: true,
             contentType: false, // 告诉jQuery不要去设置Content-Type请求头
             processData: false, // 告诉jQuery不要去处理发送的数据
@@ -174,18 +159,14 @@
                         time:500,
                     })
                 }else if (data == '0'){
-                    layer.msg("头像保存成功！",{
+                    layer.msg("公司信息保存成功！",{
                         time:500,
-                    })
-                }else if (data == '1'){
-                    layer.msg("个人信息保存失败！",{
-                        time:500
                     })
                 }
             },
             error(data){
                 console.log('data:'+(data))
-                layer.msg("保存失败！",{
+                layer.msg("公司信息保存失败！",{
                     time:500
                 })
             }

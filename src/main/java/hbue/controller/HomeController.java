@@ -98,6 +98,7 @@ public class HomeController {
             mailService.sendSimpleMail(email,"注册验证码","尊敬的用户,您好:\n"+"\n本次请求的邮件验证码为:" +
                     vercode + ",本验证码5分钟内有效，请及时输入。（请勿泄露此验证码）\n" +  "\n如非本人操作，请忽略该邮件。\n(这是一封自动发送的邮件，请不要直接回复）");
             session.setAttribute("vercode",vercode);
+            System.out.println("验证码：" + vercode);
             System.out.println("发送成功！");
             return 0;
         }catch (Exception e){
@@ -131,6 +132,7 @@ public class HomeController {
             identity = 1;
         }
         user.setUser_identity(identity);
+        user.setUser_picture("company-6.png");
         userService.save(user);
         session.setAttribute("curuser",user);
         return "fragments/index.html";
@@ -159,10 +161,13 @@ public class HomeController {
              if (curuser.getUser_password().equals(password)){
                  session.setAttribute("curuser",curuser);
                  //若identity不为0，则代表为招聘人员，其identity为conpany_id，并查询
-                 QueryWrapper<Company> companyQueryWrapper = new QueryWrapper<>();
-                 companyQueryWrapper.eq("company_id",curuser.getUser_identity());
-                 Company company = companyService.getOne(companyQueryWrapper);
-                 session.setAttribute("curcompany",company);
+                 if (curuser.getUser_identity() != 0){
+                     QueryWrapper<Company> companyQueryWrapper = new QueryWrapper<>();
+                     companyQueryWrapper.eq("company_id",curuser.getUser_identity());
+                     Company company = companyService.getOne(companyQueryWrapper);
+                     System.out.println(company);
+                     session.setAttribute("curcompany",company);
+                 }
                  return "forward:/home/index";
              }else {
                  model.addAttribute("curuser-email",email);
@@ -181,7 +186,15 @@ public class HomeController {
 
     //关于
     @RequestMapping("/about")
-    public String GotoAbout(){
+    public String GotoAbout(HttpSession session){
+        Integer usercount = userService.count();
+        Integer jobcount = jobService.count();
+        Integer companycount = companyService.count();
+        List<Company> companyList = companyService.GetCompanyPage(1, 12, null, false).getRecords();
+        session.setAttribute("usercount",usercount);
+        session.setAttribute("jobcount",jobcount);
+        session.setAttribute("companycount",companycount);
+        session.setAttribute("companyList",companyList);
         return "fragments/about.html";
     }
 
@@ -193,7 +206,7 @@ public class HomeController {
 
     //联系
     @RequestMapping("/contact")
-    public String Gotocontact(){
+    public String Gotocontact(HttpSession session){
         return "fragments/contact.html";
     }
 

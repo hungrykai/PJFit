@@ -7,6 +7,7 @@ import hbue.Entity.*;
 import hbue.Service.ICompanyService;
 import hbue.Service.IJobService;
 import hbue.Service.IJob_typeService;
+import hbue.Service.IUser_jobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/job")
 public class JobController {
+
+    @Autowired
+    private IUser_jobService user_jobService;
 
     @Autowired
     private IJob_typeService job_typeService;
@@ -137,8 +141,90 @@ public class JobController {
         List<JobAndCompany> recommandjobs = getjobpage(jobAndCompany.getJob().getJob_type().get(0), 1, 3).getRecords();
         session.setAttribute("curjobandcompany",jobAndCompany);
         session.setAttribute("recommandjobs",recommandjobs);
+        User_job user_job = new User_job();
+        user_job = null;
+        QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
+        User curuser = (User) session.getAttribute("curuser");
+        if (curuser != null){
+            user_jobQueryWrapper.eq("user_id",curuser.getUser_id());
+            user_jobQueryWrapper.eq("job_id",jobAndCompany.getJob().getJob_id());
+            user_job = user_jobService.getOne(user_jobQueryWrapper);
+        }
+        session.setAttribute("user_job",user_job);
         return "fragments/job-detail.html";
     }
 
+    //投递简历
+    @ResponseBody
+    @RequestMapping("/submitresume")
+    public Integer submitresume(HttpSession session){
+        Integer state = 0;
+        User curuser = (User) session.getAttribute("curuser");
+        if (curuser == null){
+            state = 1;
+            return state;
+        }else {
+            if (curuser.getUser_resume() == null || curuser.getUser_name() == null || curuser.getUser_gender() == null ||
+            curuser.getUser_education() == null || curuser.getUser_experience() ==null || curuser.getUser_phone() == null ||
+            curuser.getUser_specialisms() == null || curuser.getUser_place() == null){
+                state = 2;
+            }else {
+                JobAndCompany jobAndCompany = (JobAndCompany) session.getAttribute("curjobandcompany");
+                QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
+                user_jobQueryWrapper.eq("user_id",curuser.getUser_id());
+                user_jobQueryWrapper.eq("job_id",jobAndCompany.getJob().getJob_id());
+                User_job user_job = user_jobService.getOne(user_jobQueryWrapper);
+                if (user_job == null){
+                    User_job newuser_job = new User_job();
+                    newuser_job.setUser_id(curuser.getUser_id());
+                    newuser_job.setJob_id(jobAndCompany.getJob().getJob_id());
+                    newuser_job.setUser_job_state(1);
+                    newuser_job.setCollect(0);
+                    user_jobService.save(newuser_job);
+                }else {
+                    user_job.setUser_job_state(1);
+                    user_jobService.updateById(user_job);
+                }
+            }
+        }
+        return state;
+    }
+
+    //取消/收藏工作
+    @ResponseBody
+    @RequestMapping("/collectjob")
+    public Integer collectjob(HttpSession session){
+        //收藏成功
+        Integer State = 1;
+        User curuser = (User) session.getAttribute("curuser");
+        JobAndCompany jobAnddCompany = (JobAndCompany) session.getAttribute("curjobandcompany");
+        if (curuser == null){
+            //用户未登录
+            State = 0;
+        }else {
+            QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
+            user_jobQueryWrapper.eq("user_id",curuser.getUser_id());
+            user_jobQueryWrapper.eq("job_id",jobAnddCompany.getJob().getJob_id());
+            User_job user_job = user_jobService.getOne(user_jobQueryWrapper);
+            if (user_job != null){
+                if (user_job.getCollect() == 1){
+                    //取消收藏
+                    user_job.setCollect(0);
+                    State = 2;
+                }else{
+                    user_job.setCollect(1);
+                }
+                user_jobService.updateById(user_job);
+            }else {
+                User_job user_job1 = new User_job();
+                user_job1.setUser_id(curuser.getUser_id());
+                user_job1.setJob_id(jobAnddCompany.getJob().getJob_id());
+                user_job1.setUser_job_state(0);
+                user_job1.setCollect(1);
+                user_jobService.save(user_job1);
+            }
+        }
+        return State;
+    }
 }
 

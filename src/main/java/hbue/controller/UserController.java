@@ -46,11 +46,6 @@ public class UserController {
         return "fragments/candidates-list.html";
     }
 
-    //跳转到公司面板
-    @RequestMapping("/company-dashboard")
-    public String companydashboard(){
-        return "fragments/company-dashboard.html";
-    }
 
     //跳转到求职者面板
     @RequestMapping("/candidate-dashboard")
@@ -99,8 +94,12 @@ public class UserController {
                 e.printStackTrace();
                 ok = -1;
             }
+        }else {
+            userService.UpdateUser(user);
+            User user1 = userService.getById(user.getUser_id());
+            //更新session
+            session.setAttribute("curuser",user1);
         }
-        userService.UpdateUser(user);
         return ok;
     }
 
@@ -140,6 +139,41 @@ public class UserController {
     @RequestMapping("/dashboard-messages")
     public String Gotodashboardmessages(){
         return "fragments/dashboard-messages.html";
+    }
+
+    //上传简历
+    @ResponseBody
+    @RequestMapping("/uploadresume")
+    public Integer uploadresume(@RequestParam("uploadresume") MultipartFile uploadresume, HttpSession session){
+        User user = (User) session.getAttribute("curuser");
+        Integer ok = 0;
+        if (!uploadresume.isEmpty()) {
+            //得到时间戳+文件名
+            String resumeFileName = uploadresume.getOriginalFilename();
+            System.out.println(uploadresume.getOriginalFilename());
+            //得到文件存放位置
+            String saveImgFileName = fileUrl + imagePath + resumeFileName;
+            System.out.println(saveImgFileName);
+            File dest = new File(saveImgFileName);
+            user.setUser_resume(resumeFileName);
+            // 判断文件父目录是否存在
+            if (!dest.getParentFile().exists()) {
+                //不在就创立
+                dest.getParentFile().mkdirs();
+            }
+            try {
+                uploadresume.transferTo(dest);
+                userService.UpdateUser(user);
+                //更新session
+                session.setAttribute("curuser",user);
+                ok = 0;
+            } catch (Exception e) {
+                e.printStackTrace();
+                ok = -1;
+            }
+        }
+        userService.UpdateUser(user);
+        return ok;
     }
 
 }

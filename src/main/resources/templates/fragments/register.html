@@ -74,13 +74,13 @@
                         <div class="form-group">
                             <div class="btn-box row">
                                 <div class="col-lg-6 col-md-12">
-                                    <div id="role1" value="0" class="theme-btn btn-style-seven">
+                                    <div id="role1" value="0" class="theme-btn btn-style-one">
                                         <i class="la la-user"></i>
                                         求职者
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-12">
-                                    <div id="role2" value="1" class="theme-btn btn-style-four">
+                                    <div id="role2" value="1" class="bookmark-btn">
                                         <i class="la la-briefcase"></i>
                                         招聘者
                                     </div>
@@ -123,14 +123,14 @@
 <!--选择角色-->
 <script type="text/javascript">
     $("#role1").click(function () {
-        $("#role1").attr("class","theme-btn btn-style-seven");
-        $("#role2").attr("class","theme-btn btn-style-four");
+        $("#role1").attr("class","theme-btn btn-style-one");
+        $("#role2").attr("class","bookmark-btn");
         $("#role").val("0");
     })
 
     $("#role2").click(function () {
-        $("#role1").attr("class","theme-btn btn-style-four")
-        $("#role2").attr("class","theme-btn btn-style-seven");
+        $("#role1").attr("class","bookmark-btn")
+        $("#role2").attr("class","theme-btn btn-style-one");
         $("#role").val("1");
     })
 

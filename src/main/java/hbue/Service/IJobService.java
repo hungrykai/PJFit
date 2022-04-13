@@ -45,5 +45,13 @@ public interface IJobService extends IService<Job> {
     //根据jobid返回一个jobandcompany对象
     public JobAndCompany GetJobandCompanyById(Integer job_id);
 
+    //根据条件查找其发布的所有工作分页（不填充工作福利，开发语言等相关字段）
+    public IPage<Job> GetJobPageByQueryWrapper( Integer current,Integer pagesize, QueryWrapper queryWrapper,Boolean selectall);
+
+    //根据job_id删除工作
+    public void DeleteJobById(Integer job_id);
+
+    //根据job的其他内容查找返回job——id
+    public Integer GetJob_id(Job job);
 
 }

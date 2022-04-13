@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"><title>湖北经济学院信息与通信工程学院软件Q1842杨开</title>
+    <script src="static/js/jquery.js" th:src="@{/js/jquery.js}"></script>
+    <script src="static/layer/layer.js" th:src="@{/layer/layer.js}"></script>
+    <script src="static/js/html5shiv.js" th:src="@{/js/html5shiv.js}" ></script>
+    <script src="static/static/js/respond.js" th:src="@{/js/respond.js}"></script>
+    <link href="static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <link href="static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
+    <link href="static/css/responsive.css" th:href="@{/css/responsive.css}" rel="stylesheet">
+    <link rel="shortcut icon" href="static/picture/favicon.png" th:href="@{/picture/favicon.png}" type="image/x-icon"><!-- Responsive -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+</head>
+<body>
+<div class="page-wrapper dashboard "><!-- Preloader -->
+
+    <div th:replace="../templates/fragments/header::dashboard-top"></div>
+
+    <!-- Sidebar Backdrop -->
+    <div class="sidebar-backdrop"></div>
+
+    <div th:replace="../templates/fragments/header::sidebar"></div>
+
+    <!-- Dashboard -->
+    <section class="user-dashboard">
+        <div class="dashboard-outer">
+            <div class="upper-title-box">
+                <h3>修改发布工作！</h3>
+                <div class="text">修改岗位信息再次招聘！</div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Ls widget -->
+                    <div class="ls-widget">
+                        <div class="tabs-box">
+                            <div class="widget-title">
+                                <h4>修改工作</h4>
+                            </div>
+
+                            <div class="widget-content">
+
+                                <div class="post-job-steps">
+                                    <div class="step">
+                                        <span class="icon flaticon-briefcase"></span>
+                                        <h5>  工  作 内 容 及 细  节 </h5>
+                                    </div>
+
+                                    <div class="step">
+                                        <span class="icon flaticon-money"></span>
+                                        <h5>  薪   资  待  遇  及  福  利 </h5>
+                                    </div>
+
+                                    <div class="step">
+                                        <span class="icon flaticon-checked"></span>
+                                        <h5>  工 作 要 求   </h5>
+                                    </div>
+                                </div>
+
+                                <form th:action="@{/company/submit-reset-job}" class="default-form">
+                                    <div class="row">
+                                        <input type="hidden" id="job_id" th:value="${session.curresetjob.job_id}" name="job_id">
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-12 col-md-12">
+                                            <label>岗位名称</label>
+                                            <input type="text" name="job_name" th:value="${session.curresetjob.job_name}" placeholder="岗位名称">
+                                        </div>
+
+                                        <!-- 学历 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>学历要求</label>
+                                            <select class="chosen-select" id="job_education" name="job_education" th:value="${session.curresetjob.job_education}">
+                                                <option th:selected="${session.curresetjob.job_education == '大专以下'}" value="大专以下">大专以下</option>
+                                                <option th:selected="${session.curresetjob.job_education == '大专'}" value="大专">大专</option>
+                                                <option th:selected="${session.curresetjob.job_education == '本科'}" value="本科">本科</option>
+                                                <option th:selected="${session.curresetjob.job_education == '硕士'}" value="硕士">硕士</option>
+                                                <option th:selected="${session.curresetjob.job_education == '博士'}" value="博士">博士</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- 工作年限 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>工作年限</label>
+                                            <select class="chosen-select" id="job_work_years" name="job_work_years" th:value="${session.curresetjob.job_work_years}">
+                                                <option th:selected="${session.curresetjob.job_work_years == '经验不限'}" value="经验不限">经验不限</option>
+                                                <option th:selected="${session.curresetjob.job_work_years == '1年以内'}" value="1年以内">1年以内</option>
+                                                <option th:selected="${session.curresetjob.job_work_years == '1-3年'}" value="1-3年">1-3年</option>
+                                                <option th:selected="${session.curresetjob.job_work_years == '3-5年'}" value="3-5年">3-5年</option>
+                                                <option th:selected="${session.curresetjob.job_work_years == '5-10年'}" value="5-10年">5-10年</option>
+                                                <option th:selected="${session.curresetjob.job_work_years == '10年以上'}" value="10年以上">10年以上</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- 工作城市 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>工作城市</label>
+                                            <input type="text" id="job_city" name="job_city" placeholder="工作城市" th:value="${session.curresetjob.job_city}">
+                                        </div>
+
+                                        <!-- 工作地点 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>工作地点</label>
+                                            <input type="text" id="job_location" name="job_location" placeholder="工作地点" th:value="${session.curresetjob.job_location}">
+                                        </div>
+
+                                        <!-- 岗位薪资 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>岗位最低薪资(单位K,千元)</label>
+                                            <input type="text" id="job_money_low" name="job_money_low" th:value="${session.curresetjob.job_money_low}">
+                                        </div>
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>岗位最高薪资(单位K,千元)</label>
+                                            <input type="text" id="job_money_high" name="job_money_high" th:value="${session.curresetjob.job_money_high}">
+                                        </div>
+
+                                        <!-- 工作相关要求描述 -->
+                                        <div class="form-group col-lg-12 col-md-12">
+                                            <label>工作描述</label>
+                                            <textarea name="job_describe" id="job_describe" placeholder="工作相关要求描述" th:text="${session.curresetjob.job_describe}"></textarea>
+                                        </div>
+
+                                        <!--工作福利-->
+                                        <div class="form-group col-lg-12 col-md-12">
+                                            <label>工作福利</label>
+                                            <select data-placeholder="工作福利" id="job_welfare" name="job_welfare" class="chosen-select multiple" multiple tabindex="4" th:value="${session.curresetjob.job_welfare}" >
+                                            </select>
+                                        </div>
+
+                                        <!--工作类型-->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>工作类型</label>
+                                            <select data-placeholder="开发语言" id="job_type" name="job_type" class="chosen-select multiple" multiple tabindex="4" th:value="${session.curresetjob.job_type}" >
+                                            </select>
+                                        </div>
+
+                                        <!--要求开发语言-->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>要求开发语言</label>
+                                            <select data-placeholder="开发语言" id="job_skill" name="job_skill" class="chosen-select multiple" multiple tabindex="4" th:value="${session.curresetjob.job_skill}" >
+                                            </select>
+                                        </div>
+
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-12 col-md-12 text-center">
+                                            <button class="theme-btn btn-style-one">发布</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Dashboard -->
+
+    <!-- Copyright -->
+    <div class="copyright-text">
+        <p>(c) 2022 Huber. All Right Reserved.</p>
+    </div>
+
+</div><!-- End Page Wrapper -->
+<script type="text/javascript">
+    var job_id = $("#job_id").val();
+    console.log(job_id);
+    $.ajax({
+        type: 'GET',
+        url:'/job/getjoblanguage',
+        async: false,
+        cache:false,
+        data:{
+            "job_id":job_id
+        },
+        dataType: "JSON",
+        success(data) {
+            console.log(data);
+            var languagelist = data.job_skill;
+            var welfarelist = data.job_welfare;
+            var typelist = data.job_type;
+            var L = '                                                <option value="Java" ';
+            if (languagelist.indexOf('Java') != -1){
+                L += 'selected = "selected"';
+            }
+            L += '>Java</option>\n'+
+                '                                                <option value="C++"';
+            if (languagelist.indexOf('C++') != -1){
+                L += 'selected = "selected"';
+            }
+            L += '>C++</option>\n' +
+                '                                                <option value="C"';
+            if (languagelist.indexOf('C') != -1){
+                L += 'selected = "selected"';
+            }
+            L += '>C</option>\n' +
+                '                                                <option value="Python"';
+            if (languagelist.indexOf('Python') != -1){
+                L += 'selected = "selected"';
+            }
+            L += '>Python</option>\n' +
+                '                                                <option value="JavaScript"';
+            if (languagelist.indexOf('JavaScript') != -1){
+                L += 'selected = "selected"';
+            }
+            L += '>JavaScript</option>\n' +
+                '                                                <option value="C#"';
+            if (languagelist.indexOf('C#') != -1){
+                L += 'selected = "selected"';
+            }
+            L += '>C#</option>\n' +
+                '                                                <option value="Swift"';
+            if (languagelist.indexOf('Swift') != -1){
+                L += 'selected = "selected"';
+            }
+            L += '>Swift</option>\n' +
+                '                                                <option value="GO"';
+            if (languagelist.indexOf('GO') != -1){
+                L += 'selected = "selected"';
+            }
+            L += '>GO（Golang）</option>\n' +
+                '                                                <option value="PHP"';
+            if (languagelist.indexOf('PHP') != -1){
+                L += 'selected = "selected"';
+            }
+            L += '>PHP</option>\n' +
+                '                                                <option value="Ruby"';
+            if (languagelist.indexOf('Ruby') != -1){
+                L += 'selected = "selected"';
+            }
+            L += '>Ruby</option>\n' +
+                '                                                <option value="HTML"';
+            if (languagelist.indexOf('HTML') != -1){
+                L += 'selected = "selected"';
+            }
+            L += '>HTML/CSS</option>\n' +
+                '                                                <option value="SQL"';
+            if (languagelist.indexOf('SQL') != -1){
+                L += 'selected = "selected"';
+            }
+            L += '>SQL</option>\n' +
+                '                                                <option value="Node.js"';
+            if (languagelist.indexOf('Node.js') != -1){
+                L += 'selected = "selected"';
+            }
+            L += '>Node.js</option>\n' +
+                '                                                <option value="TypeScript"';
+            if (languagelist.indexOf('TypeScript') != -1){
+                L += 'selected = "selected"';
+            }
+            L += '>TypeScript</option>\n' +
+                '                                                <option value="Rust"';
+            if (languagelist.indexOf('Rust') != -1){
+                L += 'selected = "selected"';
+            }
+            L += '>Rust</option>\n' +
+                '                                                <option value="Kotlin"';
+            if (languagelist.indexOf('Kotlin') != -1){
+                L += 'selected = "selected"';
+            }
+            L += '>Kotlin</option>';
+            $("#job_skill").html(L);
+
+
+            /*福利填充*/
+            var W = '                                                <option value="五险一金" ';
+            if (welfarelist.indexOf('五险一金') != -1){
+                welfarelist += 'selected = "selected"';
+            }
+            W += '>五险一金</option>\n'+
+                '                                                <option value="补充医疗保险"';
+            if (welfarelist.indexOf('补充医疗保险') != -1){
+                W += 'selected = "selected"';
+            }
+            W += '补充医疗保险</option>\n' +
+                '                                                <option value="定期体检"';
+            if (welfarelist.indexOf('定期体检') != -1){
+                W += 'selected = "selected"';
+            }
+            W += '>定期体检</option>\n' +
+                '                                                <option value="年终奖"';
+            if (welfarelist.indexOf('年终奖') != -1){
+                W += 'selected = "selected"';
+            }
+            W += '>年终奖</option>\n' +
+                '                                                <option value="员工旅游"';
+            if (welfarelist.indexOf('员工旅游') != -1){
+                W += 'selected = "selected"';
+            }
+            W += '>员工旅游</option>\n' +
+                '                                                <option value="节日福利"';
+            if (welfarelist.indexOf('节日福利') != -1){
+                W += 'selected = "selected"';
+            }
+            W += '>节日福利</option>\n' +
+                '                                                <option value="股票期权"';
+            if (welfarelist.indexOf('股票期权') != -1){
+                W += 'selected = "selected"';
+            }
+            W += '>股票期权</option>\n' +
+                '                                                <option value="带薪年假"';
+            if (welfarelist.indexOf('带薪年假') != -1){
+                W += 'selected = "selected"';
+            }
+            W += '>带薪年假</option>\n' +
+                '                                                <option value="免费班车"';
+            if (welfarelist.indexOf('免费班车') != -1){
+                W += 'selected = "selected"';
+            }
+            W += '>免费班车</option>\n' +
+                '                                                <option value="餐补"';
+            if (welfarelist.indexOf('餐补') != -1){
+                W += 'selected = "selected"';
+            }
+            W += '>餐补</option>\n' +
+                '                                                <option value="交通补助"';
+            if (welfarelist.indexOf('交通补助') != -1){
+                W += 'selected = "selected"';
+            }
+            W += '>交通补助</option>\n' +
+                '                                                <option value="包吃"';
+            if (welfarelist.indexOf('包吃') != -1){
+                W += 'selected = "selected"';
+            }
+            W += '>包吃</option>\n' +
+                '                                                <option value="住房补贴"';
+            if (welfarelist.indexOf('住房补贴') != -1){
+                W += 'selected = "selected"';
+            }
+            W += '>住房补贴</option>\n' +
+                '                                                <option value="零食下午茶"';
+            if (welfarelist.indexOf('零食下午茶') != -1){
+                W += 'selected = "selected"';
+            }
+            W += '>零食下午茶</option>\n' +
+                '                                                <option value="公仔周边活动"';
+            if (welfarelist.indexOf('公仔周边活动') != -1){
+                W += 'selected = "selected"';
+            }
+            W += '>公仔周边活动</option>\n' +
+                '                                                <option value="免费健身房"';
+            if (welfarelist.indexOf('免费健身房') != -1){
+                W += 'selected = "selected"';
+            }
+            W += '>免费健身房</option>\n' +
+                '                                                <option value="免费早晚餐"';
+            if (welfarelist.indexOf('免费早晚餐') != -1){
+                W += 'selected = "selected"';
+            }
+            W += '>免费早晚餐</option>';
+            $("#job_welfare").html(W);
+
+
+            /*工作类型*/
+            var T = '                                                <option value="后端开发" ';
+            if (typelist.indexOf('后端开发') != -1){
+                T += 'selected = "selected"';
+            }
+            T += '>后端开发</option>\n'+
+                '                                                <option value="人工智能"';
+            if (typelist.indexOf('人工智能') != -1){
+                T += 'selected = "selected"';
+            }
+            T += '>人工智能</option>\n' +
+                '                                                <option value="移动开发"';
+            if (typelist.indexOf('移动开发') != -1){
+                T += 'selected = "selected"';
+            }
+            T += '>移动开发</option>\n' +
+                '                                                <option value="测试"';
+            if (typelist.indexOf('测试') != -1){
+                T += 'selected = "selected"';
+            }
+            T += '>测试</option>\n' +
+                '                                                <option value="运维"';
+            if (typelist.indexOf('运维') != -1){
+                T += 'selected = "selected"';
+            }
+            T += '>运维</option>\n' +
+                '                                                <option value="数据"';
+            if (typelist.indexOf('数据') != -1){
+                T += 'selected = "selected"';
+            }
+            T += '>数据</option>\n' +
+                '                                                <option value="前端开发"';
+            if (typelist.indexOf('前端开发') != -1){
+                T += 'selected = "selected"';
+            }
+            T += '>前端开发</option>\n' +
+                '                                                <option value="高端技术"';
+            if (typelist.indexOf('高端技术') != -1){
+                T += 'selected = "selected"';
+            }
+            T += '>高端技术</option>\n' +
+                '                                                <option value="架构师"';
+            if (typelist.indexOf('架构师') != -1){
+                T += 'selected = "selected"';
+            }
+            T += '>架构师</option>';
+            $("#job_type").html(T);
+        }
+    })
+</script>
+</body>
+
+<script src="static/js/popper.min.js" th:src="@{/js/popper.min.js}"></script>
+<script src="static/js/chosen.min.js" th:src="@{/js/chosen.min.js}"></script>
+<script src="static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="static/js/jquery-ui.min.js" th:src="@{/js/jquery-ui.min.js}"></script>
+<script src="static/js/jquery.fancybox.js" th:src="@{/js/jquery.fancybox.js}"></script>
+<script src="static/js/jquery.modal.min.js" th:src="@{/js/jquery.modal.min.js}"></script>
+<script src="static/js/mmenu.polyfills.js" th:src="@{/js/mmenu.polyfills.js}"></script>
+<script src="static/js/mmenu.js" th:src="@{/js/mmenu.js}"></script>
+<script src="static/js/appear.js" th:src="@{/js/appear.js}"></script>
+<script src="static/js/anm.min.js" th:src="@{/js/anm.min.js}"></script>
+<script src="static/js/owl.js" th:src="@{/js/owl.js}"></script>
+<script src="static/js/wow.js" th:src="@{/js/wow.js}"></script>
+<script src="static/js/script.js" th:src="@{/js/script.js}"></script>
+<script src="static/js/map-script.js" th:src="@{/js/map-script.js}"></script><!--End Google Map APi-->
+
+</html>

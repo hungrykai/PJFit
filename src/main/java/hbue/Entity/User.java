@@ -65,7 +65,7 @@ public class User implements Serializable {
 
     private String user_expect_place;
 
-    private Integer user_expect_type;
+    private String user_expect_type;
 
     @TableField(exist = false)
     private List<String> user_language;

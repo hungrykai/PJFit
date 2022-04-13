@@ -339,7 +339,7 @@
                     <div class="inner-box">
                         <div class="content">
                             <span class="icon flaticon-money-1"></span>
-                            <h4><a th:href="@{'/job/jobtype?jobtype='+${session.typenamelist[iterStat.index]}}" th:text="${session.typenamelist[iterStat.index]}"></a></h4>
+                            <h4><a th:href="@{'/job/joblist/'+${session.typenamelist[iterStat.index]}}" th:text="${session.typenamelist[iterStat.index]}"></a></h4>
                             <p th:text="'(' + ${typenum} + ' 个职位)'"></p>
                         </div>
                     </div>

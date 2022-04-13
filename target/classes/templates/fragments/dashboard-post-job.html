@@ -12,7 +12,7 @@
 <body>
 <div class="page-wrapper dashboard "><!-- Preloader -->
 
-    <div th:replace="../templates/fragments/top::company-dashboard-top"></div>
+    <div th:replace="../templates/fragments/header::dashboard-top"></div>
 
     <!-- Sidebar Backdrop -->
     <div class="sidebar-backdrop"></div>
@@ -24,7 +24,7 @@
         <div class="dashboard-outer">
             <div class="upper-title-box">
                 <h3>发布一份新工作！</h3>
-                <div class="text">Ready to jump back in?</div>
+                <div class="text">发布岗位信息进行招聘！</div>
             </div>
 
             <div class="row">
@@ -51,210 +51,138 @@
 
                                     <div class="step">
                                         <span class="icon flaticon-checked"></span>
-                                        <h5>  签  署  就  业  合  同  </h5>
+                                        <h5>  工 作 要 求   </h5>
                                     </div>
                                 </div>
 
-                                <form class="default-form">
+                                <form th:action="@{/company/postjob}" class="default-form">
                                     <div class="row">
                                         <!-- Input -->
                                         <div class="form-group col-lg-12 col-md-12">
-                                            <label>工作名称</label>
-                                            <input type="text" name="name" placeholder="Title">
+                                            <label>岗位名称</label>
+                                            <input type="text" name="job_name" placeholder="岗位名称">
                                         </div>
 
-                                        <!-- About Company -->
+                                        <!-- 学历 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>学历要求</label>
+                                            <select class="chosen-select" id="job_education" name="job_education">
+                                                <option value="大专以下">大专以下</option>
+                                                <option value="大专">大专</option>
+                                                <option value="本科">本科</option>
+                                                <option value="硕士">硕士</option>
+                                                <option value="博士">博士</option>
+
+                                            </select>
+                                        </div>
+
+                                        <!-- 工作年限 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>工作年限</label>
+                                            <select class="chosen-select" id="job_work_years" name="job_work_years">
+                                                <option value="经验不限">经验不限</option>
+                                                <option value="1年以内">1年以内</option>
+                                                <option value="1-3年">1-3年</option>
+                                                <option value="3-5年">3-5年</option>
+                                                <option value="5-10年">5-10年</option>
+                                                <option value="10年以上">10年以上</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- 工作城市 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>工作城市</label>
+                                            <input type="text" id="job_city" name="job_city" placeholder="工作城市">
+                                        </div>
+
+                                        <!-- 工作地点 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>工作地点</label>
+                                            <input type="text" id="job_location" name="job_location" placeholder="工作地点">
+                                        </div>
+
+                                        <!-- 岗位薪资 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>岗位最低薪资(单位K,千元)</label>
+                                            <input type="text" id="job_money_low" name="job_money_low">
+                                        </div>
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>岗位最高薪资(单位K,千元)</label>
+                                            <input type="text" id="job_money_high" name="job_money_high">
+                                        </div>
+
+                                        <!-- 工作相关要求描述 -->
                                         <div class="form-group col-lg-12 col-md-12">
                                             <label>工作描述</label>
-                                            <textarea
-                                                    placeholder="Spent several years working on sheep on Wall Street. Had moderate success investing in Yugo's on Wall Street. Managed a small team buying and selling Pogo sticks for farmers. Spent several years licensing licorice in West Palm Beach,FL. Developed several new methods for working it banjos in the aftermarket. Spent a weekend importing banjos in West Palm Beach,FL.In this position,the Software Engineer collaborates with Evention's Development team to continuously enhance our current software solutions as well as create new solutions to eliminate the back-office operations and management challenges present"></textarea>
+                                            <textarea name="job_describe" id="job_describe" placeholder="工作相关要求描述"></textarea>
                                         </div>
 
-
-                                        <!-- Input -->
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>联系邮箱</label>
-                                            <input type="text" name="name" placeholder="">
-                                        </div>
-
-                                        <!-- Input -->
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>发布人姓名</label>
-                                            <input type="text" name="name" placeholder="">
-                                        </div>
-
-                                        <!-- Search Select -->
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>特长 </label>
-                                            <select data-placeholder="Categories" class="chosen-select multiple"
-                                                    multiple="" tabindex="4">
-                                                <option value="Banking">Banking</option>
-                                                <option value="Digital&Creative">Digital & Creative</option>
-                                                <option value="Retail">Retail</option>
-                                                <option value="Human Resources">Human Resources</option>
-                                                <option value="Management">Management</option>
+                                        <!--工作福利-->
+                                        <div class="form-group col-lg-12 col-md-12">
+                                            <label>工作福利</label>
+                                            <select data-placeholder="工作福利" id="job_welfare" name="job_welfare" class="chosen-select multiple" multiple tabindex="4"  >
+                                                <option value="五险一金">五险一金</option>
+                                                <option value="补充医疗保险">补充医疗保险</option>
+                                                <option value="定期体检">定期体检</option>
+                                                <option value="年终奖">年终奖</option>
+                                                <option value="员工旅游">员工旅游</option>
+                                                <option value="节日福利">节日福利</option>
+                                                <option value="股票期权">股票期权</option>
+                                                <option value="带薪年假">带薪年假</option>
+                                                <option value="免费班车">免费班车</option>
+                                                <option value="餐补">餐补</option>
+                                                <option value="交通补助">交通补助</option>
+                                                <option value="包吃">包吃</option>
+                                                <option value="住房补贴">住房补贴</option>
+                                                <option value="零食下午茶">零食下午茶</option>
+                                                <option value="公仔周边活动">公仔周边活动</option>
+                                                <option value="免费健身房">免费健身房</option>
+                                                <option value="免费早晚餐">免费早晚餐</option>
                                             </select>
                                         </div>
 
+                                        <!--工作类型-->
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>工作类型</label>
-                                            <select class="chosen-select">
-                                                <option>Select</option>
-                                                <option>Banking</option>
-                                                <option>Digital & Creative</option>
-                                                <option>Retail</option>
-                                                <option>Human Resources</option>
-                                                <option>Management</option>
+                                            <select data-placeholder="开发语言" id="job_type" name="job_type" class="chosen-select multiple" multiple tabindex="4"  >
+                                                <option value="后端开发">后端开发</option>
+                                                <option value="人工智能">人工智能</option>
+                                                <option value="移动开发">移动开发</option>
+                                                <option value="测试">测试</option>
+                                                <option value="运维">运维</option>
+                                                <option value="数据">数据</option>
+                                                <option value="前端开发">前端开发</option>
+                                                <option value="高端技术">高端技术</option>
+                                                <option value="架构师">架构师</option>
+                                            </select>
+                                        </div>
+
+                                        <!--要求开发语言-->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>要求开发语言</label>
+                                            <select data-placeholder="开发语言" id="job_skill" name="job_skill" class="chosen-select multiple" multiple tabindex="4"  >
+                                                <option value="Java">Java</option>
+                                                <option value="C++">C++</option>
+                                                <option value="C">C</option>
+                                                <option value="Python">Python</option>
+                                                <option value="JavaScript">JavaScript</option>
+                                                <option value="C#">C#</option>
+                                                <option value="Swift">Swift</option>
+                                                <option value="GO">GO</option>
+                                                <option value="PHP">PHP</option>
+                                                <option value="Ruby">Ruby</option>
+                                                <option value="HTML">HTML</option>
+                                                <option value="SQL">SQL</option>
+                                                <option value="Node.js">Node.js</option>
+                                                <option value="TypeScript">TypeScript</option>
+                                                <option value="Rust">Rust</option>
+                                                <option value="Kotlin">Kotlin</option>
                                             </select>
                                         </div>
 
                                         <!-- Input -->
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>薪资</label>
-                                            <select class="chosen-select">
-                                                <option>Select</option>
-                                                <option>$1500</option>
-                                                <option>$2000</option>
-                                                <option>$2500</option>
-                                                <option>$3500</option>
-                                                <option>$4500</option>
-                                                <option>$5000</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>职业水平</label>
-                                            <select class="chosen-select">
-                                                <option>Select</option>
-                                                <option>Banking</option>
-                                                <option>Digital & Creative</option>
-                                                <option>Retail</option>
-                                                <option>Human Resources</option>
-                                                <option>Management</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>项目经验</label>
-                                            <select class="chosen-select">
-                                                <option>Select</option>
-                                                <option>Banking</option>
-                                                <option>Digital & Creative</option>
-                                                <option>Retail</option>
-                                                <option>Human Resources</option>
-                                                <option>Management</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>性别</label>
-                                            <select class="chosen-select">
-                                                <option>Select</option>
-                                                <option>Male</option>
-                                                <option>Female</option>
-                                                <option>Other</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>Industry</label>
-                                            <select class="chosen-select">
-                                                <option>Select</option>
-                                                <option>Banking</option>
-                                                <option>Digital & Creative</option>
-                                                <option>Retail</option>
-                                                <option>Human Resources</option>
-                                                <option>Management</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>Qualification</label>
-                                            <select class="chosen-select">
-                                                <option>Select</option>
-                                                <option>Banking</option>
-                                                <option>Digital & Creative</option>
-                                                <option>Retail</option>
-                                                <option>Human Resources</option>
-                                                <option>Management</option>
-                                            </select>
-                                        </div>
-
-                                        <!-- Input -->
-                                        <div class="form-group col-lg-12 col-md-12">
-                                            <label>Application Deadline Date</label>
-                                            <input type="text" name="name" placeholder="06.04.2020">
-                                        </div>
-
-                                        <!-- Input -->
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>Country</label>
-                                            <select class="chosen-select">
-                                                <option>Australia</option>
-                                                <option>Pakistan</option>
-                                                <option>Chaina</option>
-                                                <option>Japan</option>
-                                                <option>India</option>
-                                            </select>
-                                        </div>
-
-                                        <!-- Input -->
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>City</label>
-                                            <select class="chosen-select">
-                                                <option>Melbourne</option>
-                                                <option>Pakistan</option>
-                                                <option>Chaina</option>
-                                                <option>Japan</option>
-                                                <option>India</option>
-                                            </select>
-                                        </div>
-
-                                        <!-- Input -->
-                                        <div class="form-group col-lg-12 col-md-12">
-                                            <label>Complete Address</label>
-                                            <input type="text" name="name"
-                                                   placeholder="329 Queensberry Street, North Melbourne VIC 3051, Australia.">
-                                        </div>
-
-                                        <!-- Input -->
-                                        <div class="form-group col-lg-6 col-md-12">
-                                            <label>Find On Map</label>
-                                            <input type="text" name="name"
-                                                   placeholder="329 Queensberry Street, North Melbourne VIC 3051, Australia.">
-                                        </div>
-
-                                        <!-- Input -->
-                                        <div class="form-group col-lg-3 col-md-12">
-                                            <label>Latitude</label>
-                                            <input type="text" name="name" placeholder="Melbourne">
-                                        </div>
-
-                                        <!-- Input -->
-                                        <div class="form-group col-lg-3 col-md-12">
-                                            <label>Longitude</label>
-                                            <input type="text" name="name" placeholder="Melbourne">
-                                        </div>
-
-                                        <!-- Input -->
-                                        <div class="form-group col-lg-12 col-md-12">
-                                            <button class="theme-btn btn-style-three">Search Location</button>
-                                        </div>
-
-
-                                        <div class="form-group col-lg-12 col-md-12">
-                                            <div class="map-outer">
-                                                <div class="map-canvas map-height" data-zoom="12" data-lat="-37.817085"
-                                                     data-lng="144.955631" data-type="roadmap" data-hue="#ffc400"
-                                                     data-title="Envato" data-icon-path="images/resource/map-marker.png"
-                                                     data-content="Melbourne VIC 3000, Australia<br><a href='mailto:info@youremail.com'>info@youremail.com</a>">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Input -->
-                                        <div class="form-group col-lg-12 col-md-12 text-right">
-                                            <button class="theme-btn btn-style-one">Next</button>
+                                        <div class="form-group col-lg-12 col-md-12 text-center">
+                                            <button class="theme-btn btn-style-one">发布</button>
                                         </div>
                                     </div>
                                 </form>
@@ -269,7 +197,7 @@
 
     <!-- Copyright -->
     <div class="copyright-text">
-        <p>(c) 2021 Superio. All Right Reserved.</p>
+        <p>(c) 2022 Huber. All Right Reserved.</p>
     </div>
 
 </div><!-- End Page Wrapper -->

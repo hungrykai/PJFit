@@ -34,8 +34,8 @@
     <section class="user-dashboard">
         <div class="dashboard-outer">
             <div class="upper-title-box">
-                <h3>Manage Jobs</h3>
-                <div class="text">Ready to jump back in?</div>
+                <h3>管理工作</h3>
+                <div class="text">在此处进行工作的修改和删除</div>
             </div>
 
             <div class="row">
@@ -44,18 +44,7 @@
                     <div class="ls-widget">
                         <div class="tabs-box">
                             <div class="widget-title">
-                                <h4>My Job Listings</h4>
-
-                                <div class="chosen-outer">
-                                    <!--Tabs Box-->
-                                    <select class="chosen-select">
-                                        <option>Last 6 Months</option>
-                                        <option>Last 12 Months</option>
-                                        <option>Last 16 Months</option>
-                                        <option>Last 24 Months</option>
-                                        <option>Last 5 year</option>
-                                    </select>
-                                </div>
+                                <h4>我发布的工作列表</h4>
                             </div>
 
                             <div class="widget-content">
@@ -63,83 +52,27 @@
                                     <table class="default-table manage-job-table">
                                         <thead>
                                         <tr>
-                                            <th>Title</th>
-                                            <th>Applications</th>
-                                            <th>Created & Expired</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
+                                            <th>岗位名称</th>
+                                            <th>学历要求</th>
+                                            <th>工作年限</th>
+                                            <th>薪资</th>
+                                            <th>操作</th>
                                         </tr>
                                         </thead>
-
                                         <tbody>
-                                        <tr>
+                                        <tr th:each="job,jobindex:${session.managejobpage.records}" th:id="jobinfromatiob+(${job.job_id})">
                                             <td>
-                                                <h6>Senior Full Stack Engineer, Creator Success</h6>
-                                                <span class="info"><i class="icon flaticon-map-locator"></i> London, UK</span>
+                                                <h6 th:text="${job.job_name}"></h6>
+                                                <span class="info"><i class="icon flaticon-map-locator"></i>  &nbsp; &nbsp;[[*{job.job_city}]]</span>
                                             </td>
-                                            <td class="applied"><a href="#">3+ Applied</a></td>
-                                            <td>October 27, 2017 <br>April 25, 2011</td>
-                                            <td class="status">Active</td>
+                                            <td class="applied" th:text="${job.job_education}"></td>
+                                            <td th:text="${job.job_work_years}"></td>
+                                            <td class="status" th:text="'￥' + ${job.job_money_low} + ' - ' + ${job.job_money_high} + 'K'"></td>
                                             <td>
                                                 <div class="option-box">
                                                     <ul class="option-list">
-                                                        <li><button data-text="View Aplication"><span class="la la-eye"></span></button></li>
-                                                        <li><button data-text="Reject Aplication"><span class="la la-pencil"></span></button></li>
-                                                        <li><button data-text="Delete Aplication"><span class="la la-trash"></span></button></li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h6>Senior Product Designer</h6>
-                                                <span class="info"><i class="icon flaticon-map-locator"></i> London, UK</span>
-                                            </td>
-                                            <td class="applied"><a href="#">3+ Applied</a></td>
-                                            <td>October 27, 2017 <br>April 25, 2011</td>
-                                            <td class="status">Active</td>
-                                            <td>
-                                                <div class="option-box">
-                                                    <ul class="option-list">
-                                                        <li><button data-text="View Aplication"><span class="la la-eye"></span></button></li>
-                                                        <li><button data-text="Reject Aplication"><span class="la la-pencil"></span></button></li>
-                                                        <li><button data-text="Delete Aplication"><span class="la la-trash"></span></button></li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h6>Sr. Full Stack Engineer</h6>
-                                                <span class="info"><i class="icon flaticon-map-locator"></i> London, UK</span>
-                                            </td>
-                                            <td class="applied"><a href="#">3+ Applied</a></td>
-                                            <td>October 27, 2017 <br>April 25, 2011</td>
-                                            <td class="status">Active</td>
-                                            <td>
-                                                <div class="option-box">
-                                                    <ul class="option-list">
-                                                        <li><button data-text="View Aplication"><span class="la la-eye"></span></button></li>
-                                                        <li><button data-text="Reject Aplication"><span class="la la-pencil"></span></button></li>
-                                                        <li><button data-text="Delete Aplication"><span class="la la-trash"></span></button></li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h6>Product Manager, Studio</h6>
-                                                <span class="info"><i class="icon flaticon-map-locator"></i> London, UK</span>
-                                            </td>
-                                            <td class="applied"><a href="#">3+ Applied</a></td>
-                                            <td>October 27, 2017 <br>April 25, 2011</td>
-                                            <td class="status">Active</td>
-                                            <td>
-                                                <div class="option-box">
-                                                    <ul class="option-list">
-                                                        <li><button data-text="View Aplication"><span class="la la-eye"></span></button></li>
-                                                        <li><button data-text="Reject Aplication"><span class="la la-pencil"></span></button></li>
-                                                        <li><button data-text="Delete Aplication"><span class="la la-trash"></span></button></li>
+                                                        <li><button data-text="修改职位信息"><a th:href="@{'/company/dashboard-reset-job/' + ${job.job_id}}"><span class="la la-pencil"></span></a></button></li>
+                                                        <li><button data-text="删除职位信息" th:onclick="|deletejob(${job.job_id})|" th:value="${job.job_id}"><span class="la la-trash"></span></button></li>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -151,8 +84,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </section>
@@ -164,6 +95,35 @@
     </div>
 
 </div><!-- End Page Wrapper -->
+</body>
+
+<script type="text/javascript">
+    function deletejob(event) {
+        console.log(event);
+        var deleteid = event;
+        $.ajax({
+            type:'Get',
+            url:'/job/deletejob',
+            async: true,
+            cache:false,
+            data:{
+                'job_id':deleteid
+            },
+            dataType: "JSON",
+            success(data) {
+                layer.msg("删除岗位成功！！!",{
+                    time:1500,
+                })
+                $("#jobinfromatiob"+deleteid).hide();
+            },
+            error(data){
+                layer.msg("删除岗位失败！！!",{
+                    time:1500,
+                })
+            }
+        })
+    }
+</script>
 
 
 <script src="static/js/popper.min.js" th:src="@{/js/popper.min.js}"></script>

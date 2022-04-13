@@ -105,7 +105,7 @@ public class UserController {
 
     //获取user精通的语言传给前端
     @ResponseBody
-    @PostMapping("/getuserlanguage")
+    @RequestMapping("/getuserlanguage")
     public List<String> getuserlanguage(HttpSession session){
         User curuser = (User) session.getAttribute("curuser");
         return curuser.getUser_language();

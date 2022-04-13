@@ -7,11 +7,9 @@ import hbue.Entity.*;
 import hbue.Service.*;
 import hbue.mapper.JobMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.poi.hssf.record.LabelSSTRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -207,7 +205,6 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements IJobS
         QueryWrapper<Job_type> job_typeQueryWrapper = new QueryWrapper<>();
         job_typeQueryWrapper.eq("job_type",jobtypename);
         IPage<Job_type> job_typeIPage = job_typeService.GetJobsByType(jobpagecurrent, pagesize, job_typeQueryWrapper, true);
-        System.out.println("----------------------------------------------------------"+job_typeIPage+"-------------------");
         List<Job_type> job_types = job_typeIPage.getRecords();
         List<JobAndCompany> jobAndCompanyList = new ArrayList<>();
         for (Job_type job_type:job_types){
@@ -235,5 +232,39 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements IJobS
         queryWrapper.eq("company_id",job.getCompany_id());
         jobAndCompany.setCompany(companyService.getOne(queryWrapper));
         return jobAndCompany;
+    }
+
+    @Override
+    public IPage<Job> GetJobPageByQueryWrapper(Integer current, Integer pagesize, QueryWrapper queryWrapper, Boolean selectall) {
+        //当前页面，页面大小，是否查询总界面数
+        IPage<Job> jobIPage = new Page<>(current,pagesize,selectall);
+        jobIPage = jobMapper.selectPage(jobIPage,queryWrapper);
+        return jobIPage;
+    }
+
+    @Override
+    public void DeleteJobById(Integer job_id) {
+        QueryWrapper<Job> jobQueryWrapper = new QueryWrapper<>();
+        //先删除其对应的福利，语言，类别等
+        job_welfareService.DeleteJob_Welfares(job_id);
+        userorjob_languageService.DeleteJobLanguages(job_id);
+        job_typeService.DeleteJob_Types(job_id);
+
+        jobQueryWrapper.eq("job_id",job_id);
+        jobMapper.delete(jobQueryWrapper);
+    }
+
+    @Override
+    public Integer GetJob_id(Job job) {
+        QueryWrapper<Job> jobQueryWrapper = new QueryWrapper<>();
+        jobQueryWrapper.eq("job_name",job.getJob_name());
+        jobQueryWrapper.eq("company_id",job.getCompany_id());
+        jobQueryWrapper.eq("job_money_low",job.getJob_money_low());
+        jobQueryWrapper.eq("job_money_high",job.getJob_money_high());
+        jobQueryWrapper.eq("job_employer_id",job.getJob_employer_id());
+        jobQueryWrapper.eq("job_education",job.getJob_education());
+        jobQueryWrapper.eq("job_describe",job.getJob_describe());
+        jobQueryWrapper.eq("job_work_years",job.getJob_work_years());
+        return jobMapper.selectOne(jobQueryWrapper).getJob_id();
     }
 }

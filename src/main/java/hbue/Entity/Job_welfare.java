@@ -37,4 +37,5 @@ public class Job_welfare implements Serializable {
         int ran2 = (int) (Math.random()*(max-min)+min);
         return ran2;
     }
+
 }

@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8"><title>湖北经济学院信息与通信工程学院软件Q1842杨开</title>
 
-
     <script src="static/js/html5shiv.js" th:src="@{/js/html5shiv.js}" ></script>
     <script src="static/static/js/respond.js" th:src="@{/js/respond.js}"></script>
     <link href="static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet">
@@ -114,6 +113,7 @@
                                                 <option value="本科">本科</option>
                                                 <option value="硕士">硕士</option>
                                                 <option value="博士">博士</option>
+
                                             </select>
                                         </div>
 
@@ -133,35 +133,24 @@
                                         <div id="language" class="form-group col-lg-6 col-md-12">
                                             <label>精通语言 </label>
                                             <select data-placeholder="开发语言" id="user_language" name="user_language" class="chosen-select multiple" multiple tabindex="4"  >
+                                                <option value="Java">Java</option>
+                                                <option value="C++">C++</option>
+                                                <option value="C">C</option>
+                                                <option value="Python">Python</option>
+                                                <option value="JavaScript">JavaScript</option>
+                                                <option value="C#">C#</option>
+                                                <option value="Swift">Swift</option>
+                                                <option value="GO">GO</option>
+                                                <option value="PHP">PHP</option>
+                                                <option value="Ruby">Ruby</option>
+                                                <option value="HTML">HTML</option>
+                                                <option value="SQL">SQL</option>
+                                                <option value="Node.js">Node.js</option>
+                                                <option value="TypeScript">TypeScript</option>
+                                                <option value="Rust">Rust</option>
+                                                <option value="Kotlin">Kotlin</option>
                                             </select>
                                         </div>
-
-                                    <!-- 期待薪资 -->
-                                    <div class="form-group col-lg-6 col-md-12">
-                                        <label>期待薪资（月薪）单位：K</label>
-                                        <input type="text" name="user_expect_salary" th:value="*{user_expect_salary}" id="user_expect_salary" placeholder="期待薪资">
-                                    </div>
-
-                                    <!-- 期待工作地点 -->
-                                    <div class="form-group col-lg-6 col-md-12">
-                                        <label>期待工作地点</label>
-                                        <input type="text" name="user_expect_place" th:value="*{user_expect_place}" id="user_expect_place" placeholder="期待工作地点">
-                                    </div>
-                                    <!-- 期待工作类型 -->
-                                    <div class="form-group col-lg-6 col-md-12">
-                                        <label>期待工作类型</label>
-                                        <select class="chosen-select" name="user_expect_type" id="user_expect_type" >
-                                            <option th:selected="*{user_expect_type == '后端开发'}" value="后端开发">后端开发</option>
-                                            <option th:selected="*{user_expect_type == '人工智能'}" value="人工智能">人工智能</option>
-                                            <option th:selected="*{user_expect_type == '移动开发'}" value="移动开发">移动开发</option>
-                                            <option th:selected="*{user_expect_type == '测试'}" value="测试">测试</option>
-                                            <option th:selected="*{user_expect_type == '运维'}" value="运维">运维</option>
-                                            <option th:selected="*{user_expect_type == '数据'}" value="运维">数据</option>
-                                            <option th:selected="*{user_expect_type == '前端开发'}" value="运维">前端开发</option>
-                                            <option th:selected="*{user_expect_type == '高端技术'}" value="运维">高端技术</option>
-                                            <option th:selected="*{user_expect_type == '架构师'}" value="运维">架构师</option>
-                                        </select>
-                                    </div>
 
                                         <!-- 工作经历 -->
                                         <div class="form-group col-lg-12 col-md-12">
@@ -178,11 +167,60 @@
                                             ></textarea>
                                         </div>
 
-                                    <div class="form-group col-lg-6 col-md-12">
-                                        <button id="save1" class="theme-btn btn-style-one" >保存</button>
-                                    </div>
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <button id="save1" class="theme-btn btn-style-one" >保存</button>
+                                        </div>
                                 </div>
                             </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ls widget -->
+                    <div class="ls-widget">
+                        <div class="tabs-box">
+                            <div class="widget-title">
+                                <h4>期待工作信息</h4>
+                            </div>
+
+                            <div class="widget-content">
+
+                                <form class="default-form">
+                                    <div class="row">
+                                        <!-- 期待薪资 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>期待薪资（月薪）单位：K</label>
+                                            <input type="text" name="user_expect_salary" placeholder="10">
+                                        </div>
+
+                                        <!-- 期待工作地点 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>期待工作地点</label>
+                                            <input type="text" name="user_expect_place" placeholder="">
+                                        </div>
+                                        <!--期待工作类型-->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>期待工作类型</label>
+                                            <select class="chosen-select" name="user_education" multiple tabindex="4"  >
+                                                <option value="0">大专以下</option>
+                                                <option value="1">普通本科</option>
+                                                <option value="2">普通一本</option>
+                                                <option value="3">211</option>
+                                                <option value="4">985</option>
+                                                <option value="5">留学生</option>
+                                                <option value="6">研究生</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <!-- Input -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label> </label>
+                                            <button class="theme-btn btn-style-one">保存</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -201,24 +239,24 @@
                             <!-- Input -->
                             <div class="form-group col-lg-7 col-md-12">
                                 <label>旧密码 </label>
-                                <input type="password" name="oldpassword" placeholder="">
+                                <input type="password" name="name" placeholder="">
                             </div>
 
                             <!-- Input -->
                             <div class="form-group col-lg-7 col-md-12">
                                 <label>新密码</label>
-                                <input type="password" name="newpassword" placeholder="">
+                                <input type="password" name="name" placeholder="">
                             </div>
 
                             <!-- Input -->
                             <div class="form-group col-lg-7 col-md-12">
                                 <label>重复密码</label>
-                                <input type="password" name="repeat-newpassword" placeholder="">
+                                <input type="password" name="name" placeholder="">
                             </div>
 
                             <!-- Input -->
                             <div class="form-group col-lg-6 col-md-12">
-                                <button id="" class="theme-btn btn-style-one">修改</button>
+                                <button class="theme-btn btn-style-one">修改</button>
                             </div>
                         </div>
                     </form>
@@ -245,17 +283,18 @@
 
 
     var user_id = $("#user_id").val();
-    alert("发送了")
     $.ajax({
-        type: 'GET',
-        url:'/user/getuserlanguage',
+        type: 'POST',
+        url:'getuserlanguage',
         async: false,
         cache:false,
         contentType: false, // 告诉jQuery不要去设置Content-Type请求头
         processData: false, // 告诉jQuery不要去处理发送的数据
+        data:{
+            user_id:user_id
+        },
         dataType: "JSON",
         success(data) {
-            alert("接收到了");
             var L = '                                                <option value="Java" ';
             if (data.indexOf('Java') != -1){
                 L += 'selected = "selected"';
@@ -359,6 +398,23 @@
     function Getinformation(){
         var formData = new FormData(document.getElementById("form1"));
         formData.append("file", $("#upload-picture").get(0).files[0]);
+        // var formData = $("#form1");
+        var user_name = $("#user_name").val();
+        var user_gender = $("#user_gender").val();
+        var user_birthday = $("#user_birthday").val();
+        var user_phone = $("#user_phone").val();
+        var user_education = $("#user_education").val();
+        var user_school = $("#user_school").val();
+        var user_experience = $("#user_experience").val();
+        var user_language = $("#user_language").val();
+        var user_place = $("#user_place").val();
+        var user_projects = $("#user_projects").val();
+        var user_specialisms = $("#user_specialisms").val();
+        var user_picture = $("#upload-picture").val();
+        console.log("formData:"+formData);
+        console.log("姓名："+user_name+"性别"+user_gender+"生日："+user_birthday+"电话："+user_phone+"学历："+user_education+
+            "学校"+user_school+"经历"+user_experience+"精通语言"+user_language+"居住地："+user_place+"项目经历"+user_projects+
+            "特长"+user_specialisms+"照片地址"+user_picture);
         $.ajax({
             type:'POST',
             url:'pictureupload',

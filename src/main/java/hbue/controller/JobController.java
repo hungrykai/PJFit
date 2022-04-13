@@ -226,5 +226,22 @@ public class JobController {
         }
         return State;
     }
+
+    //ajax请求工作工作所需要具备的语言,福利和工作类型
+    @ResponseBody
+    @RequestMapping("/getjoblanguage")
+    public Job getuserlanguage(@RequestParam Integer job_id){
+        System.out.println(job_id);
+        return jobService.GetOneByJobId(job_id);
+    }
+
+    //ajax删除工作
+    @ResponseBody
+    @RequestMapping("/deletejob")
+    public Integer DeleteJob(@RequestParam Integer job_id){
+        jobService.DeleteJobById(job_id);
+        return 1;
+    }
+
 }
 

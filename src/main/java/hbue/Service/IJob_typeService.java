@@ -21,5 +21,10 @@ public interface IJob_typeService extends IService<Job_type> {
     //根据工作类别查找工作
     public IPage<Job_type> GetJobsByType(int curpage, int pagesize, QueryWrapper queryWrapper, boolean selectall);
 
+    /*批量保存工作类别*/
+    public void SaveJob_Types(Integer job_id, List<String> jobtypes);
+
+    //批量删除工作类别
+    public void DeleteJob_Types(Integer job_id);
 
 }

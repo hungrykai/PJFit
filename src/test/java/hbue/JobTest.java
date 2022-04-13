@@ -17,7 +17,7 @@ public class JobTest {
     //找出GetJobAndCompanyPage方法中size为60的bug
     @Test
     public void test1(){
-        System.out.println(jobService.GetJobAndCompanyPage("后端开发",1,60).getRecords());;
+        System.out.println(jobService.GetOneByJobId(15));
     }
 
 

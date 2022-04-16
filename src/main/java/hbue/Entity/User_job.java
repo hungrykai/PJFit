@@ -32,15 +32,19 @@ public class User_job implements Serializable {
     private Integer user_id;
 
     private Integer job_id;
-    //0-未投递， 1-已投递，2-已查看，3-已接收
+    //0-未投递， 1-已投递，2-已查看，3-已接收,4-已拒绝
     private Integer user_job_state;
 
     //0-未收藏，1-已收藏
     private Integer collect;
 
-    //时间
+    //投递时间
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     /*    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd",timezone="GMT+8")*/
     private LocalDateTime user_job_time;
+
+    //操作时间
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime user_job_operatetime;
 
 }

@@ -51,4 +51,18 @@ public class Userorjob_languageServiceImpl extends ServiceImpl<Userorjob_languag
         userorjob_languageQueryWrapper.eq("job_id",job_id);
         userorjob_languageMapper.delete(userorjob_languageQueryWrapper);
     }
+
+    @Override
+    public void DeleteUserLanguages(Integer user_id) {
+        QueryWrapper<Userorjob_language> userorjob_languageQueryWrapper = new QueryWrapper<>();
+        userorjob_languageQueryWrapper.eq("user_id",user_id);
+        userorjob_languageMapper.delete(userorjob_languageQueryWrapper);
+    }
+
+    @Override
+    public List<Userorjob_language> GetAllUserLanguages(Integer user_id) {
+        QueryWrapper<Userorjob_language> userorjob_languageQueryWrapper = new QueryWrapper<>();
+        userorjob_languageQueryWrapper.eq("user_id",user_id);
+        return userorjob_languageMapper.selectList(userorjob_languageQueryWrapper);
+    }
 }

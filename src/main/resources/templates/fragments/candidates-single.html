@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"><title>湖北经济学院信息与通信工程学院软件Q1842杨开</title>
+    <script src="static/js/html5shiv.js" th:src="@{/js/html5shiv.js}" ></script>
+    <script src="static/static/js/respond.js" th:src="@{/js/respond.js}"></script>
+    <script src="static/js/jquery.js" th:src="@{/js/jquery.js}"></script>
+    <script src="static/layer/layer.js" th:src="@{/layer/layer.js}"></script>
+    <link href="static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <link href="static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
+    <link href="static/css/responsive.css" th:href="@{/css/responsive.css}" rel="stylesheet">
+    <link rel="shortcut icon" href="static/picture/favicon.png" th:href="@{/picture/favicon.png}" type="image/x-icon"><!-- Responsive -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+</head>
+
+<body>
+
+<div class="page-wrapper">
+    <!-- Preloader -->
+    <div th:replace="../templates/fragments/header::dashboard-top"></div>
+    <!--End Main Header -->
+
+    <!-- Candidate Detail Section -->
+    <section class="candidate-detail-section">
+        <!-- Upper Box -->
+        <div class="upper-box">
+            <div class="auto-container">
+                <!-- Candidate block Five -->
+                <div class="candidate-block-five">
+                    <div class="inner-box">
+                        <div class="content">
+                            <figure class="image"><img th:src="@{'/upload/'+${session.showcuruser.user_picture}}" alt=""></figure>
+                            <h4 class="name" th:text="${session.showcuruser.user_name}"></h4>
+                            <ul class="candidate-info">
+                                <li class="designation" th:text="${session.showcuruser.user_expect_type}"></li>
+                                <li><span class="icon flaticon-map-locator"></span>[[${session.showcuruser.user_place}]]</li>
+                                <li><span class="icon flaticon-money"></span> ￥[[${session.showcuruser.user_expect_salary}]] / 月</li>
+                                <li><span class="icon flaticon-clock"></span> [[${session.showcuruser.user_birthday}]]</li>
+                            </ul>
+                            <ul class="post-tags">
+                                <li th:each="language:${session.showcuruser.getUser_language()}" th:text="${language}"></li>
+                            </ul>
+                        </div>
+
+                        <div class="btn-box">
+                            <a th:if="${session.showcuruser.user_resume != null}" th:href="@{'/upload/'+${session.showcuruser.user_resume}}" class="theme-btn btn-style-one">下载简历附件</a>
+                            <button class="bookmark-btn"><i class="flaticon-bookmark"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="candidate-detail-outer">
+            <div class="auto-container">
+                <div class="row">
+                    <div class="content-column col-lg-8 col-md-12 col-sm-12">
+                        <div class="resume-outer theme-blue">
+                            <div class="upper-title">
+                                <h4>个人特长</h4>
+                            </div>
+                            <!-- Resume BLock -->
+                            <div class="resume-block">
+                                <div class="inner">
+                                    <p th:text="${session.showcuruser.user_specialisms}"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="job-detail">
+                            <!-- Resume / Work & Experience -->
+                            <div class="resume-outer theme-blue">
+                                <div class="upper-title">
+                                    <h4>工作经验</h4>
+                                </div>
+                                <!-- Resume BLock -->
+                                <div class="resume-block">
+                                    <div class="inner">
+                                        <p th:text="${session.showcuruser.user_experience}"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Resume / Work & Experience -->
+                            <div class="resume-outer theme-blue">
+                                <div class="upper-title">
+                                    <h4>项目经验</h4>
+                                </div>
+                                <!-- Resume BLock -->
+                                <div class="resume-block">
+                                    <div class="inner">
+                                        <p th:text="${session.showcuruser.user_projects}"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-column col-lg-4 col-md-12 col-sm-12">
+                        <aside class="sidebar">
+                            <div class="sidebar-widget">
+                                <div class="widget-content">
+                                    <ul class="job-overview">
+
+                                        <li>
+                                            <i class="icon icon-user-2"></i>
+                                            <h5>性别:</h5>
+                                            <span th:text="${session.showcuruser.user_gender}"></span>
+                                        </li>
+
+                                        <li>
+                                            <i class="icon icon-calendar"></i>
+                                            <h5>Email:</h5>
+                                            <span th:text="${session.showcuruser.user_email}"></span>
+                                        </li>
+
+                                        <li>
+                                            <i class="icon icon-expiry"></i>
+                                            <h5>联系方式:</h5>
+                                            <span th:text="${session.showcuruser.user_phone}"></span>
+                                        </li>
+
+                                        <li>
+                                            <i class="icon icon-degree"></i>
+                                            <h5>学历水平：</h5>
+                                            <span th:text="${session.showcuruser.user_education}"></span>
+                                        </li>
+
+                                        <li>
+                                            <i class="icon icon-expiry"></i>
+                                            <h5>毕业学校</h5>
+                                            <span th:text="${session.showcuruser.user_school}"></span>
+                                        </li>
+                                        <li>
+                                            <i class="icon icon-location"></i>
+                                            <h5>期望工作城市:</h5>
+                                            <span th:text="${session.showcuruser.user_expect_place}"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End candidate Detail Section -->
+
+    <!-- Main Footer -->
+    <div th:replace="../templates/fragments/header::bottom"></div>
+    <!-- End Main Footer -->
+
+</div><!-- End Page Wrapper -->
+
+
+<script src="static/js/popper.min.js" th:src="@{/js/popper.min.js}"></script>
+<script src="static/js/jquery-ui.min.js" th:src="@{/js/jquery-ui.min.js}"></script>
+<script src="static/js/chosen.min.js" th:src="@{/js/chosen.min.js}"></script>
+<script src="static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="static/js/jquery.fancybox.js" th:src="@{/js/jquery.fancybox.js}"></script>
+<script src="static/js/jquery.modal.min.js" th:src="@{/js/jquery.modal.min.js}"></script>
+<script src="static/js/mmenu.polyfills.js" th:src="@{/js/mmenu.polyfills.js}"></script>
+<script src="static/js/mmenu.js" th:src="@{/js/mmenu.js}"></script>
+<script src="static/js/appear.js" th:src="@{/js/appear.js}"></script>
+<script src="static/js/owl.js" th:src="@{/js/owl.js}"></script>
+<script src="static/js/wow.js" th:src="@{/js/wow.js}"></script>
+<script src="static/js/script.js" th:src="@{/js/script.js}"></script>
+</body>
+
+</html>

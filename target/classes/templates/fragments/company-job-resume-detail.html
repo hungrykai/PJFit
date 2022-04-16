@@ -26,6 +26,7 @@
                 <div class="job-block-seven">
                     <div class="inner-box">
                         <div class="content">
+                            <input type="hidden" th:value="${session.jobAndUser.job.job_id}" id="job_id">
                             <span class="company-logo"><img th:src="@{${session.jobAndUser.company.company_picture}}" alt=""></span>
                             <h4 th:text="${session.jobAndUser.job.job_name}"></h4>
                             <ul class="job-info">
@@ -68,27 +69,30 @@
                             <div class="title-box">
                                 <h3>投递简历人员</h3>
                             </div>
-<!--
-                            &lt;!&ndash; Job Block &ndash;&gt;
-                            <div th:each="jobandcompany:${session.recommandjobs}" class="job-block">
+                            <!-- User Block -->
+                            <div th:each="user:${session.jobAndUser.userList}" th:if="${session.jobAndUser.user_jobs != null && session.jobAndUser.user_jobs[userStat.index].user_job_state != 0}" class="job-block">
                                 <div class="inner-box">
                                     <div class="content">
-                                        <span class="company-logo"><img th:src="${jobandcompany.company.company_picture}" alt=""></span>
-                                        <h4><a th:href="@{'/job/job_detail/' + ${jobandcompany.job.job_id}}" th:text="${jobandcompany.job.job_name}"></a></h4>
+                                        <span class="company-logo"><img th:src="@{'/upload/'+${user.user_picture}}" alt=""></span>
+                                        <h4><a th:href="@{'/company/candidate-detail/' + ${user.user_id}}" th:text="${user.user_name}"></a></h4>
                                         <ul class="job-info">
-                                            <li><span class="icon flaticon-briefcase"></span><div th:text="${jobandcompany.job.job_type[0]}"></div></li>
-                                            <li><span class="icon flaticon-map-locator"></span><div th:text="${jobandcompany.job.job_location}"></div></li>
-                                            <li><span class="icon flaticon-money"></span><div th:text="'￥' + ${jobandcompany.job.job_money_low} + ' - ' + ${jobandcompany.job.job_money_high} + 'k'"></div></li>
+                                            <li><span class="icon flaticon-briefcase"></span><div th:text="${user.user_expect_type}"></div></li>
+                                            <li><span class="icon flaticon-map-locator"></span><div th:text="${user.user_expect_place}"></div></li>
+                                            <li><span class="icon flaticon-money"></span><div th:text="'￥' + ${user.user_expect_salary}  + 'k'"></div></li>
                                         </ul>
                                         <ul class="job-other-info">
-                                            <li th:each="welfare,itetstat:${jobandcompany.job.job_welfare}" class="time" th:text="${welfare}">
+                                            <li th:each="userlanguage,itetstat:${user.user_language}" class="time" th:text="${userlanguage}">
+                                        </ul>
+                                        <ul class="job-other-info" th:id="jobresumeresult+(${user.user_id})">
+                                            <a th:if="${session.jobAndUser.user_jobs[userStat.index].user_job_state == 1 || session.jobAndUser.user_jobs[userStat.index].user_job_state == 2}" class="btn-style-one" th:id="passjobresume+(${user.user_id})" style="margin-left: 30%;color: white;" th:onclick="|passjob(${user.user_id})|">通过</a>
+                                            <a th:if="${session.jobAndUser.user_jobs[userStat.index].user_job_state == 1 || session.jobAndUser.user_jobs[userStat.index].user_job_state == 2}" class="theme-btn btn-style-one" th:id="refusejobresume+(${user.user_id})" style="margin-left: 15%;background-color: red;color: white" th:onclick="|refusejob(${user.user_id})|">拒绝</a>
+                                            <a th:if="${session.jobAndUser.user_jobs[userStat.index].user_job_state == 3}" class="btn-style-one" style="margin-left: 40%;color: white;background-color: gray" disabled="disabled">已通过</a>
+                                            <a th:if="${session.jobAndUser.user_jobs[userStat.index].user_job_state == 4}" class="btn-style-one" style="margin-left: 40%;color: white;background-color: red" disabled="disabled">已拒绝</a>
                                         </ul>
                                         <button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
                                     </div>
                                 </div>
                             </div>
--->
-
                         </div>
                     </div>
 
@@ -163,7 +167,55 @@
 </div><!-- End Page Wrapper -->
 
 <script type="text/javascript">
+    var job_id = $("#job_id").val();
 
+    function passjob(event) {
+        $.ajax({
+            type:'POST',
+            url:'/job/passjobresume',
+            async: false,
+            data:{
+                "user_id":event,
+                "job_id":job_id,
+            },
+            dataType: 'JSON',
+            success(data){
+                if (data == '0'){
+                    $("#passjobresume"+event).hide();
+                    $("#refusejobresume"+event).hide();
+                    $("#jobresumeresult"+event).html('<a class="btn-style-one" style="margin-left: 40%;color: white;background-color: gray">已通过</a>');
+                }else {
+                    layer.msg("操作失败！！!",{
+                        time:1500,
+                    })
+                }
+            }
+        })
+    }
+
+    function refusejob(event) {
+        $.ajax({
+            type:'POST',
+            url:'/job/refusejobresume',
+            async: false,
+            data:{
+                "user_id":event,
+                "job_id":job_id,
+            },
+            dataType: 'JSON',
+            success(data){
+                if (data == '0'){
+                    $("#passjobresume"+event).hide();
+                    $("#refusejobresume"+event).hide();
+                    $("#jobresumeresult"+event).html('<a class="btn-style-one" style="margin-left: 40%;color: white;background-color: red">已拒绝</a>');
+                }else {
+                    layer.msg("操作失败！！!",{
+                        time:1500,
+                    })
+                }
+            }
+        })
+    }
 
 </script>
 
@@ -181,5 +233,5 @@
 <script src="static/js/wow.js" th:src="@{/js/wow.js}"></script>
 <script src="static/js/script.js" th:src="@{/js/script.js}"></script>
 
-<script src="static/js/map-script.js"></script><!--End Google Map APi--></body>
+</body>
 </html>

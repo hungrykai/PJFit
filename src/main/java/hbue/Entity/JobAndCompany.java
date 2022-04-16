@@ -12,4 +12,6 @@ public class JobAndCompany {
     //公司招聘岗位数
     private Integer NumberOfjob;
 
+    private User_job user_job;
+
 }

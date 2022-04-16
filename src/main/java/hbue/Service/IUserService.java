@@ -17,4 +17,7 @@ public interface IUserService extends IService<User> {
 
     //保存user并保存List<String> user_language数据
     public boolean UpdateUser(User user);
+
+    //根据userid得到一个完整的User
+    public User GetUserById(Integer user_id);
 }

@@ -27,6 +27,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Autowired
     private IUserorjob_languageService user_languageService;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @Override
     public User GetUser(String email) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
@@ -58,5 +61,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             judge2 = user_languageService.saveOrUpdate(user_language);
         }
         return judge1&&judge2;
+    }
+
+    @Override
+    public User GetUserById(Integer user_id) {
+        User user = userMapper.selectById(user_id);
+        //补充语言信息
+        List<String> languages = new ArrayList<>();
+        List<Userorjob_language> userorjob_languages = user_languageService.GetAllUserLanguages(user_id);
+        for (Userorjob_language userorjob_language:userorjob_languages){
+            languages.add(userorjob_language.getUser_language());
+        }
+        user.setUser_language(languages);
+        return user;
     }
 }

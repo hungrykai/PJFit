@@ -156,7 +156,7 @@
 }
 }</style>
 </head>
-<body><div style="DISPLAY:NONE"><a href="http://www.sucai8.cn">sucai8.cn</a></div>
+<body><div style="DISPLAY:NONE"></div>
 <div class="error">
     <div class="container-floud">
         <div style="text-align: center">
@@ -211,7 +211,7 @@ var loop1, loop2, loop3, time = 30,
 loop3 = setInterval(function() {
     if (i > 40) {
         clearInterval(loop3);
-        document.querySelector('.thirdDigit').textContent = 4;
+        document.querySelector('.thirdDigit').textContent = 5;
     } else {
         document.querySelector('.thirdDigit').textContent = randomNum();
         i++;
@@ -229,7 +229,7 @@ loop2 = setInterval(function() {
 loop1 = setInterval(function() {
     if (i > 100) {
         clearInterval(loop1);
-        document.querySelector('.firstDigit').textContent = 4;
+        document.querySelector('.firstDigit').textContent = 0;
     } else {
         document.querySelector('.firstDigit').textContent = randomNum();
         i++;

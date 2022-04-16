@@ -33,8 +33,8 @@
     <section class="user-dashboard">
         <div class="dashboard-outer">
             <div class="upper-title-box">
-                <h3>Shorlisted Jobs</h3>
-                <div class="text">Ready to jump back in?</div>
+                <h3>收藏过的职位</h3>
+                <div class="text">此页面展示的是您收藏过的岗位</div>
             </div>
 
             <div class="row">
@@ -43,7 +43,7 @@
                     <div class="ls-widget">
                         <div class="tabs-box">
                             <div class="widget-title">
-                                <h4>My Favorite Jobs</h4>
+                                <h4>收藏的岗位</h4>
 
                                 <div class="chosen-outer">
                                     <!--Tabs Box-->
@@ -62,120 +62,37 @@
                                     <table class="default-table manage-job-table">
                                         <thead>
                                         <tr>
-                                            <th>Job Title</th>
-                                            <th>Date Applied</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
+                                            <th>工作名称</th>
+                                            <th>工作地点</th>
+                                            <th>薪资</th>
+                                            <th>操作</th>
                                         </tr>
                                         </thead>
 
                                         <tbody>
-                                        <tr>
-                                            <td>
+                                        <tr th:each="jobandcompany:${session.collectjoblist}">
+                                            <td >
                                                 <!-- Job Block -->
                                                 <div class="job-block">
                                                     <div class="inner-box">
                                                         <div class="content">
-                                                            <span class="company-logo"><img src="images/resource/company-logo/1-1.png" alt=""></span>
-                                                            <h4><a href="#">Senior Full Stack Engineer, Creator Success</a></h4>
+                                                            <span class="company-logo"><img th:src="${jobandcompany.company.company_picture}" alt=""></span>
+                                                            <h4><a th:href="@{'/job/job_detail/' + ${jobandcompany.job.job_id}}" th:text="${jobandcompany.job.job_name}"></a></h4>
                                                             <ul class="job-info">
-                                                                <li><span class="icon flaticon-briefcase"></span> Segment</li>
-                                                                <li><span class="icon flaticon-map-locator"></span> London, UK</li>
+                                                                <li><span class="icon flaticon-briefcase"></span>[[${jobandcompany.job.job_work_years}]]</li>
+                                                                <li><span class="icon flaticon-map-locator"></span>[[${jobandcompany.job.job_city}]]</li>
                                                             </ul>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>Dec 5, 2020</td>
-                                            <td class="status">Active</td>
+                                            <td th:text="${jobandcompany.job.job_location}"></td>
+                                            <td> ￥[[${jobandcompany.job.job_money_low}]] - [[${jobandcompany.job.job_money_high}]]K</td>
                                             <td>
                                                 <div class="option-box">
                                                     <ul class="option-list">
-                                                        <li><button data-text="View Aplication"><span class="la la-eye"></span></button></li>
-                                                        <li><button data-text="Delete Aplication"><span class="la la-trash"></span></button></li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <!-- Job Block -->
-                                                <div class="job-block">
-                                                    <div class="inner-box">
-                                                        <div class="content">
-                                                            <span class="company-logo"><img src="images/resource/company-logo/1-2.png" alt=""></span>
-                                                            <h4><a href="#">Senior Product Designer</a></h4>
-                                                            <ul class="job-info">
-                                                                <li><span class="icon flaticon-briefcase"></span> Segment</li>
-                                                                <li><span class="icon flaticon-map-locator"></span> London, UK</li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>Dec 5, 2020</td>
-                                            <td class="status">Active</td>
-                                            <td>
-                                                <div class="option-box">
-                                                    <ul class="option-list">
-                                                        <li><button data-text="View Aplication"><span class="la la-eye"></span></button></li>
-                                                        <li><button data-text="Delete Aplication"><span class="la la-trash"></span></button></li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <!-- Job Block -->
-                                                <div class="job-block">
-                                                    <div class="inner-box">
-                                                        <div class="content">
-                                                            <span class="company-logo"><img src="images/resource/company-logo/1-3.png" alt=""></span>
-                                                            <h4><a href="#">Sr. Full Stack Engineer</a></h4>
-                                                            <ul class="job-info">
-                                                                <li><span class="icon flaticon-briefcase"></span> Segment</li>
-                                                                <li><span class="icon flaticon-map-locator"></span> London, UK</li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>Dec 5, 2020</td>
-                                            <td class="status">Active</td>
-                                            <td>
-                                                <div class="option-box">
-                                                    <ul class="option-list">
-                                                        <li><button data-text="View Aplication"><span class="la la-eye"></span></button></li>
-                                                        <li><button data-text="Delete Aplication"><span class="la la-trash"></span></button></li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <!-- Job Block -->
-                                                <div class="job-block">
-                                                    <div class="inner-box">
-                                                        <div class="content">
-                                                            <span class="company-logo"><img src="images/resource/company-logo/1-4.png" alt=""></span>
-                                                            <h4><a href="#">Product Manager, Studio</a></h4>
-                                                            <ul class="job-info">
-                                                                <li><span class="icon flaticon-briefcase"></span> Segment</li>
-                                                                <li><span class="icon flaticon-map-locator"></span> London, UK</li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>Dec 5, 2020</td>
-                                            <td class="status">Active</td>
-                                            <td>
-                                                <div class="option-box">
-                                                    <ul class="option-list">
-                                                        <li><button data-text="View Aplication"><span class="la la-eye"></span></button></li>
-                                                        <li><button data-text="Delete Aplication"><span class="la la-trash"></span></button></li>
+                                                        <li><button data-text="查看职位"><span class="la la-eye"></span></button></li>
+                                                        <li><button id="deletecollect" th:onclick="|delete(${jobandcompany.job.job_id})|" data-text="删除收藏"><span class="la la-trash"></span></button></li>
                                                     </ul>
                                                 </div>
                                             </td>

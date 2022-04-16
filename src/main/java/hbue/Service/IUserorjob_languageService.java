@@ -25,4 +25,10 @@ public interface IUserorjob_languageService extends IService<Userorjob_language>
     //批量删除工作所需语言
     public void DeleteJobLanguages(Integer job_id);
 
+    //批量删除user精通语言
+    public void DeleteUserLanguages(Integer user_id);
+
+    //根据user_id得到所有的精通语言
+    public List<Userorjob_language> GetAllUserLanguages(Integer user_id);
+
 }

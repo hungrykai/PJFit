@@ -13,8 +13,6 @@ public class MailService {
     @Resource
     private JavaMailSender mailSender;
 
-    // 从配置文件中注入发件人的姓名
-    private String fromEmail;
 
     /**
      * 发送文本邮件

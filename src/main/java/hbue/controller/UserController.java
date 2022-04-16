@@ -1,9 +1,11 @@
 package hbue.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import hbue.Entity.User;
-import hbue.Service.IUserService;
+import hbue.Entity.*;
+import hbue.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,7 +41,19 @@ public class UserController {
     private String imagePath;
 
     @Autowired
+    private ICompanyService companyService;
+
+    @Autowired
+    private IMessageService messageService;
+
+    @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IUser_jobService user_jobService;
+
+    @Autowired
+    private IJobService jobService;
 
     //跳转到候选人列表
     @RequestMapping("/candidateslist")
@@ -119,25 +134,74 @@ public class UserController {
 
     //跳转道user仪表盘的申请过的岗位里面
     @RequestMapping("/candidate-dashboard-applied-job")
-    public String Gotocandidatedashboardappliedjob(){
+    public String Gotocandidatedashboardappliedjob(HttpSession session){
+        //查找user投递的简历
+        User curuser = (User) session.getAttribute("curuser");
+        QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
+        user_jobQueryWrapper.eq("user_id",curuser.getUser_id());
+        List<User_job> user_jobList = user_jobService.list(user_jobQueryWrapper);
+        List<JobAndCompany> jobAndCompanyList = new ArrayList<>();
+        for (User_job user_job :user_jobList){
+            JobAndCompany jobAndCompany = jobService.GetJobandCompanyById(user_job.getJob_id());
+            jobAndCompany.setUser_job(user_job);
+            jobAndCompanyList.add(jobAndCompany);
+        }
+        session.setAttribute("appliedjobs",jobAndCompanyList);
         return "fragments/candidate-dashboard-applied-job.html";
     }
 
     //跳转道user仪表盘岗位提醒界面
     @RequestMapping("/candidate-dashboard-job-alerts")
-    public String Gotocandidatedashboardjobalerts(){
+    public String Gotocandidatedashboardjobalerts(HttpSession session){
+        IPage<Job> jobIPage = jobService.GetJobPageByQueryWrapper(1, 10, null, false);
+        QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
+        List<Job> jobList = jobIPage.getRecords();
+        List<JobAndCompany> jobAndCompanyList = new ArrayList<>();
+        for (Job job:jobList){
+            user_jobQueryWrapper.eq("job_id",job.getJob_id());
+            if (user_jobService.getOne(user_jobQueryWrapper) == null){
+                jobAndCompanyList.add(jobService.GetJobandCompanyById(job.getJob_id()));
+            }
+        }
+        session.setAttribute("alertjoblist",jobAndCompanyList);
         return "fragments/candidate-dashboard-job-alerts.html";
     }
 
-    //跳转到user仪表盘里面的入围的简历中
+    //跳转到user仪表盘里面的收藏的简历中
     @RequestMapping("/candidate-dashboard-shortlisted-resume")
-    public String Gotocandidatedashboardshortlistedresume(){
+    public String Gotocandidatedashboardshortlistedresume(HttpSession session){
+        //查找user收藏的简历
+        User curuser = (User) session.getAttribute("curuser");
+        QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
+        user_jobQueryWrapper.eq("user_id",curuser.getUser_id());
+        user_jobQueryWrapper.eq("collect",1);
+        List<User_job> user_jobList = user_jobService.list(user_jobQueryWrapper);
+        List<JobAndCompany> jobAndCompanyList = new ArrayList<>();
+        for (User_job user_job :user_jobList){
+            JobAndCompany jobAndCompany = jobService.GetJobandCompanyById(user_job.getJob_id());
+            jobAndCompany.setUser_job(user_job);
+            jobAndCompanyList.add(jobAndCompany);
+        }
+        session.setAttribute("collectjoblist",jobAndCompanyList);
         return "fragments/candidate-dashboard-shortlisted-resume.html";
     }
 
     //跳转到聊天消息界面
     @RequestMapping("/dashboard-messages")
-    public String Gotodashboardmessages(){
+    public String Gotodashboardmessages(HttpSession session){
+        User curuser = (User) session.getAttribute("curuser");
+        List<Message> messageList = messageService.GetMessagelistByUser_id(curuser.getUser_id());
+        List<MessageAndUser> messageAndUsers = new ArrayList<>();
+        for (Message message:messageList){
+            MessageAndUser messageAndUser = new MessageAndUser();
+            User user = userService.getById(message.getMessage_from());
+            messageAndUser.setUser(user);
+            messageAndUser.setCompany(companyService.getById(user.getUser_identity()));
+            messageAndUser.setJob(jobService.getById(message.getMessage_job_id()));
+            messageAndUser.setMessage(message);
+            messageAndUsers.add(messageAndUser);
+        }
+        session.setAttribute("messageAndUsers",messageAndUsers);
         return "fragments/dashboard-messages.html";
     }
 
@@ -174,6 +238,24 @@ public class UserController {
         }
         userService.UpdateUser(user);
         return ok;
+    }
+
+
+    //修改密码
+    @ResponseBody
+    @RequestMapping("/changepassword")
+    public Integer changepassword(@RequestParam("oldpassword") String oldpassword,@RequestParam("newpassword") String newpassword
+                                  , HttpSession session){
+        Integer result = 0;
+        User curuser = (User) session.getAttribute("curuser");
+        if (curuser.getUser_password().equals(oldpassword)){
+            curuser.setUser_password(newpassword);
+            userService.updateById(curuser);
+            result = 0;
+        }else {
+            result = 1;
+        }
+        return result;
     }
 
 }

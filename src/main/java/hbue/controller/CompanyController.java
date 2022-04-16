@@ -96,15 +96,12 @@ public class CompanyController {
     @PostMapping("/companypictureupload")
     public Integer companypictureupload(Company company, @RequestParam("uploadcompanypicture") MultipartFile uploadcompanypicture, HttpSession session){
         Integer ok = 0;
-        System.out.println(company);
         if (!uploadcompanypicture.isEmpty()){
             String imgFileName = System.currentTimeMillis() + uploadcompanypicture.getOriginalFilename().substring(uploadcompanypicture.getOriginalFilename().lastIndexOf('.'));
             //得到文件存放位置
             String saveImgFileName = fileUrl + imagePath + imgFileName;
-            System.out.println(saveImgFileName);
             File dest = new File(saveImgFileName);
             company.setCompany_picture(imgFileName);
-            System.out.println("imgFileName:"+company.getCompany_picture());
             // 判断文件父目录是否存在
             if (!dest.getParentFile().exists()) {
                 //不在就创立
@@ -112,7 +109,6 @@ public class CompanyController {
             }
             try {
                 uploadcompanypicture.transferTo(dest);
-                System.out.println(company);
                 companyService.updateById(company);
                 //更新session
                 session.setAttribute("curcompany",company);
@@ -140,7 +136,6 @@ public class CompanyController {
         jobQueryWrapper.select().orderByDesc("job_id");
         //保存工作信息
         IPage<Job> jobIPage = jobService.GetJobPageByQueryWrapper(1, 100, jobQueryWrapper, true);
-        System.out.println(jobIPage.getRecords());
         IPage<JobAndUsers> jobAndUsersIPage = new Page<>(jobIPage.getCurrent(),jobIPage.getSize(),jobIPage.isSearchCount());
         for (Job job:jobIPage.getRecords()){
             JobAndUsers jobAndUser = new JobAndUsers();
@@ -161,7 +156,6 @@ public class CompanyController {
             jobAndUsers.add(jobAndUser);
         }
         jobAndUsersIPage.setRecords(jobAndUsers);
-        System.out.println(jobAndUsers);
         session.setAttribute("jobAndUsers",jobAndUsers);
         return "fragments/company-job-resume.html";
     }
@@ -186,13 +180,69 @@ public class CompanyController {
 
     //跳转道所有申请者上面去
     @RequestMapping("/dashboard-applicants")
-    public String Gotodashboardapplicants(){
+    public String Gotodashboardapplicants(HttpSession session){
+        User curuser = (User) session.getAttribute("curuser");
+        Company curcompany = (Company) session.getAttribute("curcompany");
+        List<UserAndJobs> userAndJobsList = new ArrayList<>();
+        List<User> userList = new ArrayList<>();
+        //先查出公司旗下有哪些发布的job
+        QueryWrapper<Job> jobQueryWrapper = new QueryWrapper<>();
+        jobQueryWrapper.eq("job_employer_id",curuser.getUser_id());
+        List<Job> jobList = jobService.list(jobQueryWrapper);
+        System.out.println(jobList);
+        //在根据user_job找到求职者
+        for (Job job:jobList){
+            QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
+            user_jobQueryWrapper.eq("job_id",job.getJob_id());
+            List<User_job> user_jobList = user_jobService.list(user_jobQueryWrapper);
+            System.out.println(user_jobList);
+            for (User_job user_job:user_jobList){
+                User user = userService.getById(user_job.getUser_id());
+                //查找user
+                if (userList.indexOf(user) == -1){
+                    UserAndJobs userAndJobs = new UserAndJobs();
+                    userAndJobs.setUser(user);
+                    QueryWrapper<Job> jobQueryWrapper1 = new QueryWrapper<>();
+                    jobQueryWrapper1.eq("job_id",job.getJob_id());
+                    userAndJobs.setJobList(jobService.list(jobQueryWrapper1));
+                    userAndJobsList.add(userAndJobs);
+                    userList.add(user);
+                }
+            }
+        }
+        System.out.println(userAndJobsList);
+        session.setAttribute("allapplocants",userAndJobsList);
         return "fragments/dashboard-applicants.html";
     }
 
     //跳转到入围简历去
     @RequestMapping("/company-dashboard-shortlisted-resume")
-    public String Gotocompanydashboardshortlistedresume(){
+    public String Gotocompanydashboardshortlistedresume(HttpSession session){
+        User curuser = (User) session.getAttribute("curuser");
+        Company curcompany = (Company) session.getAttribute("curcompany");
+        List<UserAndJob> userAndJobList = new ArrayList<>();
+        List<User> userList = new ArrayList<>();
+        //先查出公司旗下有哪些发布的job
+        QueryWrapper<Job> jobQueryWrapper = new QueryWrapper<>();
+        jobQueryWrapper.eq("job_employer_id",curuser.getUser_id());
+        List<Job> jobList = jobService.list(jobQueryWrapper);
+        //在根据user_job找到求职者
+        for (Job job:jobList){
+            QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
+            user_jobQueryWrapper.eq("job_id",job.getJob_id());
+            List<User_job> user_jobList = user_jobService.list(user_jobQueryWrapper);
+            for (User_job user_job:user_jobList){
+                //查找user
+                UserAndJob userAndJob = new UserAndJob();
+                userAndJob.setUser(userService.getById(user_job.getUser_id()));
+                userAndJob.setCompany(curcompany);
+                userAndJob.setUser_job(user_job);
+                userAndJob.setJob(job);
+                userAndJobList.add(userAndJob);
+            }
+        }
+        System.out.println(userAndJobList);
+        session.setAttribute("passjobresumelist",userAndJobList);
         return "fragments/company-dashboard-shortlisted-resume.html";
     }
 
@@ -237,7 +287,6 @@ public class CompanyController {
     //修改发布的工作
     @RequestMapping("/submit-reset-job")
     public String submitresetjob(Job job, HttpSession session){
-        System.out.println(job);
         User curuser = (User) session.getAttribute("curuser");
         job.setJob_employer_id(curuser.getUser_id());
         job.setCompany_id(curuser.getUser_identity());
@@ -260,9 +309,7 @@ public class CompanyController {
     @RequestMapping("/company-job-resume-detail/{job_id}")
     public String Gotocompanyjobresumedetail(@PathVariable("job_id") Integer job_id,HttpSession session){
         JobAndUsers jobAndUser = new JobAndUsers();
-        System.out.println(job_id);
         Job job = jobService.GetOneByJobId(job_id);
-        System.out.println(job);
         jobAndUser.setJob(job);
         //得到公司
         User curuser = (User) session.getAttribute("curuser");
@@ -272,11 +319,14 @@ public class CompanyController {
         user_jobQueryWrapper.eq("job_id",job.getJob_id());
         user_jobQueryWrapper.select().orderByDesc("user_job_time");
         List<User_job> user_jobList = user_jobService.list(user_jobQueryWrapper);
-        jobAndUser.setUser_jobs(user_jobList);
         List<User> userList = new ArrayList<>();
         for (User_job user_job:user_jobList){
-            userList.add(userService.getById(user_job.getUser_id()));
+            user_job.setUser_job_state(2);
+            user_jobService.updateById(user_job);
+            userList.add(userService.GetUserById(user_job.getUser_id()));
         }
+        //存储List<User_job>
+        jobAndUser.setUser_jobs(user_jobList);
         //存储List<User>
         jobAndUser.setUserList(userList);
         //得到收藏数
@@ -287,7 +337,44 @@ public class CompanyController {
         jobAndUser.RecevieResumeTime();
         //存job数据
         session.setAttribute("jobAndUser",jobAndUser);
+        System.out.println(jobAndUser);
         return "fragments/company-job-resume-detail.html";
+    }
+
+    //跳转到申请者的详细界面
+    @RequestMapping("/candidate-detail/{user_id}")
+    public String Gotocandidatedetail(@PathVariable("user_id")Integer user_id,HttpSession session){
+        User user = userService.GetUserById(user_id);
+        session.setAttribute("showcuruser",user);
+        return "fragments/candidates-single.html";
+    }
+
+    //跳转道公司详情页面去
+    @RequestMapping("/company_detail/{company_id}")
+    public String Gotocompanydetail(@PathVariable("company_id") Integer company_id,HttpSession session){
+        //查找公司
+        Company company = companyService.getById(company_id);
+        //查找雇主
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("user_identity",company.getCompany_id());
+        List<User> userlist = userService.list(userQueryWrapper);
+        System.out.println(userlist);
+        List<Job> jobList = new ArrayList<>();
+        for (User user:userlist){
+            QueryWrapper<Job> jobQueryWrapper = new QueryWrapper<>();
+            jobQueryWrapper.eq("job_employer_id",user.getUser_id());
+            jobList.addAll(jobService.list(jobQueryWrapper));
+            if (jobList.size() > 3){
+                break;
+            }
+        }
+        for (Job job:jobList){
+            jobService.GetOneJob(job);
+        }
+        System.out.println(jobList);
+        session.setAttribute("viewcompany",company);
+        session.setAttribute("companycommandjobs",jobList);
+        return "fragments/company-detail.html";
     }
 
 }

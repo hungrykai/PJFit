@@ -4,16 +4,14 @@ package hbue.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import hbue.Entity.*;
-import hbue.Service.ICompanyService;
-import hbue.Service.IJobService;
-import hbue.Service.IJob_typeService;
-import hbue.Service.IUser_jobService;
+import hbue.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +38,9 @@ public class JobController {
 
     @Autowired
     private IJobService jobService;
+
+    @Autowired
+    private IMessageService messageService;
 
     @RequestMapping(value = {"/joblist/{typename}"})
     public String joblist(@PathVariable String typename, HttpSession session){
@@ -164,9 +165,7 @@ public class JobController {
             state = 1;
             return state;
         }else {
-            if (curuser.getUser_resume() == null || curuser.getUser_name() == null || curuser.getUser_gender() == null ||
-            curuser.getUser_education() == null || curuser.getUser_experience() ==null || curuser.getUser_phone() == null ||
-            curuser.getUser_specialisms() == null || curuser.getUser_place() == null){
+            if (curuser.getUser_resume() == null && curuser.getUser_name() == null){
                 state = 2;
             }else {
                 JobAndCompany jobAndCompany = (JobAndCompany) session.getAttribute("curjobandcompany");
@@ -183,6 +182,7 @@ public class JobController {
                     user_jobService.save(newuser_job);
                 }else {
                     user_job.setUser_job_state(1);
+                    user_job.setUser_job_time(LocalDateTime.now());
                     user_jobService.updateById(user_job);
                 }
             }
@@ -241,6 +241,68 @@ public class JobController {
     public Integer DeleteJob(@RequestParam Integer job_id){
         jobService.DeleteJobById(job_id);
         return 1;
+    }
+
+    //ajax通过该工作
+    @ResponseBody
+    @RequestMapping("/passjobresume")
+    public Integer passjobresume(@RequestParam("user_id") Integer user_id,@RequestParam("job_id") Integer job_id, HttpSession session){
+        User curuser = (User) session.getAttribute("curuser");
+        Integer result = 0;
+        Job job = jobService.GetOneByJobId(job_id);
+        System.out.println(curuser);
+        Company company = companyService.getById(curuser.getUser_identity());
+        System.out.println(company);
+        //发送简历通过消息
+        String content = "";
+        content += "恭喜您通过"+company.getCompany_name()+"旗下的"+job.getJob_name()+"岗位的简历筛选进入下一轮！届时将会以邮件的方式提醒您下一轮考核通知，请注意查收";
+        messageService.SentAMessage(curuser.getUser_id(),user_id,content,LocalDateTime.now(),0,job_id);
+
+        QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
+        user_jobQueryWrapper.eq("user_id",user_id);
+        user_jobQueryWrapper.eq("job_id",job_id);
+        User_job user_job = user_jobService.getOne(user_jobQueryWrapper);
+        if (user_job == null){
+            result = 1;
+        }else {
+            user_job.setUser_job_state(3);
+            user_job.setUser_job_operatetime(LocalDateTime.now());
+            if (user_jobService.updateById(user_job)){
+                result = 0;
+            }else {
+                result = 1;
+            }
+        }
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping("/refusejobresume")
+    public Integer refusejobresume(@RequestParam("user_id") Integer user_id,@RequestParam("job_id") Integer job_id, HttpSession session){
+        User curuser = (User) session.getAttribute("curuser");
+        Integer result = 0;
+        Job job = jobService.GetOneByJobId(job_id);
+        Company company = companyService.getById(curuser.getUser_identity());
+        //发送简历通过消息
+        String content = "";
+        content += "很遗憾您未能通过"+company.getCompany_name()+"旗下的"+job.getJob_name()+"岗位的简历筛选，已将您加入本公司的备用人才库！";
+        messageService.SentAMessage(curuser.getUser_id(),user_id,content,LocalDateTime.now(),0,job_id);
+        QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
+        user_jobQueryWrapper.eq("user_id",user_id);
+        user_jobQueryWrapper.eq("job_id",job_id);
+        User_job user_job = user_jobService.getOne(user_jobQueryWrapper);
+        if (user_job == null){
+            result = 1;
+        }else {
+            user_job.setUser_job_state(4);
+            user_job.setUser_job_operatetime(LocalDateTime.now());
+            if (user_jobService.updateById(user_job)){
+                result = 0;
+            }else {
+                result = 1;
+            }
+        }
+        return result;
     }
 
 }

@@ -305,5 +305,59 @@ public class JobController {
         return result;
     }
 
+    //搜索job
+    @RequestMapping("/searchjoblist")
+    public String searchjoblist(@RequestParam("field_keywords") String field_keywords,@RequestParam("field_city")String field_city,
+                                @RequestParam("field_money")String field_money,HttpSession session){
+        QueryWrapper<Job> jobQueryWrapper = new QueryWrapper<>();
+        if (field_keywords != null && field_keywords != ""){
+            jobQueryWrapper.like("job_name",field_keywords).or().like("job_describe",field_keywords);
+        }
+        if (field_city != null && field_city != ""){
+            jobQueryWrapper.eq("job_city",field_city);
+        }
+        if (field_money != null && field_money != ""){
+            jobQueryWrapper.gt("job_money_low",field_money);
+        }
+        IPage<JobAndCompany> jobAndCompanyIPage = jobService.GetSearchJobList(jobQueryWrapper, 1, 10);
+        session.setAttribute("search_jobkeywords",field_keywords);
+        session.setAttribute("search_jobcity",field_city);
+        session.setAttribute("search_jobmoney",field_money);
+        session.setAttribute("jobIPage",jobAndCompanyIPage);
+        session.setAttribute("typename",null);
+        return "fragments/job-list.html";
+    }
+
+    //joblist分页
+    @RequestMapping(value = {"/joblist/{typename}/{pagecurrent}/{pagesize}"})
+    public String joblistByCurrentAndSize(@PathVariable String typename, HttpSession session,@PathVariable Integer pagecurrent,@PathVariable Integer pagesize){
+        IPage<JobAndCompany> jobIPage = jobService.GetJobAndCompanyPage(typename, pagecurrent, pagesize);
+        session.setAttribute("jobIPage",jobIPage);
+        session.setAttribute("typename",typename);
+        return "fragments/job-list.html";
+    }
+
+    //搜索分页
+    @RequestMapping("/searchjoblist/{pagecurrent}/{pagesize}")
+    public String searchjoblistByCurrentAndSize(HttpSession session,@PathVariable Integer pagecurrent,@PathVariable Integer pagesize){
+        String field_keywords = (String) session.getAttribute("search_jobkeywords");
+        String field_city = (String)session.getAttribute("search_jobcity");
+        String field_money = (String) session.getAttribute("search_jobmoney");
+        QueryWrapper<Job> jobQueryWrapper = new QueryWrapper<>();
+        if (field_keywords != null && field_keywords != ""){
+            jobQueryWrapper.like("job_name",field_keywords).or().like("job_describe",field_keywords);
+        }
+        if (field_city != null && field_city != ""){
+            jobQueryWrapper.eq("job_city",field_city);
+        }
+        if (field_money != null && field_money != ""){
+            jobQueryWrapper.gt("job_money_low",field_money);
+        }
+        IPage<JobAndCompany> jobAndCompanyIPage = jobService.GetSearchJobList(jobQueryWrapper,pagecurrent , pagesize);
+        session.setAttribute("jobIPage",jobAndCompanyIPage);
+        session.setAttribute("typename",null);
+        return "fragments/job-list.html";
+    }
+
 }
 

@@ -267,4 +267,22 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements IJobS
         jobQueryWrapper.eq("job_work_years",job.getJob_work_years());
         return jobMapper.selectOne(jobQueryWrapper).getJob_id();
     }
+
+    @Override
+    public IPage<JobAndCompany> GetSearchJobList(QueryWrapper queryWrapper, Integer jobpagecurrent, Integer pagesize) {
+        IPage<Job> jobIPage = new Page<>(jobpagecurrent,pagesize,true);
+        IPage<JobAndCompany> jobAndCompanyIPage = new Page<>(jobpagecurrent,pagesize,true);
+        List<JobAndCompany> jobAndCompanyList = new ArrayList<>();
+        jobIPage = jobMapper.selectPage(jobIPage,queryWrapper);
+        for (Job job:jobIPage.getRecords()){
+            JobAndCompany jobAndCompany = new JobAndCompany();
+            jobAndCompany.setCompany(companyService.getById(job.getCompany_id()));
+            jobAndCompany.setJob(GetOneJob(job));
+            jobAndCompanyList.add(jobAndCompany);
+        }
+        jobAndCompanyIPage.setRecords(jobAndCompanyList);
+        jobAndCompanyIPage.setPages(jobIPage.getPages());
+        jobAndCompanyIPage.setTotal(jobIPage.getTotal());
+        return jobAndCompanyIPage;
+    }
 }

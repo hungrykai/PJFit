@@ -70,6 +70,7 @@ public class CompanyController {
         //准备公司列表数据
         IPage<Company> companylistIPage = companyService.GetCompanyPage(1, 12, null, true);
         session.setAttribute("companylistIPage",companylistIPage);
+        session.setAttribute("issearch",0);
         return "fragments/company-list.html";
     }
 
@@ -375,6 +376,71 @@ public class CompanyController {
         session.setAttribute("viewcompany",company);
         session.setAttribute("companycommandjobs",jobList);
         return "fragments/company-detail.html";
+    }
+
+    //公司分页请求
+    //跳转到公司列表页面
+    @RequestMapping("/companylist/{pagecurrent}/{pagesize}")
+    public String companylist(HttpSession session,@PathVariable Integer pagecurrent,@PathVariable Integer pagesize){
+        //准备公司列表数据
+        IPage<Company> companylistIPage = companyService.GetCompanyPage(pagecurrent, pagesize, null, true);
+        session.setAttribute("companylistIPage",companylistIPage);
+        session.setAttribute("issearch",0);
+        return "fragments/company-list.html";
+    }
+
+    //公司搜索请求
+    @RequestMapping("/searchcompanylist")
+    public String searchcompanylist(@RequestParam String field_name,@RequestParam String field_city,
+                                    @RequestParam  String field_companynumber,HttpSession session){
+        QueryWrapper<Company> companyQueryWrapper = new QueryWrapper<>();
+        System.out.println(field_name+field_city+field_companynumber);
+        if (field_name != null && !field_name.isEmpty()){
+            companyQueryWrapper.like("company_name",field_name).or().like("company_introduction",field_name);
+        }
+        if (field_city != null && !field_city.isEmpty()){
+            companyQueryWrapper.like("company_location",field_city);
+        }
+        if (field_companynumber.equals("已上市")){
+            companyQueryWrapper.like("company_number",field_companynumber).or().like("company_number","C").or().
+                    like("company_number","D");
+        }
+        if (field_companynumber.equals("未上市")){
+            companyQueryWrapper.like("company_number","不需要融资");
+        }
+        IPage<Company> companyIPage = companyService.GetCompanyPage(1, 12, companyQueryWrapper, true);
+        session.setAttribute("companylistIPage",companyIPage);
+        session.setAttribute("searchcompany_name",field_name);
+        session.setAttribute("searchcompany_number",field_companynumber);
+        session.setAttribute("searchcompany_city",field_city);
+        session.setAttribute("issearch",1);
+        return "fragments/company-list.html";
+    }
+
+    //分页
+    @RequestMapping("/searchcompanylist/{pagecurrent}/{pagesize}")
+    public String searchcompanypage(HttpSession session,@PathVariable Integer pagecurrent,@PathVariable Integer pagesize){
+        String field_name = (String) session.getAttribute("searchcompany_name");
+        String field_city = (String) session.getAttribute("searchcompany_city");
+        String field_companynumber = (String) session.getAttribute("searchcompany_number");
+        QueryWrapper<Company> companyQueryWrapper = new QueryWrapper<>();
+        if (field_name != null && !field_name.isEmpty()){
+            companyQueryWrapper.like("company_name",field_name).or().like("company_introduction",field_name);
+        }
+        if (field_city != null && !field_city.isEmpty()){
+            companyQueryWrapper.like("company_location",field_city);
+        }
+        if (field_companynumber.equals("已上市")){
+            companyQueryWrapper.like("company_number",field_companynumber).or().like("company_number","C").or().
+                    like("company_number","D");
+        }
+        if (field_companynumber.equals("未上市")){
+            companyQueryWrapper.like("company_number","不需要融资");
+        }
+        IPage<Company> companyIPage = companyService.GetCompanyPage(pagecurrent, pagesize, companyQueryWrapper, true);
+        session.setAttribute("companylistIPage",companyIPage);
+        session.setAttribute("issearch",1);
+        return "fragments/company-list.html";
     }
 
 }

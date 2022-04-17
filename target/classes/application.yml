@@ -40,7 +40,6 @@ mybatis-plus:
     lazy-loading-enabled: true
     multiple-result-sets-enabled: true
     #默认不显示SQL日志
-#        log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     banner: false

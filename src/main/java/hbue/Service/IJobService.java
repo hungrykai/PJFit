@@ -54,4 +54,7 @@ public interface IJobService extends IService<Job> {
     //根据job的其他内容查找返回job——id
     public Integer GetJob_id(Job job);
 
+    //根据关键字，city和工作类别返回jobandcompany
+    public IPage<JobAndCompany> GetSearchJobList(QueryWrapper queryWrapper, Integer jobpagecurrent, Integer pagesize);
+
 }

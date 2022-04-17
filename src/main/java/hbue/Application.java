@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan("hbue.mapper")
 public class Application {
     public static void main(String[] args) {
-        SpringApplication.run(Application.class,args);
+        SpringApplication.
+                run(Application.class,args);
     }
 }

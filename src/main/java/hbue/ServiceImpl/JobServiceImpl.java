@@ -3,10 +3,17 @@ package hbue.ServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hbue.Entity.*;
 import hbue.Service.*;
 import hbue.mapper.JobMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.python.core.PyFunction;
+import org.python.core.PyList;
+import org.python.core.PyObject;
+import org.python.core.PyString;
+import org.python.util.PythonInterpreter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +30,9 @@ import java.util.List;
  */
 @Service
 public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements IJobService {
+
+    @Autowired
+    private IUser_jobService user_jobService;
 
     @Autowired
     private ICompanyService companyService;
@@ -284,5 +294,52 @@ public class JobServiceImpl extends ServiceImpl<JobMapper, Job> implements IJobS
         jobAndCompanyIPage.setPages(jobIPage.getPages());
         jobAndCompanyIPage.setTotal(jobIPage.getTotal());
         return jobAndCompanyIPage;
+    }
+
+    @Override
+    public List<CommandJob> CommandJobs(Integer user_id) {
+        //查询投递列表
+        List<User_job> list = user_jobService.list();
+        List<String> commandList = new ArrayList<>();
+        //组装投递列表格式，传给python脚本代码
+        for (User_job user_job:list){
+            if (user_job.getUser_job_state() != null && user_job.getCollect() != null && user_job.getUser_job_state() != 0){
+                String command = "";
+                command += user_job.getUser_id().toString();
+                command += ",";
+                command += Integer.toString((user_job.getCollect()+1));
+                command += ",";
+                command += user_job.getJob_id().toString();
+                commandList.add(command);
+            }
+        }
+        //python解释器
+        PythonInterpreter pythonInterpreter = new PythonInterpreter();
+        //python脚本的地址
+        pythonInterpreter.execfile("D:\\Pycharm\\Project\\PycharmProjects\\pythonProject\\commandjobs.py");
+        //传入使用脚本里面的某一函数
+        PyFunction pyFunction = pythonInterpreter.get("commandjobs",PyFunction.class);
+        //传入参数并得到处理后的返回值
+        PyObject pyObject = pyFunction.__call__(new PyString(user_id.toString()),new PyList(commandList));
+        //格式转化
+        List<Object> jobs = (List) pyObject;
+        List<CommandJob> commandJobList = new ArrayList<>();
+        for (Object job:jobs){
+            CommandJob commandJob = new CommandJob();
+            List<Object> commandjob = (List<Object>) job;
+            System.out.println(commandjob.get(0));
+            System.out.println(commandjob.get(1));
+            String key1 = commandjob.get(0).toString();
+            String key2 = commandjob.get(1).toString();
+            Integer job_id = Integer.parseInt(key1);
+            Double similar = Double.parseDouble(key2);
+            Job job1 = new Job();
+            job1.setJob_id(job_id);
+            commandJob.setJob(job1);
+            commandJob.setSimilar(similar);
+            commandJobList.add(commandJob);
+        }
+        //返回数据进行下一步处理
+        return commandJobList;
     }
 }

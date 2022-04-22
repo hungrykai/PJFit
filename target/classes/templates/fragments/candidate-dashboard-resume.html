@@ -60,7 +60,7 @@
                         </div>
                         <div id="resumearea" class="widget-content">
                             <button id="saveresume" class="theme-btn btn-style-one" style="margin-left: 35%" >保存</button>
-                            <button id="downresume" class="theme-btn btn-style-one" style="margin-left: 10%" ><a th:if="${session.curuser.user_resume != null}" style="color: white" th:href="@{'/upload/' + ${session.curuser.user_resume}}">下载</a></button>
+                            <button th:if="${session.curuser.user_resume != null}" id="downresume" class="theme-btn btn-style-one" style="margin-left: 10%" ><a style="color: white" th:href="@{'/upload/' + ${session.curuser.user_resume}}">下载</a></button>
                         </div>
                     </div>
                 </div>

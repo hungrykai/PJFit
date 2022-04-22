@@ -11,14 +11,19 @@ import hbue.mapper.CompanyMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 public class test {
+
+    @Autowired
+    private IUser_jobService user_jobService;
 
     @Autowired
     private IJob_welfareService job_welfareService;
@@ -159,6 +164,37 @@ public class test {
     //测试提供给前端页面的每个类别的工作
     public void testc(){
 
+    }
+
+    @Test
+    //随机添加100个用户
+    public void addusers(){
+        for (int i = 0 ; i < 100 ; i++){
+            userService.save(User.CreatAUser(i));
+        }
+    }
+
+    @Test
+    //添加投递关系，每个用户随机对岗位进行投投递，user_id从5-104
+    public void AddUser_Jobs(){
+        for (int i = 5 ; i <= 104 ; i++){
+            for (int j = 0 ; j < 50 ; j++){
+                //job_id为2-580随机
+                int job_id = Job.Random();
+                User_job user_job = new User_job();
+                user_job.setUser_id(i);
+                user_job.setJob_id(job_id);
+                user_job.setUser_job_state(1);
+                //随机确定是否收藏
+                if (Job_welfare.Random() > 50){
+                    user_job.setCollect(1);
+                }else {
+                    user_job.setCollect(0);
+                }
+                user_job.setUser_job_time(LocalDateTime.now());
+                user_jobService.save(user_job);
+            }
+        }
     }
 
 }

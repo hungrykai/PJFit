@@ -57,5 +57,13 @@ public class Job implements Serializable {
     @TableField(exist = false)
     private List<String> job_welfare;
 
+    public static int Random(){
+        int max=580,min=2;
+        int ran2 = (int) (Math.random()*(max-min)+min);
+        if (ran2 > 412 && ran2 < 417){
+            return Random();
+        }
+        return ran2;
+    }
 
 }

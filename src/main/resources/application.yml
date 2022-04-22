@@ -25,7 +25,7 @@ http:
 server:
   tomcat:
     max-http-post-size: 20971520
-  port: 8080
+  port: 8081
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
@@ -40,7 +40,7 @@ mybatis-plus:
     lazy-loading-enabled: true
     multiple-result-sets-enabled: true
     #默认不显示SQL日志
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     banner: false
     db-config:

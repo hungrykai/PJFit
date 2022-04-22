@@ -2,17 +2,20 @@
 <html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="utf-8"><title>湖北经济学院信息与通信工程学院软件Q1842杨开</title>
+    <meta charset="utf-8">
+    <title>湖北经济学院信息与通信工程学院软件Q1842杨开</title>
 
 
-    <script src="static/js/html5shiv.js" th:src="@{/js/html5shiv.js}" ></script>
+    <script src="static/js/html5shiv.js" th:src="@{/js/html5shiv.js}"></script>
     <script src="static/static/js/respond.js" th:src="@{/js/respond.js}"></script>
     <link href="static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet">
     <link href="static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
     <link href="static/css/responsive.css" th:href="@{/css/responsive.css}" rel="stylesheet">
-    <link rel="shortcut icon" href="static/picture/favicon.png" th:href="@{/picture/favicon.png}" type="image/x-icon"><!-- Responsive -->
+    <link rel="shortcut icon" href="static/picture/favicon.png" th:href="@{/picture/favicon.png}" type="image/x-icon">
+    <!-- Responsive -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
 </head>
 
 <body>
@@ -49,26 +52,35 @@
                                 <h4>我的资料</h4>
                             </div>
                             <div class="widget-content">
-                            <form id="form1" th:object="${session.curuser}" class="default-form" onsubmit="return Getinformation() " >
-                                <div class="row">
-                                <div class="uploading-outer">
-                                    <div class="uploadButton">
-                                        <input class="uploadButton-input" type="file" name="uploadpicture" accept="image/*, application/pdf" id="upload-picture" multiple />
-                                        <label th:if="${session.curuser.user_picture == null}" id="imgbox" class="uploadButton-button ripple-effect" for="upload-picture">个人照片</label>
-                                        <label for="upload-picture"><img th:src="@{/upload/{curuser_picture}(curuser_picture=${session.curuser.user_picture})}" style="height: 150px;margin-left: 50px" id="imgshow"><span class="uploadButton-file-name"></span></label>
-                                    </div>
-                                    <div class="text">最大文件大小为1MB，最小尺寸为330x300，并提供合适的文件如.jpg&.png</div>
-                                </div>
+                                <form id="form1" th:object="${session.curuser}" class="default-form"
+                                      onsubmit="return Getinformation() ">
+                                    <div class="row">
+                                        <div class="uploading-outer">
+                                            <div class="uploadButton">
+                                                <input class="uploadButton-input" type="file" name="uploadpicture"
+                                                       accept="image/*, application/pdf" id="upload-picture" multiple/>
+                                                <label th:if="${session.curuser.user_picture == null}" id="imgbox"
+                                                       class="uploadButton-button ripple-effect" for="upload-picture">个人照片</label>
+                                                <label for="upload-picture"><img
+                                                        th:src="@{/upload/{curuser_picture}(curuser_picture=${session.curuser.user_picture})}"
+                                                        style="height: 150px;margin-left: 50px" id="imgshow"><span
+                                                        class="uploadButton-file-name"></span></label>
+                                            </div>
+                                            <div class="text">最大文件大小为1MB，最小尺寸为330x300，并提供合适的文件如.jpg&.png</div>
+                                        </div>
                                         <!--userid-->
-                                        <input type="hidden" id="user_id" name="user_id" th:value="${session.curuser.user_id}">
+                                        <input type="hidden" id="user_id" name="user_id"
+                                               th:value="${session.curuser.user_id}">
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>姓名</label>
-                                            <input type="text" id="user_name" th:value="*{user_name}" name="user_name" required="required" >
+                                            <input type="text" id="user_name" th:value="*{user_name}" name="user_name"
+                                                   required="required">
                                         </div>
                                         <!-- 性别 -->
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>性别</label>
-                                            <select class="chosen-select" id="user_gender" name="user_gender" th:value="*{user_gender}" required="required">
+                                            <select class="chosen-select" id="user_gender" name="user_gender"
+                                                    th:value="*{user_gender}" required="required">
                                                 <option value="男">男</option>
                                                 <option value="女">女</option>
                                             </select>
@@ -77,38 +89,44 @@
                                         <!-- 邮件地址 -->
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>邮件地址</label>
-                                            <input type="text" disabled="disabled" th:value="*{user_email}" required="required">
+                                            <input type="text" disabled="disabled" th:value="*{user_email}"
+                                                   required="required">
                                         </div>
 
                                         <!-- 手机号 -->
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>手机号</label>
-                                            <input type="text" id="user_phone" name="user_phone" th:value="*{user_phone}" required="required" >
+                                            <input type="text" id="user_phone" name="user_phone"
+                                                   th:value="*{user_phone}" required="required">
                                         </div>
 
                                         <!-- 身份 -->
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>身份</label>
-                                            <input type="text" th:value="*{user_identity} == '0' ? '求职者' : '招聘者'" disabled = "disabled" >
+                                            <input type="text" th:value="*{user_identity} == '0' ? '求职者' : '招聘者'"
+                                                   disabled="disabled">
                                         </div>
 
                                         <!-- 出生日期 -->
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>出生日期</label><br>
-                                            <input style="font-size: x-large;" id="user_birthday" type="date"  name="user_birthday" required="required" th:value="*{user_birthday}" >
+                                            <input style="font-size: x-large;" id="user_birthday" type="date"
+                                                   name="user_birthday" required="required" th:value="*{user_birthday}">
                                         </div>
 
                                         <!-- 居住地址 -->
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>居住地址</label>
-                                            <input type="text" id="user_place" name="user_place" th:value="*{user_place}" required="required">
+                                            <input type="text" id="user_place" name="user_place"
+                                                   th:value="*{user_place}" required="required">
                                         </div>
 
                                         <!-- 学历 -->
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>学历</label>
                                             <input type="hidden" id="education" th:value="*{user_education}">
-                                            <select class="chosen-select" id="user_education" name="user_education" required="required">
+                                            <select class="chosen-select" id="user_education" name="user_education"
+                                                    required="required">
                                                 <option value="大专以下">大专以下</option>
                                                 <option value="大专">大专</option>
                                                 <option value="本科">本科</option>
@@ -120,67 +138,83 @@
                                         <!-- 毕业院校 -->
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>毕业院校</label>
-                                            <input type="text" id="user_school" name="user_school" th:value="*{user_school}" required="required" >
+                                            <input type="text" id="user_school" name="user_school"
+                                                   th:value="*{user_school}" required="required">
                                         </div>
 
                                         <!-- 特长 -->
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>特长</label>
-                                            <input type="text" id="user_specialisms" name="user_specialisms" th:value="*{user_specialisms}" required="required" >
+                                            <input type="text" id="user_specialisms" name="user_specialisms"
+                                                   th:value="*{user_specialisms}" required="required">
                                         </div>
 
                                         <!-- 精通语言 -->
                                         <div id="language" class="form-group col-lg-6 col-md-12">
                                             <label>精通语言 </label>
-                                            <select data-placeholder="开发语言" id="user_language" name="user_language" class="chosen-select multiple" multiple tabindex="4" required="required" >
+                                            <select data-placeholder="开发语言" id="user_language" name="user_language"
+                                                    class="chosen-select multiple" multiple tabindex="4"
+                                                    required="required">
                                             </select>
                                         </div>
 
-                                    <!-- 期待薪资 -->
-                                    <div class="form-group col-lg-6 col-md-12">
-                                        <label>期待薪资（月薪）单位：K</label>
-                                        <input type="text" name="user_expect_salary" th:value="*{user_expect_salary}" id="user_expect_salary" placeholder="期待薪资" required="required">
-                                    </div>
+                                        <!-- 期待薪资 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>期待薪资（月薪）单位：K</label>
+                                            <input type="text" name="user_expect_salary"
+                                                   th:value="*{user_expect_salary}" id="user_expect_salary"
+                                                   placeholder="期待薪资" required="required">
+                                        </div>
 
-                                    <!-- 期待工作地点 -->
-                                    <div class="form-group col-lg-6 col-md-12">
-                                        <label>期待工作地点</label>
-                                        <input type="text" name="user_expect_place" th:value="*{user_expect_place}" id="user_expect_place" placeholder="期待工作地点" required="required">
-                                    </div>
-                                    <!-- 期待工作类型 -->
-                                    <div class="form-group col-lg-6 col-md-12">
-                                        <label>期待工作类型</label>
-                                        <select class="chosen-select" name="user_expect_type" id="user_expect_type" required="required">
-                                            <option th:selected="*{user_expect_type == '后端开发'}" value="后端开发">后端开发</option>
-                                            <option th:selected="*{user_expect_type == '人工智能'}" value="人工智能">人工智能</option>
-                                            <option th:selected="*{user_expect_type == '移动开发'}" value="移动开发">移动开发</option>
-                                            <option th:selected="*{user_expect_type == '测试'}" value="测试">测试</option>
-                                            <option th:selected="*{user_expect_type == '运维'}" value="运维">运维</option>
-                                            <option th:selected="*{user_expect_type == '数据'}" value="运维">数据</option>
-                                            <option th:selected="*{user_expect_type == '前端开发'}" value="运维">前端开发</option>
-                                            <option th:selected="*{user_expect_type == '高端技术'}" value="运维">高端技术</option>
-                                            <option th:selected="*{user_expect_type == '架构师'}" value="运维">架构师</option>
-                                        </select>
-                                    </div>
+                                        <!-- 期待工作地点 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>期待工作地点</label>
+                                            <input type="text" name="user_expect_place" th:value="*{user_expect_place}"
+                                                   id="user_expect_place" placeholder="期待工作地点" required="required">
+                                        </div>
+                                        <!-- 期待工作类型 -->
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label>期待工作类型</label>
+                                            <select class="chosen-select" name="user_expect_type" id="user_expect_type"
+                                                    required="required">
+                                                <option th:selected="*{user_expect_type == '后端开发'}" value="后端开发">后端开发
+                                                </option>
+                                                <option th:selected="*{user_expect_type == '人工智能'}" value="人工智能">人工智能
+                                                </option>
+                                                <option th:selected="*{user_expect_type == '移动开发'}" value="移动开发">移动开发
+                                                </option>
+                                                <option th:selected="*{user_expect_type == '测试'}" value="测试">测试</option>
+                                                <option th:selected="*{user_expect_type == '运维'}" value="运维">运维</option>
+                                                <option th:selected="*{user_expect_type == '数据'}" value="运维">数据</option>
+                                                <option th:selected="*{user_expect_type == '前端开发'}" value="运维">前端开发
+                                                </option>
+                                                <option th:selected="*{user_expect_type == '高端技术'}" value="运维">高端技术
+                                                </option>
+                                                <option th:selected="*{user_expect_type == '架构师'}" value="运维">架构师
+                                                </option>
+                                            </select>
+                                        </div>
 
                                         <!-- 工作经历 -->
                                         <div class="form-group col-lg-12 col-md-12">
                                             <label>工作经历</label>
                                             <textarea id="user_experience" name="user_experience" placeholder=
-                                            "请在此处写下您的工作经历，曾在何时任职于何公司，因何故离职等相关信息" th:text="*{user_experience}" required="required"></textarea>
+                                                    "请在此处写下您的工作经历，曾在何时任职于何公司，因何故离职等相关信息" th:text="*{user_experience}"
+                                                      required="required"></textarea>
                                         </div>
 
                                         <!-- 项目经历-->
-                                        <div class="form-group col-lg-12 col-md-12" >
+                                        <div class="form-group col-lg-12 col-md-12">
                                             <label>项目经历</label>
-                                            <textarea id="user_projects" name="user_projects" th:text="*{user_projects}" required="required"></textarea>
+                                            <textarea id="user_projects" name="user_projects" th:text="*{user_projects}"
+                                                      required="required"></textarea>
                                         </div>
 
-                                    <div class="form-group col-lg-6 col-md-12">
-                                        <button id="save1" class="theme-btn btn-style-one" >保存</button>
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <button id="save1" class="theme-btn btn-style-one">保存</button>
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -199,19 +233,22 @@
                             <!-- Input -->
                             <div class="form-group col-lg-7 col-md-12">
                                 <label>旧密码 </label>
-                                <input type="password" id="oldpassword" name="oldpassword" placeholder="" required="required">
+                                <input type="password" id="oldpassword" name="oldpassword" placeholder=""
+                                       required="required">
                             </div>
 
                             <!-- Input -->
                             <div class="form-group col-lg-7 col-md-12">
                                 <label>新密码</label>
-                                <input type="password" id="newpassword" name="newpassword" placeholder="" required="required">
+                                <input type="password" id="newpassword" name="newpassword" placeholder=""
+                                       required="required">
                             </div>
 
                             <!-- Input -->
                             <div class="form-group col-lg-7 col-md-12">
                                 <label>重复密码</label>
-                                <input type="password" id="repeat-newpassword" name="repeat-newpassword" placeholder="" required="required">
+                                <input type="password" id="repeat-newpassword" name="repeat-newpassword" placeholder=""
+                                       required="required">
                             </div>
 
                             <!-- Input -->
@@ -244,88 +281,88 @@
     var user_id = $("#user_id").val();
     $.ajax({
         type: 'GET',
-        url:'/user/getuserlanguage',
+        url: '/user/getuserlanguage',
         async: false,
-        cache:false,
+        cache: false,
         dataType: "JSON",
         success(data) {
             var L = '                                                <option value="Java" ';
-            if (data.indexOf('Java') != -1){
+            if (data.indexOf('Java') != -1) {
                 L += 'selected = "selected"';
             }
-            L += '>Java</option>\n'+
+            L += '>Java</option>\n' +
                 '                                                <option value="C++"';
-            if (data.indexOf('C++') != -1){
+            if (data.indexOf('C++') != -1) {
                 L += 'selected = "selected"';
             }
             L += '>C++</option>\n' +
                 '                                                <option value="C"';
-            if (data.indexOf('C') != -1){
+            if (data.indexOf('C') != -1) {
                 L += 'selected = "selected"';
             }
             L += '>C</option>\n' +
                 '                                                <option value="Python"';
-            if (data.indexOf('Python') != -1){
+            if (data.indexOf('Python') != -1) {
                 L += 'selected = "selected"';
             }
             L += '>Python</option>\n' +
                 '                                                <option value="JavaScript"';
-            if (data.indexOf('JavaScript') != -1){
+            if (data.indexOf('JavaScript') != -1) {
                 L += 'selected = "selected"';
             }
             L += '>JavaScript</option>\n' +
                 '                                                <option value="C#"';
-            if (data.indexOf('C#') != -1){
+            if (data.indexOf('C#') != -1) {
                 L += 'selected = "selected"';
             }
             L += '>C#</option>\n' +
                 '                                                <option value="Swift"';
-            if (data.indexOf('Swift') != -1){
+            if (data.indexOf('Swift') != -1) {
                 L += 'selected = "selected"';
             }
             L += '>Swift</option>\n' +
                 '                                                <option value="GO"';
-            if (data.indexOf('GO') != -1){
+            if (data.indexOf('GO') != -1) {
                 L += 'selected = "selected"';
             }
             L += '>GO（Golang）</option>\n' +
                 '                                                <option value="PHP"';
-            if (data.indexOf('PHP') != -1){
+            if (data.indexOf('PHP') != -1) {
                 L += 'selected = "selected"';
             }
             L += '>PHP</option>\n' +
                 '                                                <option value="Ruby"';
-            if (data.indexOf('Ruby') != -1){
+            if (data.indexOf('Ruby') != -1) {
                 L += 'selected = "selected"';
             }
             L += '>Ruby</option>\n' +
                 '                                                <option value="HTML"';
-            if (data.indexOf('HTML') != -1){
+            if (data.indexOf('HTML') != -1) {
                 L += 'selected = "selected"';
             }
             L += '>HTML/CSS</option>\n' +
                 '                                                <option value="SQL"';
-            if (data.indexOf('SQL') != -1){
+            if (data.indexOf('SQL') != -1) {
                 L += 'selected = "selected"';
             }
             L += '>SQL</option>\n' +
                 '                                                <option value="Node.js"';
-            if (data.indexOf('Node.js') != -1){
+            if (data.indexOf('Node.js') != -1) {
                 L += 'selected = "selected"';
             }
             L += '>Node.js</option>\n' +
                 '                                                <option value="TypeScript"';
-            if (data.indexOf('TypeScript') != -1){
+            if (data.indexOf('TypeScript') != -1) {
                 L += 'selected = "selected"';
             }
-             L += '>TypeScript</option>\n' +
-                 '                                                <option value="Rust"';
-            if (data.indexOf('Rust') != -1){
+            L += '>TypeScript</option>\n' +
+                '                                                <option value="Rust"';
+            if (data.indexOf('Rust') != -1) {
                 L += 'selected = "selected"';
             }
             L += '>Rust</option>\n' +
                 '                                                <option value="Kotlin"';
-            if (data.indexOf('Kotlin') != -1){
+            if (data.indexOf('Kotlin') != -1) {
                 L += 'selected = "selected"';
             }
             L += '>Kotlin</option>';
@@ -348,38 +385,38 @@
         }
     });
 
-    function Getinformation(){
+    function Getinformation() {
         var formData = new FormData(document.getElementById("form1"));
         formData.append("file", $("#upload-picture").get(0).files[0]);
         $.ajax({
-            type:'POST',
-            url:'pictureupload',
+            type: 'POST',
+            url: 'pictureupload',
             async: true,
-            cache:false,
+            cache: false,
             contentType: false, // 告诉jQuery不要去设置Content-Type请求头
             processData: false, // 告诉jQuery不要去处理发送的数据
-            data:formData,
+            data: formData,
             dataType: "JSON",
-            success(data){
-                console.log('data:'+data)
-                if (data == '-1'){
-                    layer.msg("头像保存失败!",{
-                        time:500,
+            success(data) {
+                console.log('data:' + data)
+                if (data == '-1') {
+                    layer.msg("头像保存失败!", {
+                        time: 500,
                     })
-                }else if (data == '0'){
-                    layer.msg("个人资料保存成功！",{
-                        time:500,
+                } else if (data == '0') {
+                    layer.msg("个人资料保存成功！", {
+                        time: 500,
                     })
-                }else if (data == '1'){
-                    layer.msg("个人资料保存失败！",{
-                        time:500
+                } else if (data == '1') {
+                    layer.msg("个人资料保存失败！", {
+                        time: 500
                     })
                 }
             },
-            error(data){
-                console.log('data:'+(data))
-                layer.msg("保存失败！",{
-                    time:500
+            error(data) {
+                console.log('data:' + (data))
+                layer.msg("保存失败！", {
+                    time: 500
                 })
             }
         })
@@ -391,29 +428,29 @@
         var newpassword = $("#newpassword").val();
         var repeatnewpassword = $("#repeat-newpassword").val();
 
-        if (oldpassword != '' && newpassword != '' && repeatnewpassword != ''){
-            if (newpassword != repeatnewpassword){
-                layer.msg("两次输入的密码不一致！！请重新输入",{
-                    time:1000
+        if (oldpassword != '' && newpassword != '' && repeatnewpassword != '') {
+            if (newpassword != repeatnewpassword) {
+                layer.msg("两次输入的密码不一致！！请重新输入", {
+                    time: 1000
                 })
-            }else{
+            } else {
                 $.ajax({
-                    type:'POST',
-                    url:'/user/changepassword',
-                    async:false,
+                    type: 'POST',
+                    url: '/user/changepassword',
+                    async: false,
                     data: {
-                        "oldpassword":oldpassword,
-                        "newpassword":newpassword,
+                        "oldpassword": oldpassword,
+                        "newpassword": newpassword,
                     },
-                    dataType:'JSON',
-                    success(data){
-                        if (data == 0){
-                            layer.msg("修改密码成功！！",{
-                                time:1000
+                    dataType: 'JSON',
+                    success(data) {
+                        if (data == 0) {
+                            layer.msg("修改密码成功！！", {
+                                time: 1000
                             })
-                        }else {
-                            layer.msg("旧密码输入有误！！请重新输入！",{
-                                time:1000
+                        } else {
+                            layer.msg("旧密码输入有误！！请重新输入！", {
+                                time: 1000
                             })
                         }
                         $("#oldpassword").val('');
@@ -421,24 +458,24 @@
                         $("#repeat-newpassword").val('');
                     },
                     error(data) {
-                        layer.msg("修改密码失败！！",{
-                            time:1000
+                        layer.msg("修改密码失败！！", {
+                            time: 1000
                         })
                     }
                 })
             }
-        }else {
-            if (oldpassword == ''){
-                layer.msg("请输入旧密码！！",{
-                    time:1000
+        } else {
+            if (oldpassword == '') {
+                layer.msg("请输入旧密码！！", {
+                    time: 1000
                 })
-            }else if ((newpassword == '')){
-                layer.msg("请输入新密码！！",{
-                    time:1000
+            } else if ((newpassword == '')) {
+                layer.msg("请输入新密码！！", {
+                    time: 1000
                 })
-            }else if (repeatnewpassword == ''){
-                layer.msg("请再输入一次新密码！！",{
-                    time:1000
+            } else if (repeatnewpassword == '') {
+                layer.msg("请再输入一次新密码！！", {
+                    time: 1000
                 })
             }
         }

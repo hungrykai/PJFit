@@ -174,11 +174,17 @@ public class JobController {
                 user_jobQueryWrapper.eq("job_id",jobAndCompany.getJob().getJob_id());
                 User_job user_job = user_jobService.getOne(user_jobQueryWrapper);
                 if (user_job == null){
+                    Job job = jobService.getById(jobAndCompany.getJob().getJob_id());
                     User_job newuser_job = new User_job();
                     newuser_job.setUser_id(curuser.getUser_id());
                     newuser_job.setJob_id(jobAndCompany.getJob().getJob_id());
                     newuser_job.setUser_job_state(1);
+                    newuser_job.setUser_job_time(LocalDateTime.now());
                     newuser_job.setCollect(0);
+                    //发送简历通过消息
+                    String content = "";
+                    content += curuser.getUser_name() +"投递了您公司旗下的"+job.getJob_name()+"岗位，请您及时回复";
+                    messageService.SentAMessage(curuser.getUser_id(),job.getJob_employer_id(),content,LocalDateTime.now(),0,job.getJob_id());
                     user_jobService.save(newuser_job);
                 }else {
                     user_job.setUser_job_state(1);
@@ -257,7 +263,6 @@ public class JobController {
         String content = "";
         content += "恭喜您通过"+company.getCompany_name()+"旗下的"+job.getJob_name()+"岗位的简历筛选进入下一轮！届时将会以邮件的方式提醒您下一轮考核通知，请注意查收";
         messageService.SentAMessage(curuser.getUser_id(),user_id,content,LocalDateTime.now(),0,job_id);
-
         QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
         user_jobQueryWrapper.eq("user_id",user_id);
         user_jobQueryWrapper.eq("job_id",job_id);

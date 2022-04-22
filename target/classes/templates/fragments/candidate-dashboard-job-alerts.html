@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8"><title>湖北经济学院信息与通信工程学院软件Q1842杨开</title>
     <script src="static/js/jquery.js" th:src="@{/js/jquery.js}"></script>
+    <script src="static/layer/layer.js" th:src="@{/layer/layer.js}"></script>
     <script src="static/js/html5shiv.js" th:src="@{/js/html5shiv.js}" ></script>
     <script src="static/static/js/respond.js" th:src="@{/js/respond.js}"></script>
     <link href="static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet">
@@ -32,28 +33,16 @@
     <section class="user-dashboard">
         <div class="dashboard-outer">
             <div class="upper-title-box">
-                <h3>岗位提醒</h3>
-                <div class="text">寻找适合您的各种岗位</div>
+                <h3>岗位推荐</h3>
+                <div class="text">推荐适合您的岗位，匹配指数越高，匹配度越大，越适合该岗位</div>
             </div>
-
             <div class="row">
                 <div class="col-lg-12">
                     <!-- Ls widget -->
                     <div class="ls-widget">
                         <div class="tabs-box">
                             <div class="widget-title">
-                                <h4>我的岗位提醒</h4>
-
-<!--                                <div class="chosen-outer">
-                                    &lt;!&ndash;Tabs Box&ndash;&gt;
-                                    <select class="chosen-select">
-                                        <option>Last 6 Months</option>
-                                        <option>Last 12 Months</option>
-                                        <option>Last 16 Months</option>
-                                        <option>Last 24 Months</option>
-                                        <option>Last 5 year</option>
-                                    </select>
-                                </div>-->
+                                <h4>我的岗位推荐</h4>
                             </div>
 
                             <div class="widget-content">
@@ -65,30 +54,10 @@
                                             <th>公司名</th>
                                             <th>岗位所需语言</th>
                                             <th>薪资</th>
+                                            <th>匹配指数</th>
                                         </tr>
                                         </thead>
-
-                                        <tbody>
-                                        <tr th:each="jobandcompany:${session.alertjoblist}">
-                                            <td>
-                                                <!-- Job Block -->
-                                                <div class="job-block">
-                                                    <div class="inner-box">
-                                                        <div class="content">
-                                                            <span class="company-logo"><img th:src="${jobandcompany.company.company_picture}" alt=""></span>
-                                                            <h4><a th:href="@{'/job/job_detail/'+${jobandcompany.job.job_id}}" th:text="${jobandcompany.job.job_name}"></a></h4>
-                                                            <ul class="job-info">
-                                                                <li><span class="icon flaticon-briefcase"></span>[[${jobandcompany.job.job_work_years}]]</li>
-                                                                <li><span class="icon flaticon-map-locator"></span>[[${jobandcompany.job.job_city}]]</li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td th:text="${jobandcompany.company.company_name}"></td>
-                                            <td th:text="${jobandcompany.job.job_skill}">/td>
-                                            <td>￥[[${jobandcompany.job.job_money_low}]] - [[${jobandcompany.job.job_money_high}]]K</td>
-                                        </tr>
+                                        <tbody id="commandjoblist">
                                         </tbody>
                                     </table>
                                 </div>
@@ -96,20 +65,73 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
+
         </div>
     </section>
     <!-- End Dashboard -->
 
     <!-- Copyright -->
     <div class="copyright-text">
-        <p>© 2021 Superio. All Right Reserved.</p>
+        <p>© 2022 HBuer. All Right Reserved.</p>
     </div>
 
 </div><!-- End Page Wrapper -->
-
+<script type="text/javascript">
+    var loadingIndex = layer.msg('系统智能推荐中---', {icon: 16});
+    var str = '';
+    $.ajax({
+        url:'/user/commandtenjobs',
+        type:'POST',
+        dataType:"Json",
+        success(data){
+            console.log(data);
+            for (var i = 0 ; i < data.length ; i++){
+                str += '<tr>\n' +
+                    '    <td>\n' +
+                    '        <!-- Job Block -->\n' +
+                    '        <div class="job-block">\n' +
+                    '            <div class="inner-box">\n' +
+                    '                <div class="content">\n' +
+                    '                    <span class="company-logo"><img src="';
+                str += data[i].company.company_picture;
+                str += '" alt=""></span>\n' +
+                    '                    <h4><a href="/job/job_detail/';
+                str += data[i].job.job_id;
+                str += '">';
+                str += data[i].job.job_name +  '</a></h4>\n' +
+                    '                    <ul class="job-info">\n' +
+                    '                        <li><span class="icon flaticon-briefcase"></span>';
+                str += data[i].job.job_work_years;
+                str += '</li>\n' +
+                    '                        <li><span class="icon flaticon-map-locator"></span>';
+                str += data[i].job.job_city;
+                str += '</li>\n' +
+                    '                    </ul>\n' +
+                    '                </div>\n' +
+                    '            </div>\n' +
+                    '        </div>\n' +
+                    '    </td>\n' +
+                    '    <td>';
+                str += data[i].company.company_name;
+                str += '</td>\n' +
+                    '    <td>';
+                str += data[i].job.job_skill;
+                str += '</td>\n' +
+                    '    <td>';
+                str += '￥' +  data[i].job.job_money_low + ' - ' + data[i].job.job_money_high + 'K';
+                str += '</td>\n' +
+                    '    <td>';
+                str += data[i].similar;
+                str += '</td>\n' +
+                    '</tr>';
+            }
+            console.log(str+"1111111111111");
+            $("#commandjoblist").html(str);
+            layer.close(loadingIndex);
+        }
+    })
+</script>
 <script src="static/js/popper.min.js" th:src="@{/js/popper.min.js}"></script>
 <script src="static/js/chosen.min.js" th:src="@{/js/chosen.min.js}"></script>
 <script src="static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>

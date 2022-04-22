@@ -3,9 +3,11 @@ package hbue.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import hbue.Entity.*;
 import hbue.Service.*;
+import jnr.ffi.annotations.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -54,12 +56,6 @@ public class UserController {
 
     @Autowired
     private IJobService jobService;
-
-    //跳转到候选人列表
-    @RequestMapping("/candidateslist")
-    public String joblist(){
-        return "fragments/candidates-list.html";
-    }
 
 
     //跳转到求职者面板
@@ -133,56 +129,89 @@ public class UserController {
     }
 
     //跳转道user仪表盘的申请过的岗位里面
-    @RequestMapping("/candidate-dashboard-applied-job")
-    public String Gotocandidatedashboardappliedjob(HttpSession session){
+    @RequestMapping(path = {"/candidate-dashboard-applied-job","/candidate-dashboard-applied-job/{pagecurrent}/{pagesize}","/candidate-dashboard-applied-job/{pagecurrent}/{pagesize}/{type}"})
+    public String Gotocandidatedashboardappliedjob(HttpSession session,@PathVariable(required = false) Integer pagecurrent,@PathVariable(required = false) Integer pagesize,
+                                                   @PathVariable(required = false) Integer type){
         //查找user投递的简历
         User curuser = (User) session.getAttribute("curuser");
         QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
         user_jobQueryWrapper.eq("user_id",curuser.getUser_id());
-        List<User_job> user_jobList = user_jobService.list(user_jobQueryWrapper);
+        if (type != null && type != 0){
+            user_jobQueryWrapper.eq("user_job_state",type);
+        }
+        if (type == null){
+            type = 0;
+        }
+        if (pagecurrent == null){
+            pagecurrent = 1;
+        }
+        if (pagesize == null){
+            pagesize = 10;
+        }
+        IPage<User_job> userIPage = user_jobService.GetUser_JobPage(pagecurrent, pagesize, user_jobQueryWrapper);
         List<JobAndCompany> jobAndCompanyList = new ArrayList<>();
-        for (User_job user_job :user_jobList){
+        for (User_job user_job :userIPage.getRecords()){
             JobAndCompany jobAndCompany = jobService.GetJobandCompanyById(user_job.getJob_id());
             jobAndCompany.setUser_job(user_job);
             jobAndCompanyList.add(jobAndCompany);
         }
-        session.setAttribute("appliedjobs",jobAndCompanyList);
+        IPage<JobAndCompany> jobAndCompanyIPage = new Page<>(pagecurrent,pagesize);
+        jobAndCompanyIPage.setRecords(jobAndCompanyList);
+        jobAndCompanyIPage.setPages(userIPage.getPages());
+        jobAndCompanyIPage.setTotal(userIPage.getTotal());
+        session.setAttribute("appliedjobs",jobAndCompanyIPage);
+        session.setAttribute("myappiledjobtype",type);
         return "fragments/candidate-dashboard-applied-job.html";
     }
 
-    //跳转道user仪表盘岗位提醒界面
+    //跳转user仪表盘岗位提醒界面
     @RequestMapping("/candidate-dashboard-job-alerts")
     public String Gotocandidatedashboardjobalerts(HttpSession session){
-        IPage<Job> jobIPage = jobService.GetJobPageByQueryWrapper(1, 10, null, false);
-        QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
-        List<Job> jobList = jobIPage.getRecords();
-        List<JobAndCompany> jobAndCompanyList = new ArrayList<>();
-        for (Job job:jobList){
-            user_jobQueryWrapper.eq("job_id",job.getJob_id());
-            if (user_jobService.getOne(user_jobQueryWrapper) == null){
-                jobAndCompanyList.add(jobService.GetJobandCompanyById(job.getJob_id()));
-            }
-        }
-        session.setAttribute("alertjoblist",jobAndCompanyList);
         return "fragments/candidate-dashboard-job-alerts.html";
     }
 
+    //推荐工作
+    @ResponseBody
+    @RequestMapping("/commandtenjobs")
+    public List<CommandJob> commandJobs(HttpSession session){
+        User curuser = (User) session.getAttribute("curuser");
+        List<CommandJob> commandJobs = jobService.CommandJobs(curuser.getUser_id());
+        for (CommandJob commandJob:commandJobs){
+            Job job = jobService.getById(commandJob.getJob().getJob_id());
+            commandJob.setJob(job);
+            commandJob.setCompany(companyService.getById(job.getCompany_id()));
+        }
+        return commandJobs;
+    }
+
     //跳转到user仪表盘里面的收藏的简历中
-    @RequestMapping("/candidate-dashboard-shortlisted-resume")
-    public String Gotocandidatedashboardshortlistedresume(HttpSession session){
+    @RequestMapping({"/candidate-dashboard-shortlisted-resume","/candidate-dashboard-shortlisted-resume/{pagecurrent}/{pagesize}"})
+    public String Gotocandidatedashboardshortlistedresume(HttpSession session,@PathVariable(required = false) Integer pagecurrent,
+                                                          @PathVariable(required = false) Integer pagesize){
         //查找user收藏的简历
         User curuser = (User) session.getAttribute("curuser");
         QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
+        if (pagecurrent == null){
+            pagecurrent = 1;
+        }
+        if (pagesize == null){
+            pagesize = 10;
+        }
         user_jobQueryWrapper.eq("user_id",curuser.getUser_id());
         user_jobQueryWrapper.eq("collect",1);
-        List<User_job> user_jobList = user_jobService.list(user_jobQueryWrapper);
-        List<JobAndCompany> jobAndCompanyList = new ArrayList<>();
+        IPage<User_job> user_jobIPage = user_jobService.GetUser_JobPage(pagecurrent, pagesize, user_jobQueryWrapper);
+        List<User_job> user_jobList =user_jobIPage.getRecords();
+                List<JobAndCompany> jobAndCompanyList = new ArrayList<>();
         for (User_job user_job :user_jobList){
             JobAndCompany jobAndCompany = jobService.GetJobandCompanyById(user_job.getJob_id());
             jobAndCompany.setUser_job(user_job);
             jobAndCompanyList.add(jobAndCompany);
         }
-        session.setAttribute("collectjoblist",jobAndCompanyList);
+        IPage<JobAndCompany> jobAndCompanyIPage = new Page<>(pagecurrent,pagesize);
+        jobAndCompanyIPage.setRecords(jobAndCompanyList);
+        jobAndCompanyIPage.setPages(user_jobIPage.getPages());
+        jobAndCompanyIPage.setTotal(user_jobIPage.getTotal());
+        session.setAttribute("collectjoblist",jobAndCompanyIPage);
         return "fragments/candidate-dashboard-shortlisted-resume.html";
     }
 

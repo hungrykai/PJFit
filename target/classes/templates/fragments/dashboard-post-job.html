@@ -60,13 +60,13 @@
                                         <!-- Input -->
                                         <div class="form-group col-lg-12 col-md-12">
                                             <label>岗位名称</label>
-                                            <input type="text" name="job_name" placeholder="岗位名称">
+                                            <input type="text" name="job_name" placeholder="岗位名称" required="required">
                                         </div>
 
                                         <!-- 学历 -->
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>学历要求</label>
-                                            <select class="chosen-select" id="job_education" name="job_education">
+                                            <select class="chosen-select" id="job_education" name="job_education" required="required">
                                                 <option value="大专以下">大专以下</option>
                                                 <option value="大专">大专</option>
                                                 <option value="本科">本科</option>
@@ -79,7 +79,7 @@
                                         <!-- 工作年限 -->
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>工作年限</label>
-                                            <select class="chosen-select" id="job_work_years" name="job_work_years">
+                                            <select class="chosen-select" id="job_work_years" name="job_work_years" required="required">
                                                 <option value="经验不限">经验不限</option>
                                                 <option value="1年以内">1年以内</option>
                                                 <option value="1-3年">1-3年</option>
@@ -92,35 +92,35 @@
                                         <!-- 工作城市 -->
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>工作城市</label>
-                                            <input type="text" id="job_city" name="job_city" placeholder="工作城市">
+                                            <input type="text" id="job_city" name="job_city" placeholder="工作城市" required="required">
                                         </div>
 
                                         <!-- 工作地点 -->
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>工作地点</label>
-                                            <input type="text" id="job_location" name="job_location" placeholder="工作地点">
+                                            <input type="text" id="job_location" name="job_location" placeholder="工作地点" required="required">
                                         </div>
 
                                         <!-- 岗位薪资 -->
-                                        <div class="form-group col-lg-6 col-md-12">
+                                        <div class="form-group col-lg-6 col-md-12" >
                                             <label>岗位最低薪资(单位K,千元)</label>
-                                            <input type="text" id="job_money_low" name="job_money_low">
+                                            <input type="text" id="job_money_low" name="job_money_low" required="required">
                                         </div>
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>岗位最高薪资(单位K,千元)</label>
-                                            <input type="text" id="job_money_high" name="job_money_high">
+                                            <input type="text" id="job_money_high" name="job_money_high" required="required">
                                         </div>
 
                                         <!-- 工作相关要求描述 -->
                                         <div class="form-group col-lg-12 col-md-12">
                                             <label>工作描述</label>
-                                            <textarea name="job_describe" id="job_describe" placeholder="工作相关要求描述"></textarea>
+                                            <textarea name="job_describe" id="job_describe" placeholder="工作相关要求描述" required="required"></textarea>
                                         </div>
 
                                         <!--工作福利-->
                                         <div class="form-group col-lg-12 col-md-12">
                                             <label>工作福利</label>
-                                            <select data-placeholder="工作福利" id="job_welfare" name="job_welfare" class="chosen-select multiple" multiple tabindex="4"  >
+                                            <select data-placeholder="工作福利" id="job_welfare" name="job_welfare" class="chosen-select multiple" multiple tabindex="4" required="required" >
                                                 <option value="五险一金">五险一金</option>
                                                 <option value="补充医疗保险">补充医疗保险</option>
                                                 <option value="定期体检">定期体检</option>
@@ -144,7 +144,7 @@
                                         <!--工作类型-->
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>工作类型</label>
-                                            <select data-placeholder="开发语言" id="job_type" name="job_type" class="chosen-select multiple" multiple tabindex="4"  >
+                                            <select data-placeholder="开发语言" id="job_type" name="job_type" class="chosen-select multiple" multiple tabindex="4" required="required"  >
                                                 <option value="后端开发">后端开发</option>
                                                 <option value="人工智能">人工智能</option>
                                                 <option value="移动开发">移动开发</option>
@@ -160,7 +160,7 @@
                                         <!--要求开发语言-->
                                         <div class="form-group col-lg-6 col-md-12">
                                             <label>要求开发语言</label>
-                                            <select data-placeholder="开发语言" id="job_skill" name="job_skill" class="chosen-select multiple" multiple tabindex="4"  >
+                                            <select data-placeholder="开发语言" id="job_skill" name="job_skill" class="chosen-select multiple" multiple tabindex="4" required="required" >
                                                 <option value="Java">Java</option>
                                                 <option value="C++">C++</option>
                                                 <option value="C">C</option>

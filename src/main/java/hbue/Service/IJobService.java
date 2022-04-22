@@ -2,6 +2,7 @@ package hbue.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import hbue.Entity.CommandJob;
 import hbue.Entity.Job;
 import com.baomidou.mybatisplus.extension.service.IService;
 import hbue.Entity.JobAndCompany;
@@ -56,5 +57,8 @@ public interface IJobService extends IService<Job> {
 
     //根据关键字，city和工作类别返回jobandcompany
     public IPage<JobAndCompany> GetSearchJobList(QueryWrapper queryWrapper, Integer jobpagecurrent, Integer pagesize);
+
+    //协同智能推荐算法
+    public List<CommandJob> CommandJobs(Integer user_id);
 
 }

@@ -229,13 +229,12 @@ loop2 = setInterval(function() {
 loop1 = setInterval(function() {
     if (i > 100) {
         clearInterval(loop1);
-        document.querySelector('.firstDigit').textContent = 4;
+        document.querySelector('.firstDigit').textContent = 0;
     } else {
         document.querySelector('.firstDigit').textContent = randomNum();
         i++;
     }
 }, time);
 </script>
-
 </body>
 </html>

@@ -17,16 +17,6 @@
 '</div>')};
 
 
-var locations=[
-    [locationData('static/image/1-1.png', 'job-single-v1.html', "Software Engineer", 'Segment', 'London, UK', ), 40.94401669296697, -74.16938781738281, 1, '<div style="background-image: url(static/image/3-1.png);"></div>'],
-    [locationData('static/image/1-2.png', 'job-single-v1.html', "Software Engineer", 'Segment', 'London, UK', ), 40.77055783505125, -74.26002502441406, 2, '<div style="background-image: url(static/image/3-2.png);"></div>'], 
-    [locationData('static/image/1-3.png', 'job-single-v1.html', "Software Engineer", 'Segment', 'London, UK', ), 40.7427837, -73.11445617675781, 3, '<div style="background-image: url(static/image/3-3.png);"></div>'], 
-    [locationData('static/image/1-4.png', 'job-single-v1.html', "Software Engineer", 'Segment', 'London, UK', ), 40.70437865245596, -73.98674011230469, 4, '<div style="background-image: url(static/image/3-4.png);"></div>'], 
-    [locationData('static/image/1-5.png', 'job-single-v1.html', "Software Engineer", 'Segment', 'London, UK', ), 40.641311, -73.778139, 5, '<div style="background-image: url(static/image/3-5.png);"></div>'], 
-    [locationData('static/image/1-6.png', 'job-single-v1.html', "Software Engineer", 'Segment', 'London, UK', ), 41.080938, -73.535957, 6, '<div style="background-image: url(static/image/3-6.png);"></div>'], 
-    [locationData('static/image/1-7.png', 'job-single-v1.html', "Software Engineer", 'Segment', 'London, UK', ), 41.079386, -73.519478, 7, '<div style="background-image: url(static/image/3-7.png);"></div>'], 
-];
-
 function numericalRating(ratingElem) {
         $(ratingElem).each(function() {
             var dataRating = $(this).attr('data-rating');

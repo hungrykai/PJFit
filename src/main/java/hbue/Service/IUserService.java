@@ -1,7 +1,11 @@
 package hbue.Service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import hbue.Entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import hbue.Entity.UserAndJob;
+
+import java.util.List;
 
 /**
  * <p>
@@ -20,4 +24,7 @@ public interface IUserService extends IService<User> {
 
     //根据userid得到一个完整的User
     public User GetUserById(Integer user_id);
+
+    //手动分页
+    public IPage<UserAndJob> GetUserAndJobPage(List<UserAndJob> userAndJobs, IPage<UserAndJob> user_jobIPage);
 }

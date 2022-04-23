@@ -14,7 +14,6 @@ public class JobTest {
     @Autowired
     private IJobService jobService;
 
-    //找出GetJobAndCompanyPage方法中size为60的bug
     @Test
     public void test1(){
         System.out.println(jobService.GetOneByJobId(15));

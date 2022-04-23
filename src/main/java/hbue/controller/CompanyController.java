@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import hbue.Entity.*;
 import hbue.Service.*;
+import jnr.ffi.annotations.In;
+import org.python.netty.handler.ipfilter.IpFilterRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +60,9 @@ public class CompanyController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IMessageService messageService;
 
     //跳转到公司面板
     @RequestMapping("/company-dashboard")
@@ -199,7 +205,7 @@ public class CompanyController {
         session.setAttribute("managejobpage",jobIPage);
         return "fragments/dashboard-manage-job.html";
     }
-
+/*
     //跳转道所有申请者上面去
     @RequestMapping("/dashboard-applicants")
     public String Gotodashboardapplicants(HttpSession session){
@@ -242,15 +248,23 @@ public class CompanyController {
         System.out.println(userAndJobsList);
         session.setAttribute("allapplocants",userAndJobsList);
         return "fragments/dashboard-applicants.html";
-    }
+    }*/
 
     //跳转到所有投递去
-    @RequestMapping("/company-dashboard-shortlisted-resume")
-    public String Gotocompanydashboardshortlistedresume(HttpSession session){
+    @RequestMapping({"/company-dashboard-shortlisted-resume","/company-dashboard-shortlisted-resume/{pagecurrent}/{pagesize}/{type}"})
+    public String Gotocompanydashboardshortlistedresume(HttpSession session, @PathVariable(required = false) Integer pagecurrent,
+                                                        @PathVariable(required = false) Integer pagesize,@PathVariable(required = false) Integer type){
         User curuser = (User) session.getAttribute("curuser");
         Company curcompany = (Company) session.getAttribute("curcompany");
         List<UserAndJob> userAndJobList = new ArrayList<>();
         List<User> userList = new ArrayList<>();
+
+        if (pagecurrent == null){
+            pagecurrent = 1;
+        }
+        if (pagesize == null){
+            pagesize = 10;
+        }
         //先查出公司旗下有哪些发布的job
         QueryWrapper<Job> jobQueryWrapper = new QueryWrapper<>();
         jobQueryWrapper.eq("job_employer_id",curuser.getUser_id());
@@ -259,6 +273,12 @@ public class CompanyController {
         for (Job job:jobList){
             QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
             user_jobQueryWrapper.eq("job_id",job.getJob_id());
+            if (type == null || type == 0){
+                user_jobQueryWrapper.ne("user_job_state",0);
+                type = 0;
+            }else {
+                user_jobQueryWrapper.eq("user_job_state",type);
+            }
             List<User_job> user_jobList = user_jobService.list(user_jobQueryWrapper);
             for (User_job user_job:user_jobList){
                 //查找user
@@ -270,48 +290,41 @@ public class CompanyController {
                 userAndJobList.add(userAndJob);
             }
         }
-        IPage<UserAndJob> userAndJobIPage = new Page<>(1,10,true);
+        IPage<UserAndJob> userAndJobIPage = new Page<>(pagecurrent,pagesize);
         userAndJobIPage.setTotal(userAndJobList.size());
-        userAndJobIPage.setPages(userAndJobList.size() / 10 + 1);
-        userAndJobIPage.setRecords(userAndJobList);
+        userAndJobIPage.setPages(userAndJobList.size() % pagesize == 0 ? userAndJobList.size()/pagesize : userAndJobList.size() /pagesize + 1);
+        userAndJobIPage.setRecords(userAndJobList.subList((pagecurrent - 1) * pagesize,pagecurrent * pagesize > userAndJobList.size() ? userAndJobList.size() : pagecurrent * pagesize));
         session.setAttribute("passjobIPage",userAndJobIPage);
+        session.setAttribute("companydashboard_shortlisted_resume_type",type);
         return "fragments/company-dashboard-shortlisted-resume.html";
     }
 
-    //跳转到所有投递分页
-    @RequestMapping("/company-dashboard-shortlisted-resume/{pagecurrent}/{pagesize}")
-    public String Gotocompanydashboardshortlistedresume(HttpSession session,@PathVariable Integer pagecurrent,@PathVariable Integer pagesize){
-        User curuser = (User) session.getAttribute("curuser");
-        Company curcompany = (Company) session.getAttribute("curcompany");
-        List<UserAndJob> userAndJobList = new ArrayList<>();
-        List<User> userList = new ArrayList<>();
-        //先查出公司旗下有哪些发布的job
-        QueryWrapper<Job> jobQueryWrapper = new QueryWrapper<>();
-        jobQueryWrapper.eq("job_employer_id",curuser.getUser_id());
-        List<Job> jobList = jobService.list(jobQueryWrapper);
-        //在根据user_job找到求职者
-        for (Job job:jobList){
-            QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
-            user_jobQueryWrapper.eq("job_id",job.getJob_id());
-            List<User_job> user_jobList = user_jobService.list(user_jobQueryWrapper);
-            for (User_job user_job:user_jobList){
-                //查找user
-                UserAndJob userAndJob = new UserAndJob();
-                userAndJob.setUser(userService.getById(user_job.getUser_id()));
-                userAndJob.setCompany(curcompany);
-                userAndJob.setUser_job(user_job);
-                userAndJob.setJob(job);
-                userAndJobList.add(userAndJob);
-            }
-        }
-        System.out.println(userAndJobList);
-        session.setAttribute("passjobresumelist",userAndJobList);
-        return "fragments/company-dashboard-shortlisted-resume.html";
-    }
 
     //跳转到消息上去
-    @RequestMapping("/dashboard-messages")
-    public String Gotodashboardmessages(){
+    @RequestMapping({"/dashboard-messages","/dashboard-messages/{pagecurrent}/{pagesize}"})
+    public String Gotodashboardmessages(HttpSession session,@PathVariable(required = false) Integer pagecurrent,
+                                        @PathVariable(required = false) Integer pagesize){
+        User curuser = (User) session.getAttribute("curuser");
+        pagecurrent = pagecurrent == null ? 1 : pagecurrent;
+        pagesize = pagesize == null ? 10 :pagesize;
+        QueryWrapper<Message> messageQueryWrapper = new QueryWrapper<>();
+        messageQueryWrapper.eq("message_to",curuser.getUser_id());
+        IPage<Message> messageIPage = messageService.GetMessagePage(pagecurrent, pagesize, messageQueryWrapper);
+        List<Message> messageList = messageIPage.getRecords();
+        List<MessageAndUser> messageAndUsers = new ArrayList<>();
+        for (Message message:messageList){
+            MessageAndUser messageAndUser = new MessageAndUser();
+            User user = userService.getById(message.getMessage_from());
+            messageAndUser.setUser(user);
+            messageAndUser.setJob(jobService.getById(message.getMessage_job_id()));
+            messageAndUser.setMessage(message);
+            messageAndUsers.add(messageAndUser);
+        }
+        IPage<MessageAndUser> messageAndUserIPage = new Page<>(pagecurrent,pagesize);
+        messageAndUserIPage.setRecords(messageAndUsers);
+        messageAndUserIPage.setTotal(messageIPage.getTotal());
+        messageAndUserIPage.setPages(messageIPage.getPages());
+        session.setAttribute("messageAndUsers",messageAndUserIPage);
         return "fragments/dashboard-messages.html";
     }
 
@@ -369,8 +382,9 @@ public class CompanyController {
     }
 
     //跳转到申请工作的人的详情页面上去
-    @RequestMapping("/company-job-resume-detail/{job_id}")
-    public String Gotocompanyjobresumedetail(@PathVariable("job_id") Integer job_id,HttpSession session){
+    @RequestMapping({"/company-job-resume-detail/{job_id}","/company-job-resume-detail/{job_id}/{pagecurrent}/{pagesize}"})
+    public String Gotocompanyjobresumedetail(@PathVariable("job_id") Integer job_id,HttpSession session, @PathVariable(required = false) Integer pagecurrent,
+                                             @PathVariable(required = false) Integer pagesize){
         JobAndUsers jobAndUser = new JobAndUsers();
         Job job = jobService.GetOneByJobId(job_id);
         jobAndUser.setJob(job);
@@ -381,10 +395,26 @@ public class CompanyController {
         QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
         user_jobQueryWrapper.eq("job_id",job.getJob_id());
         user_jobQueryWrapper.select().orderByDesc("user_job_time");
-        List<User_job> user_jobList = user_jobService.list(user_jobQueryWrapper);
+        if (pagecurrent == null){
+            pagecurrent = 1;
+        }
+        if (pagesize == null){
+            pagesize = 4;
+        }
+        IPage<User_job> user_jobIPage = user_jobService.GetUser_JobPage(pagecurrent,pagesize,user_jobQueryWrapper);
+        List<User_job> user_jobList = user_jobIPage.getRecords();
         List<User> userList = new ArrayList<>();
         for (User_job user_job:user_jobList){
             user_job.setUser_job_state(2);
+            Message message = new Message();
+            message.setMessage_from(curuser.getUser_id());
+            message.setMessage_to(user_job.getUser_id());
+            message.setMessage_job_id(job_id);
+            message.setMessage_date(LocalDateTime.now());
+            message.setMessage_read(0);
+            message.setMessage_content(company.getCompany_name()+"公司的Hr"+curuser.getUser_name()+"于"+message.getMessage_date()+"查看了您所投递其公司旗下的"+
+                    job.getJob_name()+ "岗位，请注意邮件消息来电等！");
+            messageService.save(message);
             user_jobService.updateById(user_job);
             userList.add(userService.GetUserById(user_job.getUser_id()));
         }
@@ -399,7 +429,12 @@ public class CompanyController {
         //得到最近投递时间
         jobAndUser.RecevieResumeTime();
         //存job数据
+        IPage<User> userIPage = new Page<>(pagecurrent,pagesize);
+        userIPage.setPages(user_jobIPage.getPages());
+        userIPage.setTotal(user_jobIPage.getTotal());
+        userIPage.setRecords(userList);
         session.setAttribute("jobAndUser",jobAndUser);
+        session.setAttribute("jobAndUserPage",userIPage);
         System.out.println(jobAndUser);
         return "fragments/company-job-resume-detail.html";
     }
@@ -436,7 +471,7 @@ public class CompanyController {
         }
         System.out.println(jobList);
         session.setAttribute("viewcompany",company);
-        session.setAttribute("companycommandjobs",jobList);
+        session.setAttribute("companycommandjobs",jobList.subList(0,jobList.size()>3?3:jobList.size()));
         return "fragments/company-detail.html";
     }
 

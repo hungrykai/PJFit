@@ -72,7 +72,10 @@ public class test {
     //将岗位分类
     @Test
     public void test5(){
-        List<Job> list = jobService.list();
+        QueryWrapper<Job> jobQueryWrapper = new QueryWrapper<>();
+        jobQueryWrapper.ge("job_id",471);
+        jobQueryWrapper.le("job_id",580);
+        List<Job> list = jobService.list(jobQueryWrapper);
         for (Job job:list){
             jobService.JudgeJobType(job);
             for (String type : job.getJob_type()){
@@ -104,7 +107,10 @@ public class test {
     //添加岗位所需要的语言
     @Test
     public void test8(){
-        List<Job> list = jobService.list();
+        QueryWrapper<Job> jobQueryWrapper = new QueryWrapper<>();
+        jobQueryWrapper.ge("job_id",412);
+        jobQueryWrapper.le("job_id",580);
+        List<Job> list = jobService.list(jobQueryWrapper);
         for (Job job:list){
             jobService.JudgeJobLanguage(job);
             for (String type : job.getJob_skill()){
@@ -124,7 +130,10 @@ public class test {
     //添加岗位福利
     @Test
     public void testa(){
-        List<Job> list = jobService.list();
+        QueryWrapper<Job> jobQueryWrapper = new QueryWrapper<>();
+        jobQueryWrapper.ge("job_id",412);
+        jobQueryWrapper.le("job_id",580);
+        List<Job> list = jobService.list(jobQueryWrapper);
         int num = 17;
         String welfare[] = {"五险一金","补充医疗保险","定期体检","年终奖","员工旅游","节日福利","股票期权","带薪年假","免费班车","餐补","交通补助",
         "包吃","住房补贴","零食下午茶","公仔周边活动","免费健身房","免费早晚餐"};
@@ -174,6 +183,59 @@ public class test {
         }
     }
 
+    //修改users的信息
+    @Test
+    public void updateusers(){
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.ge("user_id",5);
+        userQueryWrapper.le("user_id",104);
+        List<User> list = userService.list(userQueryWrapper);
+        for (int i = 1 ; i < list.size() ; i++){
+            int city = Job_welfare.Random();
+            if (city <15){
+                list.get(i).setUser_expect_place("北京");
+            }else if(city <30){
+                list.get(i).setUser_expect_place("上海");
+            }else if(city <60){
+                list.get(i).setUser_expect_place("广州");
+            }else if(city <90){
+                list.get(i).setUser_expect_place("深圳");
+            }else if(city <100){
+                list.get(i).setUser_expect_place("武汉");
+            }
+            int job_type = Job_welfare.Random();
+            if (job_type <30){
+                list.get(i).setUser_expect_type("后端开发");
+            }else if (job_type <38){
+                list.get(i).setUser_expect_type("人工智能");
+            }else if (job_type <45){
+                list.get(i).setUser_expect_type("移动开发");
+            }else if (job_type <55){
+                list.get(i).setUser_expect_type("测试");
+            }else if (job_type <63){
+                list.get(i).setUser_expect_type("运维");
+            }else if (job_type <70){
+                list.get(i).setUser_expect_type("数据");
+            }else if (job_type <78){
+                list.get(i).setUser_expect_type("前端开发");
+            }else if (job_type <95){
+                list.get(i).setUser_expect_type("高端技术");
+            }else{
+                list.get(i).setUser_expect_type("架构师");
+            }
+            list.get(i).setUser_email("user"+i+"@qq.com");
+            userService.updateById(list.get(i));
+        }
+    }
+
+    @Test
+    //随机添加50个Hr
+    public void addadmins(){
+        for (int i = 0 ; i < 50 ; i++){
+            userService.save(User.addadmin(i));
+        }
+    }
+
     @Test
     //添加投递关系，每个用户随机对岗位进行投投递，user_id从5-104
     public void AddUser_Jobs(){
@@ -194,6 +256,18 @@ public class test {
                 user_job.setUser_job_time(LocalDateTime.now());
                 user_jobService.save(user_job);
             }
+        }
+    }
+
+    @Test
+    //给所有的工作添加雇主id
+    public void Addemployerid(){
+        List<Job> jobList = jobService.list();
+        for (Job job:jobList){
+            QueryWrapper queryWrapper = new QueryWrapper();
+            queryWrapper.eq("user_identity",job.getCompany_id());
+            job.setJob_employer_id(userService.getOne(queryWrapper).getUser_id());
+            jobService.updateById(job);
         }
     }
 

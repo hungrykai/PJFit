@@ -1,6 +1,8 @@
 package hbue.ServiceImpl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import hbue.Entity.Message;
 import hbue.Service.IMessageService;
@@ -44,6 +46,12 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         QueryWrapper<Message> messageQueryWrapper = new QueryWrapper<>();
         messageQueryWrapper.eq("message_to",user_id);
         return messageMapper.selectList(messageQueryWrapper);
+    }
+
+    @Override
+    public IPage<Message> GetMessagePage(int pagecurrent, int pagesize, QueryWrapper queryWrapper) {
+        IPage<Message> messageIPage = new Page<>(pagecurrent,pagesize,true);
+        return messageMapper.selectPage(messageIPage,queryWrapper);
     }
 
 }

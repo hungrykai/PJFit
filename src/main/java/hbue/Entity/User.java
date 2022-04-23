@@ -77,7 +77,7 @@ public class User implements Serializable {
 
     public static User CreatAUser(int i){
         User user = new User();
-        user.setUser_email("admin"+i+"@qq.com");
+        user.setUser_email("user"+i+"@qq.com");
         user.setUser_password("123");
         user.setUser_name(AutoNameUtil.autoSurAndName());
         if (Job_welfare.Random() / 50 == 0){
@@ -97,6 +97,62 @@ public class User implements Serializable {
             user.setUser_education("博士");
         }
         user.setUser_expect_salary(Job_welfare.Random()/5);
+        int city = Job_welfare.Random();
+        if (city <15){
+            user.setUser_expect_place("北京");
+        }else if(city <30){
+            user.setUser_expect_place("上海");
+        }else if(city <60){
+            user.setUser_expect_place("广州");
+        }else if(city <90){
+            user.setUser_expect_place("深圳");
+        }else if(city <100){
+            user.setUser_expect_place("武汉");
+        }
+        int job_type = Job_welfare.Random();
+        if (job_type <30){
+            user.setUser_expect_type("后端开发");
+        }else if (job_type <38){
+            user.setUser_expect_type("人工智能");
+        }else if (job_type <45){
+            user.setUser_expect_type("移动开发");
+        }else if (job_type <55){
+            user.setUser_expect_type("测试");
+        }else if (job_type <63){
+            user.setUser_expect_type("运维");
+        }else if (job_type <70){
+            user.setUser_expect_type("数据");
+        }else if (job_type <78){
+            user.setUser_expect_type("前端开发");
+        }else if (job_type <95){
+            user.setUser_expect_type("高端技术");
+        }else{
+            user.setUser_expect_type("架构师");
+        }
+        return user;
+    }
+
+    public static User addadmin(int i){
+        User user = new User();
+        user.setUser_email("admin"+(i+2)+"@qq.com");
+        user.setUser_password("123");
+        user.setUser_name(AutoNameUtil.autoSurAndName());
+        if (Job_welfare.Random() / 50 == 0){
+            user.setUser_gender("女");
+        }else {
+            user.setUser_gender("男");
+        }
+        user.setUser_picture("company-6.png");
+        user.setUser_identity(i+4);
+        user.setUser_phone(Integer.toString(Job_welfare.Random()));
+        Integer educatiobn = Job_welfare.Random();
+        if (educatiobn <=70){
+            user.setUser_education("本科");
+        }else if (educatiobn < 90){
+            user.setUser_education("硕士");
+        }else {
+            user.setUser_education("博士");
+        }
         return user;
     }
 

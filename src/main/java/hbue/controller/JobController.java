@@ -165,7 +165,9 @@ public class JobController {
             state = 1;
             return state;
         }else {
-            if (curuser.getUser_resume() == null && curuser.getUser_name() == null){
+            if (curuser.getUser_identity() != 0){
+                state = 3;
+            }else if (curuser.getUser_resume() == null && curuser.getUser_name() == null){
                 state = 2;
             }else {
                 JobAndCompany jobAndCompany = (JobAndCompany) session.getAttribute("curjobandcompany");
@@ -207,6 +209,8 @@ public class JobController {
         if (curuser == null){
             //用户未登录
             State = 0;
+        }else if (curuser.getUser_identity() != 0){
+            State = 3;
         }else {
             QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
             user_jobQueryWrapper.eq("user_id",curuser.getUser_id());

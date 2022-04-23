@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import hbue.Entity.*;
 import hbue.Service.*;
+import jnr.ffi.annotations.IgnoreError;
 import jnr.ffi.annotations.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,7 +61,47 @@ public class UserController {
 
     //跳转到求职者面板
     @RequestMapping("/candidate-dashboard")
-    public String candidatedashboard(){
+    public String candidatedashboard(HttpSession session){
+        User curuser = (User) session.getAttribute("curuser");
+        QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
+        user_jobQueryWrapper.eq("user_id",curuser.getUser_id());
+        int submitcount = user_jobService.count(user_jobQueryWrapper);
+        //投递总数
+        user_jobQueryWrapper.eq("user_job_state",3);
+        //通过个数
+        int passcount = user_jobService.count(user_jobQueryWrapper);
+        //拒绝个数
+        QueryWrapper<User_job> user_jobQueryWrapper1 = new QueryWrapper<>();
+        user_jobQueryWrapper1.eq("user_id",curuser.getUser_id());
+        user_jobQueryWrapper1.eq("user_job_state",4);
+        int refusecount = user_jobService.count(user_jobQueryWrapper1);
+        QueryWrapper<Message> messageQueryWrapper =  new QueryWrapper<>();
+        messageQueryWrapper.eq("message_to",curuser.getUser_id());
+        messageQueryWrapper.orderByDesc("message_date");
+        List<Message> messageList = messageService.list(messageQueryWrapper);
+        QueryWrapper<User_job> user_jobQueryWrapper2 = new QueryWrapper<>();
+        user_jobQueryWrapper2.eq("user_id",curuser.getUser_id());
+        user_jobQueryWrapper2.ne("user_job_state",0);
+        user_jobQueryWrapper2.orderByDesc("user_job_time");
+        List<User_job> user_jobList = user_jobService.list(user_jobQueryWrapper2);
+        List<JobAndCompany> jobAndCompanyList = new ArrayList<>();
+        for (User_job user_job:user_jobList){
+            JobAndCompany jobAndCompany = new JobAndCompany();
+            Job job = jobService.getById(user_job.getJob_id());
+            jobAndCompany.setJob(jobService.GetOneJob(job));
+            jobAndCompany.setCompany(companyService.getById(job.getCompany_id()));
+            jobAndCompany.setUser_job(user_job);
+            jobAndCompanyList.add(jobAndCompany);
+            if (jobAndCompanyList.size()==6){
+                break;
+            }
+        }
+        session.setAttribute("submitcount",submitcount);
+        session.setAttribute("passcount",passcount);
+        session.setAttribute("refusecount",refusecount);
+        session.setAttribute("messagecount",messageList.size());
+        session.setAttribute("messageList",messageList.subList(0,messageList.size()>5?5:messageList.size()));
+        session.setAttribute("recentsubmitjobs",jobAndCompanyList);
         return "fragments/candidate-dashboard.html";
     }
 
@@ -129,18 +170,18 @@ public class UserController {
     }
 
     //跳转道user仪表盘的申请过的岗位里面
-    @RequestMapping(path = {"/candidate-dashboard-applied-job","/candidate-dashboard-applied-job/{pagecurrent}/{pagesize}","/candidate-dashboard-applied-job/{pagecurrent}/{pagesize}/{type}"})
+    @RequestMapping(path = {"/candidate-dashboard-applied-job","/candidate-dashboard-applied-job/{pagecurrent}/{pagesize}/{type}"})
     public String Gotocandidatedashboardappliedjob(HttpSession session,@PathVariable(required = false) Integer pagecurrent,@PathVariable(required = false) Integer pagesize,
                                                    @PathVariable(required = false) Integer type){
         //查找user投递的简历
         User curuser = (User) session.getAttribute("curuser");
         QueryWrapper<User_job> user_jobQueryWrapper = new QueryWrapper<>();
         user_jobQueryWrapper.eq("user_id",curuser.getUser_id());
-        if (type != null && type != 0){
-            user_jobQueryWrapper.eq("user_job_state",type);
-        }
-        if (type == null){
+        if (type == null || type == 0){
+            user_jobQueryWrapper.ne("user_job_state",0);
             type = 0;
+        }else {
+            user_jobQueryWrapper.eq("user_job_state",type);
         }
         if (pagecurrent == null){
             pagecurrent = 1;
@@ -216,10 +257,16 @@ public class UserController {
     }
 
     //跳转到聊天消息界面
-    @RequestMapping("/dashboard-messages")
-    public String Gotodashboardmessages(HttpSession session){
+    @RequestMapping({"/dashboard-messages","/dashboard-messages/{pagecurrent}/{pagesize}"})
+    public String Gotodashboardmessages(HttpSession session,@PathVariable(required = false) Integer pagecurrent,
+                                        @PathVariable(required = false) Integer pagesize){
         User curuser = (User) session.getAttribute("curuser");
-        List<Message> messageList = messageService.GetMessagelistByUser_id(curuser.getUser_id());
+        pagecurrent = pagecurrent == null ? 1 : pagecurrent;
+        pagesize = pagesize == null ? 10 :pagesize;
+        QueryWrapper<Message> messageQueryWrapper = new QueryWrapper<>();
+        messageQueryWrapper.eq("message_to",curuser.getUser_id());
+        IPage<Message> messageIPage = messageService.GetMessagePage(pagecurrent, pagesize, messageQueryWrapper);
+        List<Message> messageList = messageIPage.getRecords();
         List<MessageAndUser> messageAndUsers = new ArrayList<>();
         for (Message message:messageList){
             MessageAndUser messageAndUser = new MessageAndUser();
@@ -230,7 +277,11 @@ public class UserController {
             messageAndUser.setMessage(message);
             messageAndUsers.add(messageAndUser);
         }
-        session.setAttribute("messageAndUsers",messageAndUsers);
+        IPage<MessageAndUser> messageAndUserIPage = new Page<>(pagecurrent,pagesize);
+        messageAndUserIPage.setRecords(messageAndUsers);
+        messageAndUserIPage.setTotal(messageIPage.getTotal());
+        messageAndUserIPage.setPages(messageIPage.getPages());
+        session.setAttribute("messageAndUsers",messageAndUserIPage);
         return "fragments/dashboard-messages.html";
     }
 

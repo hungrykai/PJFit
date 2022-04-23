@@ -6,7 +6,7 @@
         <div class="auto-container"><!--Widgets Section-->
             <div class="widgets-section">
                 <div class="row">
-                    <div class="big-column col-xl-3 col-lg-3 col-md-12">
+                    <div class="big-column col-xl-4 col-lg-3 col-md-12">
                         <div class="footer-column about-widget">
                             <div class="logo">
                             </div>
@@ -18,9 +18,9 @@
                             </p>
                         </div>
                     </div>
-                    <div class="big-column col-xl-9 col-lg-9 col-md-12">
+                    <div class="big-column col-xl-8 col-lg-9 col-md-12">
                         <div class="row">
-                            <div class="footer-column col-lg-3 col-md-6 col-sm-12">
+                            <div class="footer-column col-lg-6 col-md-6 col-sm-12">
                                 <div class="footer-widget links-widget">
                                     <h4 class="widget-title">求职者</h4>
                                     <div class="widget-content">
@@ -33,7 +33,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="footer-column col-lg-3 col-md-6 col-sm-12">
+                            <div class="footer-column col-lg-6 col-md-6 col-sm-12">
                                 <div class="footer-widget links-widget">
                                     <h4 class="widget-title">雇主</h4>
                                     <div class="widget-content">
@@ -47,48 +47,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="footer-column col-lg-3 col-md-6 col-sm-12">
-                                <div class="footer-widget links-widget">
-                                    <h4 class="widget-title">关于我们</h4>
-                                    <div class="widget-content">
-                                        <ul class="list">
-                                            <li><a href="#">Job Page</a></li>
-                                            <li><a href="#">Job Page Alternative</a></li>
-                                            <li><a href="#">Resume Page</a></li>
-                                            <li><a href="#">Blog</a></li>
-                                            <li><a href="#">Contact</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="footer-column col-lg-3 col-md-6 col-sm-12">
-                                <div class="footer-widget">
-                                    <h4 class="widget-title">Mobile Apps</h4>
-                                    <div class="widget-content">
-                                        <div class="download-btns">
-                                            <div class="text">Click and Get started in seconds</div>
-                                            <a href="#" class="app-btn">
-                                                <div class="app-icon">
-                                                    <i class="fab fa-apple"></i>
-                                                </div>
-                                                <div class="inner">
-                                                    <div class="sub">Download on the</div>
-                                                    <div class="name-app">Apple Store</div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="app-btn">
-                                                <div class="app-icon">
-                                                    <i class="fab fa-apple"></i>
-                                                </div>
-                                                <div class="inner">
-                                                    <div class="sub">Get in on</div>
-                                                    <div class="name-app">Google Play</div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>`
@@ -97,14 +55,6 @@
         <div class="footer-bottom">
             <div class="auto-container">
                 <div class="outer-box">
-                    <div class="copyright-text">(c) 2022
-                        湖北经济学院. All Right Reserved.
-                    </div><div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                </div>
                 </div>
             </div>
         </div>
@@ -146,7 +96,7 @@
                 <li><a th:href="@{/company/company-job-resume}"><i class="la la-box"></i>查看简历</a></li>
                 <li><a th:href="@{/company/dashboard-post-job}"><i class="la la-paper-plane"></i>发布新工作</a></li>
                 <li><a th:href="@{/company/dashboard-manage-job}"><i class="la la-briefcase"></i> 管理工作</a></li>
-                <li><a th:href="@{/company/dashboard-applicants}"><i class="la la-file-invoice"></i> 所有申请者</a></li>
+<!--                <li><a th:href="@{/company/dashboard-applicants}"><i class="la la-file-invoice"></i> 所有申请者</a></li>-->
                 <li><a th:href="@{/company/company-dashboard-shortlisted-resume}"><i class="la la-bookmark-o"></i>所有投递</a></li>
                 <li><a th:href="@{/company/dashboard-messages}"><i class="la la-comment-o"></i>消息</a></li>
                 <li><a th:href="@{/company/dashboard-user-profile}"><i class="la la-user-tie"></i>我的个人资料</a></li>
@@ -164,6 +114,7 @@
         <div class="container-fluid"><!-- Main box -->
             <div class="main-box"><!--Nav Outer -->
                 <div class="nav-outer">
+                    <a href="javascript:history.back(-1)" class="theme-btn btn-style-three">返回</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <div class="logo-box">
                     </div>
                     <nav class="nav main-menu">
@@ -212,27 +163,30 @@
                                     <li><a th:href="@{/home/contact}">联系</a></li>
                                 </ul>
                             </li><!-- Only for Mobile View -->
-                            <li class="mm-add-listing"><a href="#" class="theme-btn btn-style-one">找工作</a><span><span
-                                    class="contact-info"><span class="phone-num"><span>Call us</span><a href="">123 456 7890</a></span><span
-                                    class="address">湖北省武汉市江夏区藏龙岛杨桥湖8号<br>2022,中国.</span><a href="#" class="email">1099084595@qq.com</a></span><span class="social-links"><a href="#"><span class="fab fa-facebook-f"></span></a><a
-                                    href="#"><span class="fab fa-twitter"></span></a><a href="#"><span class="fab fa-instagram"></span></a><a
-                                    href="#"><span class="fab fa-linkedin-in"></span></a></span></span></li>
                         </ul>
                     </nav><!-- Main Menu End-->
+                    <li class="mm-add-listing"><a href="#" class="theme-btn btn-style-one">找工作</a><span><span
+                            class="contact-info"><span class="phone-num"><span>Call us</span><a href="">123 456 7890</a></span><span
+                            class="address">湖北省武汉市江夏区藏龙岛杨桥湖8号<br>2022,中国.</span><a href="#" class="email">1099084595@qq.com</a></span><span class="social-links"><a href="#"><span class="fab fa-facebook-f"></span></a><a
+                            href="#"><span class="fab fa-twitter"></span></a><a href="#"><span class="fab fa-instagram"></span></a><a
+                            href="#"><span class="fab fa-linkedin-in"></span></a></span></span></li>
                 </div>
+
 
                 <div class="outer-box">
                     <div th:if="${session.curuser} == null">
                         <a th:href="@{/home/login}" class="theme-btn btn-style-three">登录 / 注册</a>&nbsp;&nbsp;
-                        <a th:href="@{/job/postjob}" class="theme-btn btn-style-three"><span class="btn-title">投递简历</span></a>
                     </div>
 
-                    <button th:if="${session.curuser} != null" class="menu-btn">
-                        <span class="count">1</span>
-                        <span class="icon la la-heart-o"></span>
+                    <button th:if="${session.curuser != null && session.curuser.user_identity == 0}" class="menu-btn">
+                        <!--<span class="count">1</span>-->
+                        <a th:href="@{/user/candidate-dashboard-shortlisted-resume}" alt="我的收藏"><span class="icon la la-heart-o"></span></a>
                     </button>
-                    <button th:if="${session.curuser} != null" class="menu-btn">
-                        <span class="icon la la-bell"></span>
+                    <button th:if="${session.curuser != null && session.curuser.user_identity == 0}" class="menu-btn">
+                        <a th:href="@{/user/dashboard-messages}" alt="我的消息"><span class="icon la la-bell"></span></a>
+                    </button>
+                    <button th:if="${session.curuser != null && session.curuser.user_identity != 0}" class="menu-btn">
+                        <a th:href="@{/company/dashboard-messages}" alt="我的消息"><span class="icon la la-bell"></span></a>
                     </button>
                     <!-- Dashboard Option -->
                     <div th:if="${session.curuser} != null" class="dropdown dashboard-option">
@@ -248,7 +202,7 @@
                             <li><a th:href="@{/company/company-job-resume}"><i class="la la-box"></i>查看简历</a></li>
                             <li><a th:href="@{/company/dashboard-post-job}"><i class="la la-paper-plane"></i>发布新工作</a></li>
                             <li><a th:href="@{/company/dashboard-manage-job}"><i class="la la-briefcase"></i> 管理工作</a></li>
-                            <li><a th:href="@{/company/dashboard-applicants}"><i class="la la-file-invoice"></i> 所有申请者</a></li>
+<!--                            <li><a th:href="@{/company/dashboard-applicants}"><i class="la la-file-invoice"></i> 所有申请者</a></li>-->
                             <li><a th:href="@{/company/company-dashboard-shortlisted-resume}"><i class="la la-bookmark-o"></i>所有投递</a></li>
                             <li><a th:href="@{/company/dashboard-messages}"><i class="la la-comment-o"></i>消息</a></li>
                             <li><a th:href="@{/company/dashboard-user-profile}"><i class="la la-user-tie"></i>我的个人资料</a></li>
@@ -267,28 +221,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Mobile Header -->
-        <div class="mobile-header">
-
-            <!--Nav Box-->
-            <div class="nav-outer clearfix">
-
-                <div class="outer-box">
-                    <!-- Login/Register -->
-                    <div class="login-box">
-                        <a href="login-popup.html" class="call-modal"><span class="icon-user"></span></a>
-                    </div>
-
-                    <button id="toggle-user-sidebar">
-                        <img th:if="${session.curuser == null || session.curuser.user_picture == null}" th:src="@{/picture/company-6.png}" alt="avatar" class="thumb">
-                        <img th:if="${session.curuser != null && session.curuser.user_picture != null}" th:src="@{/upload/{curuser_picture}(curuser_picture=${session.curuser.user_picture})}" alt="avatar" class="thumb">
-                    </button>
-                    <a href="#nav-mobile" class="mobile-nav-toggler navbar-trigger"><span class="flaticon-menu-1"></span></a>
-                </div>
-            </div>
-
         </div>
         <!-- Mobile Nav -->
         <div id="nav-mobile"></div>

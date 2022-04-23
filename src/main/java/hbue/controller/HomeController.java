@@ -7,9 +7,11 @@ import hbue.Entity.JobAndCompany;
 import hbue.Entity.User;
 import hbue.Service.ICompanyService;
 import hbue.Service.IJobService;
+import hbue.Service.IMessageService;
 import hbue.Service.IUserService;
 import hbue.ServiceImpl.MailService;
 import hbue.Utils.VerCodeGenerateUtil;
+import jnr.ffi.annotations.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +46,9 @@ public class HomeController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IMessageService messageService;
 
     //首页
     @RequestMapping("/index")
@@ -208,6 +213,13 @@ public class HomeController {
     @RequestMapping("/contact")
     public String Gotocontact(HttpSession session){
         return "fragments/contact.html";
+    }
+
+    //删除消息
+    @ResponseBody
+    @RequestMapping("/deletemessage")
+    public Integer deletemessage(@RequestParam Integer message_id){
+        return messageService.removeById(message_id) ? 0 : 1;
     }
 
 

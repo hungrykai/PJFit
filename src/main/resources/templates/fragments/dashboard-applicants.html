@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
@@ -10,7 +11,6 @@
     <link href="static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet">
     <link href="static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
     <link href="static/css/responsive.css" th:href="@{/css/responsive.css}" rel="stylesheet">
-    <link rel="shortcut icon" href="static/picture/favicon.png" th:href="@{/picture/favicon.png}" type="image/x-icon"><!-- Responsive -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 </head>
@@ -18,18 +18,18 @@
 <body>
 
 <div class="page-wrapper dashboard ">
-    <!-- Main Header-->
+    &lt;!&ndash; Main Header&ndash;&gt;
     <div th:replace="../templates/fragments/header::dashboard-top"></div>
-    <!--End Main Header -->
+    &lt;!&ndash;End Main Header &ndash;&gt;
 
-    <!-- Sidebar Backdrop -->
+    &lt;!&ndash; Sidebar Backdrop &ndash;&gt;
     <div class="sidebar-backdrop"></div>
 
-    <!-- User Sidebar -->
+    &lt;!&ndash; User Sidebar &ndash;&gt;
     <div th:replace="../templates/fragments/header::sidebar"></div>
-    <!-- End User Sidebar -->
+    &lt;!&ndash; End User Sidebar &ndash;&gt;
 
-    <!-- Dashboard -->
+    &lt;!&ndash; Dashboard &ndash;&gt;
     <section class="user-dashboard">
         <div class="dashboard-outer">
             <div class="upper-title-box">
@@ -39,14 +39,14 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <!-- Ls widget -->
+                    &lt;!&ndash; Ls widget &ndash;&gt;
                     <div class="ls-widget">
                         <div class="tabs-box">
                             <div class="widget-title">
                                 <h4>申请者</h4>
 
                                 <div class="chosen-outer">
-                                    <!--Tabs Box-->
+                                    &lt;!&ndash;Tabs Box&ndash;&gt;
                                     <select class="chosen-select">
                                         <option>12个/页</option>
                                         <option>16个/页</option>
@@ -54,7 +54,7 @@
                                         <option>24个/页</option>
                                     </select>
 
-                                    <!--Tabs Box-->
+                                    &lt;!&ndash;Tabs Box&ndash;&gt;
                                     <select class="chosen-select">
                                         <option>不限</option>
                                         <option>一个月之内</option>
@@ -78,10 +78,10 @@
                                     </div>
 
                                     <div class="tabs-content">
-                                        <!--Tab-->
+                                        &lt;!&ndash;Tab&ndash;&gt;
                                         <div class="tab active-tab" id="totals">
                                             <div class="row">
-                                                <!-- Candidate block three -->
+                                                &lt;!&ndash; Candidate block three &ndash;&gt;
                                                 <div th:each="userandjobs:${session.allapplocants}" class="candidate-block-three col-lg-6 col-md-12 col-sm-12">
                                                     <div class="inner-box">
                                                         <div class="content">
@@ -108,14 +108,13 @@
                                             </div>
                                         </div>
 
-                                        <!--Tab-->
+                                        &lt;!&ndash;Tab&ndash;&gt;
                                         <div class="tab" id="approved">
                                             <div class="row">
-                                                <!-- Candidate block three -->
+                                                &lt;!&ndash; Candidate block three &ndash;&gt;
                                                 <div class="candidate-block-three col-lg-6 col-md-12 col-sm-12">
                                                     <div class="inner-box">
                                                         <div class="content">
-                                                            <figure class="image"><img src="images/resource/candidate-1.png" alt=""></figure>
                                                             <h4 class="name"><a href="#">Darlene Robertson</a></h4>
                                                             <ul class="candidate-info">
                                                                 <li class="designation">UI Designer</li>
@@ -141,14 +140,13 @@
                                             </div>
                                         </div>
 
-                                        <!--Tab-->
+                                        &lt;!&ndash;Tab&ndash;&gt;
                                         <div class="tab" id="rejected">
                                             <div class="row">
-                                                <!-- Candidate block three -->
+                                                &lt;!&ndash; Candidate block three &ndash;&gt;
                                                 <div class="candidate-block-three col-lg-6 col-md-12 col-sm-12">
                                                     <div class="inner-box">
                                                         <div class="content">
-                                                            <figure class="image"><img src="images/resource/candidate-3.png" alt=""></figure>
                                                             <h4 class="name"><a href="#">Leslie Alexander</a></h4>
                                                             <ul class="candidate-info">
                                                                 <li class="designation">UI Designer</li>
@@ -182,14 +180,14 @@
             </div>
         </div>
     </section>
-    <!-- End Dashboard -->
+    &lt;!&ndash; End Dashboard &ndash;&gt;
 
-    <!-- Copyright -->
+    &lt;!&ndash; Copyright &ndash;&gt;
     <div class="copyright-text">
         <p>© 2022 HBuer. All Right Reserved.</p>
     </div>
 
-</div><!-- End Page Wrapper -->
+</div>&lt;!&ndash; End Page Wrapper &ndash;&gt;
 
 
 <script src="static/js/popper.min.js" th:src="@{/js/popper.min.js}"></script>
@@ -209,4 +207,4 @@
 <script src="static/js/script.js" th:src="@{/js/script.js}"></script>
 </body>
 
-</html>
+</html>-->

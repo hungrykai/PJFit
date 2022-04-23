@@ -1,7 +1,10 @@
 package hbue.ServiceImpl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import hbue.Entity.User;
+import hbue.Entity.UserAndJob;
 import hbue.Entity.Userorjob_language;
 import hbue.Service.IUserorjob_languageService;
 import hbue.mapper.UserMapper;
@@ -74,5 +77,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         user.setUser_language(languages);
         return user;
+    }
+
+    //手动分页
+    public IPage<UserAndJob> GetUserAndJobPage(List<UserAndJob> userAndJobs, IPage<UserAndJob> user_jobIPage){
+        if (userAndJobs.size() % user_jobIPage.getSize() == 0){
+            user_jobIPage.setPages(userAndJobs.size() / user_jobIPage.getSize());
+        }
+        user_jobIPage.setTotal(userAndJobs.size());
+        long start = (user_jobIPage.getCurrent() - 1) * user_jobIPage.getSize();
+        long end = user_jobIPage.getCurrent() * user_jobIPage.getSize();
+        if (end > userAndJobs.size()){
+            end = userAndJobs.size();
+        }
+        user_jobIPage.setRecords(userAndJobs.subList((int) start,(int) end));
+        return user_jobIPage;
     }
 }
